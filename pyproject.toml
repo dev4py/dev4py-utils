@@ -20,9 +20,9 @@ classifiers = [
 # Maven Standard Directory Layout
 packages = [
     { include = '**/*', from = 'src/main/python' },
-    { include = '**/*', from = 'src/main/resources' },
+#    { include = '**/*', from = 'src/main/resources' },
     { include = '**/*', from = 'src/test/python', format = 'sdist' },
-    { include = '**/*', from = 'src/test/resources', format = 'sdist' },
+#    { include = '**/*', from = 'src/test/resources', format = 'sdist' },
     { include = 'project.py', format = 'sdist' }
 ]
 
