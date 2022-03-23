@@ -2,20 +2,19 @@
 ##### POETRY #####
 ##################
 [tool.poetry]
-name = 'hellopymsdl'
-version = '1.0.1'
-description = 'A Python template inspired from the Maven Standard Directory Layout'
-authors = ['author <author@mail.com>']
+name = 'dev4py-utils'
+version = '1.0.0'
+description = 'A set of Python regularly used classes/functions'
+authors = ['St4rG00se <st4rg00se@protonmail.com>']
 license = 'MIT'
 readme = 'README.md'
-homepage = 'https://github.com/dev4py/pymsdl_template'
-repository = 'https://github.com/dev4py/pymsdl_template'
-documentation = 'https://github.com/dev4py/pymsdl_template/blob/main/README.md'
-keywords = ['peotry', 'maven', 'standard', 'directory', 'layout']
+homepage = 'https://github.com/dev4py/dev4py-utils'
+repository = 'https://github.com/dev4py/dev4py-utils'
+documentation = 'https://github.com/dev4py/dev4py-utils/blob/main/README.md'
+keywords = ['python', 'utils', 'function', 'classes']
 classifiers = [
     'Intended Audience :: Developers',
-    'Programming Language :: Python',
-    'Topic :: Software Development :: Build Tools'
+    'Programming Language :: Python'
 ]
 
 # Maven Standard Directory Layout
@@ -26,9 +25,6 @@ packages = [
     { include = '**/*', from = 'src/test/resources', format = 'sdist' },
     { include = 'project.py', format = 'sdist' }
 ]
-
-[tool.poetry.scripts]
-hello = 'hellopymsdl.__main__:hello'
 
 [tool.poetry.dependencies]
 python = '^3.10'
