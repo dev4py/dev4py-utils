@@ -1,0 +1,10 @@
+name: unit-test action
+author: St4rG00se
+description: Run configured unit tests
+runs:
+  using: composite
+  steps:
+    - uses: ./.github/actions/dev_env_docker
+      name: Run configured unit tests
+      with:
+        cmd: ./project.py test

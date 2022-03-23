@@ -1,0 +1,14 @@
+name: docker.devenv
+author: St4rG00se
+description: Use configured environment from Dockerfile.devenv
+
+inputs:
+  cmd:
+    required: true
+    description: The command to run
+
+runs:
+  using: 'docker'
+  image: '../../../docker/devenv/Dockerfile'
+  args:
+    - ${{ inputs.cmd }}

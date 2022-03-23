@@ -1,0 +1,10 @@
+name: mutation-test action
+author: St4rG00se
+description: Run mutation tests
+runs:
+  using: composite
+  steps:
+    - uses: ./.github/actions/dev_env_docker
+      name: Run mutation tests
+      with:
+        cmd: ./project.py mut

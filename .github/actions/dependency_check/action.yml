@@ -1,0 +1,31 @@
+name: Dependency check action
+author: St4rG00se
+description: Check dependencies
+inputs:
+  scan_path:
+    required: true
+    description: Path to the libs to scan
+  project:
+    required: true
+    description: The name of the project being scanned.
+  out:
+    required: true
+    description: Path to the directory where to write reports
+runs:
+  using: 'docker'
+  image: 'docker://owasp/dependency-check-action:latest'
+  args:
+    - --scan
+    - ${{ inputs.scan_path }}
+    - --out
+    - ${{ inputs.out }}
+    - --format
+    - HTML
+    - --format
+    - JSON
+    - --format
+    - XML
+    - --project
+    - ${{ inputs.project }}
+    - --enableExperimental
+    - --noupdate

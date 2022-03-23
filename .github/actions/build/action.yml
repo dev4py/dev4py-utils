@@ -1,0 +1,10 @@
+name: build action
+author: St4rG00se
+description: Build Wheel & sdist archive
+runs:
+  using: composite
+  steps:
+    - uses: ./.github/actions/dev_env_docker
+      name: Build wheel & sdist archives
+      with:
+        cmd: ./project.py wheel sdist

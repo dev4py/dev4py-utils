@@ -1,0 +1,10 @@
+name: lint action
+author: St4rG00se
+description: Run configured linter
+runs:
+  using: composite
+  steps:
+    - uses: ./.github/actions/dev_env_docker
+      name: Run linter
+      with:
+        cmd: ./project.py lint

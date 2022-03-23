@@ -1,0 +1,16 @@
+name: publish action
+author: St4rG00se
+description: Upload available deliveries
+
+inputs:
+  token:
+    required: true
+    description: The pypi token
+
+runs:
+  using: composite
+  steps:
+    - uses: ./.github/actions/dev_env_docker
+      name: Upload available deliveries
+      with:
+        cmd: ./project.py upload --username __token__ --password ${{ inputs.token }}

@@ -1,0 +1,98 @@
+name: Build & tests
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  #     ___  __  ________   ___
+  #    / _ )/ / / /  _/ /  / _ \
+  #   / _  / /_/ // // /__/ // /
+  #  /____/\____/___/____/____/
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+      - uses: ./.github/actions/build
+      - uses: actions/upload-artifact@v3
+        with:
+          name: build_dist
+          retention-days: 1
+          path: dist
+
+  #   ____________________
+  #  /_  __/ __/ __/_  __/
+  #   / / / _/_\ \  / /
+  #  /_/ /___/___/ /_/
+  unit-test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+      - uses: ./.github/actions/unit_test
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: test_reports
+          retention-days: 1
+          path: build/reports/coverage
+
+  lint:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+      - uses: ./.github/actions/lint
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: lint_reports
+          retention-days: 1
+          path: build/reports/lint
+
+  mutation-test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+      - uses: ./.github/actions/mutation_test
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: mutation_reports
+          retention-days: 1
+          path: build/reports/mutation
+
+  dependency-check:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - uses: actions/download-artifact@v3
+        with:
+          name: build_dist
+          path: dist
+      - run: pip download dist/*.whl -d dependencies
+        name: Download project dependencies
+      - uses: ./.github/actions/dependency_check
+        with:
+          project: ${{ github.event.repository.name }}
+          scan_path: dependencies/
+          out: /github/workspace/reports
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: dependency_reports
+          retention-days: 1
+          path: |
+            reports/dependency-check-report.html
+            reports/dependency-check-report.json
+            reports/dependency-check-report.xml
+      - run: if [ $(grep -c "vulnerabilities" reports/dependency-check-report.json) -gt 0 ]; then exit 2; fi
+        name: check if vulnerabilities exist

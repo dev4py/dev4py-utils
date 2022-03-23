@@ -1,0 +1,188 @@
+##################
+##### POETRY #####
+##################
+[tool.poetry]
+name = 'hellopymsdl'
+version = '1.0.1'
+description = 'A Python template inspired from the Maven Standard Directory Layout'
+authors = ['author <author@mail.com>']
+license = 'MIT'
+readme = 'README.md'
+homepage = 'https://github.com/dev4py/pymsdl_template'
+repository = 'https://github.com/dev4py/pymsdl_template'
+documentation = 'https://github.com/dev4py/pymsdl_template/blob/main/README.md'
+keywords = ['peotry', 'maven', 'standard', 'directory', 'layout']
+classifiers = [
+    'Intended Audience :: Developers',
+    'Programming Language :: Python',
+    'Topic :: Software Development :: Build Tools'
+]
+
+# Maven Standard Directory Layout
+packages = [
+    { include = '**/*', from = 'src/main/python' },
+    { include = '**/*', from = 'src/main/resources' },
+    { include = '**/*', from = 'src/test/python', format = 'sdist' },
+    { include = '**/*', from = 'src/test/resources', format = 'sdist' },
+    { include = 'project.py', format = 'sdist' }
+]
+
+[tool.poetry.scripts]
+hello = 'hellopymsdl.__main__:hello'
+
+[tool.poetry.dependencies]
+python = '^3.10'
+
+[tool.poetry.dev-dependencies]
+tomli = '2.0.1'  # for project.py if pytest is removed
+tox = "^3.24.5"
+pytest = "^7.0.1"
+
+
+[tool.pytest.ini_options]
+addopts = "-rA"
+testpaths = ['src/test/python']
+
+
+##################
+#####  TOX  ######
+##################
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+isolated_build = True
+envlist = pylint, covclean, py310, report, mutation
+
+[testenv]
+# Note: this default configuration use pytest on the installed packages (not sources) for each env
+# (that's why we have to list package names from "src/main/python")
+# See COVERAGE configurations in the following pyproject.toml section
+setenv =
+    PYTHONPATH = {toxinidir}/src/test/resources
+deps =
+    coverage[toml]
+    pytest
+commands =
+    python -c "\
+        from subprocess import run as subprocess_run; \
+        from os import listdir; \
+        from sys import exit as sys_exit; \
+        args: list[str] = ['coverage', 'run', '--append', '--source']; \
+        args.extend([','.join(listdir('src/main/python')), '-m', 'pytest']); \
+        result = subprocess_run(args); \
+        sys_exit(result.returncode); \
+    "
+
+[testenv:covclean]
+skip_install = True
+deps = coverage[toml]
+commands = coverage erase
+
+[testenv:report]
+skip_install = True
+deps = coverage[toml]
+commands =
+    coverage html --fail-under=0
+    coverage xml --fail-under=0
+    coverage json --fail-under=0
+    coverage report
+
+[testenv:pylint]
+# Remove useless warning with project.py
+passenv = PYTHONPATH
+deps = pylint
+commands =
+    python -c 'from os import makedirs; makedirs("build/reports/lint", exist_ok = True)'
+    pylint src
+
+[testenv:mutation]
+setenv =
+    PYTHONPATH = {toxinidir}/src/main/python{:}{toxinidir}/src/main/resources{:}{toxinidir}/src/test/python\
+    {:}{toxinidir}/src/test/resources
+skip_install = True
+deps =
+    mutmut
+    pytest
+commands =
+    python -c "\
+        from subprocess import run as proc_run;\
+        from os import makedirs;\
+        from pathlib import Path;\
+        from shutil import move, rmtree;\
+        from sys import exit as sys_exit; \
+        report_path: Path = Path('{toxinidir}/build/reports/mutation');\
+        cache_path: Path = report_path.joinpath('.mutmut-cache');\
+        cache_path.is_file() and move(cache_path.as_posix(), Path('.mutmut-cache').absolute().as_posix());\
+        result = proc_run(['mutmut', 'run', '--tests-dir', 'src/test/python', '--paths-to-mutate', 'src/main/python']);\
+        proc_run(['mutmut', 'html']);\
+        report_path.is_dir() and rmtree(report_path);\
+        makedirs(report_path.as_posix(), exist_ok = True);\
+        move('html', report_path.joinpath('html'));\
+        move('.mutmut-cache', cache_path.absolute().as_posix());\
+        sys_exit(result.returncode);\
+    "
+"""
+
+
+##################
+#### COVERAGE ####
+##################
+[tool.coverage.run]
+branch = true
+omit = ['src/test/*']
+data_file = 'build/reports/coverage/.coverage'
+
+[tool.coverage.report]
+fail_under = 90
+show_missing = true
+exclude_lines = ["if __name__ == '__main__':"]
+
+[tool.coverage.html]
+directory = 'build/reports/coverage/html'
+
+[tool.coverage.xml]
+output = 'build/reports/coverage/xml/coverage.xml'
+
+[tool.coverage.json]
+output = 'build/reports/coverage/json/coverage.json'
+pretty_print = true
+
+
+##################
+##### PYLINT #####
+##################
+[tool.pylint.master]
+jobs = 0
+init-hook = """
+from pathlib import Path
+from sys import path as sys_path
+sys_path.append(Path('src/main/python').absolute().as_posix())
+sys_path.append(Path('src/test/python').absolute().as_posix())
+"""
+ignore-patterns = ["test_*"]
+
+[tool.pylint.messages_control]
+disable = [
+    'invalid-name',
+    'too-few-public-methods',
+    'missing-class-docstring',
+    'missing-function-docstring',
+    'missing-module-docstring'
+]
+
+[tool.pylint.format]
+max-line-length = 120
+indent-string = "    "
+
+[tool.pylint.reports]
+output-format = 'json:build/reports/lint/lint.json,text:build/reports/lint/lint.txt,colorized'
+#reports = 'y'
+score = 'y'
+
+
+##################
+##### SYSTEM #####
+##################
+[build-system]
+requires = ['poetry-core>=1.0.7']
+build-backend = 'poetry.core.masonry.api'
