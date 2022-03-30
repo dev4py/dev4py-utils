@@ -212,7 +212,7 @@ class TestCommand(ToxCommand):
     SKIP_ENV_VAR: Final[str] = 'TOX_SKIP_ENV'
 
     def build_command_line(self, properties: ProjectProperties, args: list[str] | None = None) -> list[str]:
-        os_environ[TestCommand.SKIP_ENV_VAR] = 'pylint|mutation'
+        os_environ[TestCommand.SKIP_ENV_VAR] = 'pylint|mutation|mypy'
         return super().build_command_line(properties, args)
 
     def finalize(self, properties: ProjectProperties) -> None:
@@ -236,6 +236,17 @@ class MutationCommand(ToxCommand):
 
     def build_command_line(self, properties: ProjectProperties, args: list[str] | None = None) -> list[str]:
         extended_args: Final[list[str]] = ['-e', 'mutation']
+        if args:
+            extended_args.extend(args)
+        return super().build_command_line(properties, extended_args)
+
+
+# -- Typing check Command
+class TypingCheckCommand(ToxCommand):
+    """Run typing checker"""
+
+    def build_command_line(self, properties: ProjectProperties, args: list[str] | None = None) -> list[str]:
+        extended_args: Final[list[str]] = ['-e', 'mypy']
         if args:
             extended_args.extend(args)
         return super().build_command_line(properties, extended_args)
@@ -356,6 +367,7 @@ def run(properties: ProjectProperties) -> None:
         .add_command('tox', ToxCommand()) \
         .add_command('lint', LintCommand()) \
         .add_command('test', TestCommand()) \
+        .add_command('typing', TypingCheckCommand()) \
         .add_command('mut', MutationCommand()) \
         .add_command('wheel', WheelCommand()) \
         .add_command('sdist', SdistCommand()) \

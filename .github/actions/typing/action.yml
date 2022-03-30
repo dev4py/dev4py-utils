@@ -1,0 +1,10 @@
+name: typing check action
+author: St4rG00se
+description: Run configured typing checker
+runs:
+  using: composite
+  steps:
+    - uses: ./.github/actions/dev_env_docker
+      name: Run typing checker
+      with:
+        cmd: ./project.py typing

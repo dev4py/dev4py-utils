@@ -33,6 +33,7 @@ python = '^3.10'
 tomli = '2.0.1'  # for project.py if pytest is removed
 tox = "^3.24.5"
 pytest = "^7.0.1"
+mypy = "^0.942"
 
 
 [tool.pytest.ini_options]
@@ -47,7 +48,7 @@ testpaths = ['src/test/python']
 legacy_tox_ini = """
 [tox]
 isolated_build = True
-envlist = pylint, covclean, py310, report, mutation
+envlist = pylint, covclean, py310, report, mutation, mypy
 
 [testenv]
 # Note: this default configuration use pytest on the installed packages (not sources) for each env
@@ -117,6 +118,18 @@ commands =
         move('.mutmut-cache', cache_path.absolute().as_posix());\
         sys_exit(result.returncode);\
     "
+
+[testenv:mypy]
+setenv =
+    PYTHONPATH = {toxinidir}/src/main/python{:}{toxinidir}/src/main/resources{:}{toxinidir}/src/test/python\
+    {:}{toxinidir}/src/test/resources
+skip_install = True
+deps =
+    pytest
+    mypy[reports]
+commands =
+    pip install -e .
+    mypy src/main/python
 """
 
 
@@ -174,6 +187,20 @@ indent-string = "    "
 output-format = 'json:build/reports/lint/lint.json,text:build/reports/lint/lint.txt,colorized'
 #reports = 'y'
 score = 'y'
+
+
+##################
+###### MYPY ######
+##################
+[tool.mypy]
+cache_dir = 'build/reports/typing/.mypy_cache'
+html_report = 'build/reports/typing/html'
+xml_report = 'build/reports/typing/xml'
+txt_report = 'build/reports/typing/text'
+linecount_report = 'build/reports/typing/text'
+lineprecision_report = 'build/reports/typing/text'
+any_exprs_report = 'build/reports/typing/text'
+linecoverage_report = 'build/reports/typing/json'
 
 
 ##################

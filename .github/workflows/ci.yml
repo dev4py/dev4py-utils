@@ -96,3 +96,17 @@ jobs:
             reports/dependency-check-report.xml
       - run: if [ $(grep -c "vulnerabilities" reports/dependency-check-report.json) -gt 0 ]; then exit 2; fi
         name: check if vulnerabilities exist
+
+  typing-test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+      - uses: ./.github/actions/typing
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: typing_reports
+          retention-days: 1
+          path: build/reports/typing
