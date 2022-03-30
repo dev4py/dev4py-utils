@@ -1,0 +1,33 @@
+name: Weekly checks
+on:
+  schedule:
+    - cron: '0 0 * * 0'
+jobs:
+  #     ___  _______  _____  _____  _____  ___________________  _______ _____________ __
+  #    / _ \/ __/ _ \/ __/ |/ / _ \/ __/ |/ / ___/  _/ __/ __/ / ___/ // / __/ ___/ //_/
+  #   / // / _// ___/ _//    / // / _//    / /___/ // _/_\ \  / /__/ _  / _// /__/ ,<
+  #  /____/___/_/  /___/_/|_/____/___/_/|_/\___/___/___/___/  \___/_//_/___/\___/_/|_|
+  #
+  dependency-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - run: pip download . -d dependencies
+        name: Download project dependencies
+      - uses: ./.github/actions/dependency_check
+        with:
+          project: ${{ github.event.repository.name }}
+          scan_path: dependencies/
+          out: /github/workspace/reports
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: dependency_reports
+          retention-days: 1
+          path: |
+            reports/dependency-check-report.html
+            reports/dependency-check-report.json
+            reports/dependency-check-report.xml
+      - run: if [ $(grep -c "vulnerabilities" reports/dependency-check-report.json) -gt 0 ]; then exit 2; fi
+        name: check if vulnerabilities exist
