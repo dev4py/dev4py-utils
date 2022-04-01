@@ -1,3 +1,5 @@
+"""types module tests"""
+
 from typing import Callable
 
 from dev4py.utils.types import Function, T, R, Predicate, Consumer, Supplier, Runnable
