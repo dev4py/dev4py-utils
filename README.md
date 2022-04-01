@@ -10,10 +10,12 @@ A set of Python regularly used classes/functions
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=plastic&logo=github)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity) <br/>
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=plastic&logo=github)](https://opensource.org/licenses/MIT)
 
+
 ## Project template
 
 This project is based on [pymsdl_template](https://github.com/dev4py/pymsdl_template)
 
-## Documentation
+## Project links
 
-See: [Dev4py-utils documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/index.html)
+* [Documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/index.html)
+* [PyPi project](https://pypi.org/project/dev4py-utils/)
