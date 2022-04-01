@@ -10,7 +10,7 @@ license = 'MIT'
 readme = 'README.md'
 homepage = 'https://github.com/dev4py/dev4py-utils'
 repository = 'https://github.com/dev4py/dev4py-utils'
-documentation = 'https://github.com/dev4py/dev4py-utils/blob/main/README.md'
+documentation = 'https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/index.html'
 keywords = ['python', 'utils', 'function', 'classes']
 classifiers = [
     'Intended Audience :: Developers',
