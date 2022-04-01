@@ -15,18 +15,23 @@ R = TypeVar('R')  # pragma: no mutate
 # Note (on march 2022): Use mypy for typing validation (By default pycharm is not compliant)
 
 Function: TypeAlias = Callable[[T], R]
+"""Function[T, R]: A function that accepts one T type argument and produces a R type result"""
 Function.__doc__ = \
-    """Function[T, R]: Represents a function that accepts one argument of T type and produces a result of R type"""
+    "Function[T, R]: A function that accepts one T type argument and produces a R type result"  # pragma: no mutate
 
 Predicate: TypeAlias = Callable[[T], bool]
-Predicate.__doc__ = """Predicate[T]: Represents a predicate (boolean-valued function) of one argument of T type"""
+"""Predicate[T]: A predicate (boolean-valued function) of one T type argument"""
+Predicate.__doc__ = "Predicate[T]: A predicate (boolean-valued function) of one T type argument"  # pragma: no mutate
 
 Consumer: TypeAlias = Callable[[T], None]
+"""Consumer[T]: An operation that accepts a single T type argument and returns no result"""
 Consumer.__doc__ = \
-    """Consumer[T]: Represents an operation that accepts a single input argument of T type and returns no result"""
+    "Consumer[T]: An operation that accepts a single T type argument and returns no result"  # pragma: no mutate
 
 Supplier: TypeAlias = Callable[[], R]
-Supplier.__doc__ = "Represents a supplier of results of R type"
+"""A supplier of results of R type"""
+Supplier.__doc__ = "A supplier of results of R type"  # pragma: no mutate
 
 Runnable: TypeAlias = Callable[[], None]
-Runnable.__doc__ = """Represents a function that accepts no argument of T type and returns no result"""
+"""A function that accepts no T type argument and returns no result"""
+Runnable.__doc__ = "A function that accepts no T type argument and returns no result"  # pragma: no mutate

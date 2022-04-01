@@ -1,4 +1,4 @@
-# dev4py-utils
+# Dev4py-utils
 
 A set of Python regularly used classes/functions
 
@@ -9,3 +9,7 @@ A set of Python regularly used classes/functions
 [![Maintainer](https://img.shields.io/badge/maintainer-St4rG00se-informational?style=plastic&logo=superuser)](https://github.com/St4rG00se) <br/>
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=plastic&logo=github)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity) <br/>
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=plastic&logo=github)](https://opensource.org/licenses/MIT)
+
+## Documentation
+
+See: [Dev4py-utils documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/index.html)
