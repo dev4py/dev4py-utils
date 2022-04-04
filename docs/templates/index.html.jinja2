@@ -1,0 +1,34 @@
+{% extends "default/index.html.jinja2" %}
+
+{% block content %}
+    <header class="pdoc">
+        {% block logo %}
+            {% if logo %}
+                {% if logo_link %}<a href="{{ logo_link }}">{% endif %}
+            <img src="{{ logo }}" alt="project logo"/>
+            {% if logo_link %}</a>{% endif %}
+            {% else %}
+                <a href="https://pdoc.dev">
+                    <img src="data:image/svg+xml,
+                            {% filter urlencode %}{% include "resources/pdoc-logo.svg" %}{% endfilter %}"
+                         alt="pdoc"/>
+                </a>
+            {% endif %}
+        {% endblock %}
+        {% if search %}
+            <input type="search" placeholder="Search API Documentation..." aria-label="search box">
+        {% endif %}
+        <h1>A <a href="https://github.com/dev4py">Dev4py</a> project</h1>
+    </header>
+    <main class="pdoc">
+        <h2>Available Modules</h2>
+        <ul>
+            {% for submodule in all_modules if "._" not in submodule and not submodule.startswith("_") %}
+                <li><a href="{{ submodule.replace(".","/") }}.html">{{ submodule }}</a></li>
+            {% endfor %}
+        </ul>
+    </main>
+    {% if search %}
+        {% include "search.html.jinja2" %}
+    {% endif %}
+{% endblock %}
