@@ -106,7 +106,5 @@ from dev4py.utils import JOptional
 
 value = 1
 
-JOptional.of_noneable(value)
-.map(lambda v: f"The value is {v}")
-.if_present(print)
+JOptional.of_noneable(value).map(lambda v: f"The value is {v}").if_present(print)
 ```
