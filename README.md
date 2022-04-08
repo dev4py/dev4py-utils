@@ -48,7 +48,7 @@ int_to_str: Function[int, str] = lambda i: str(i)
 str_result: str = int_to_str(1)
 
 # Predicate sample
-str_predicate: Predicate[str] = lambda s: str == "A value"
+str_predicate: Predicate[str] = lambda s: s == "A value"
 pred_result = str_predicate("Value to test")
 
 
