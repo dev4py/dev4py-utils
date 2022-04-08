@@ -25,7 +25,7 @@ This project is based on [pymsdl_template](https://github.com/dev4py/pymsdl_temp
 
 ## Project links
 
-* [Documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/index.html)
+* [Documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils.html)
 * [PyPi project](https://pypi.org/project/dev4py-utils/)
 
 ## Dev4py-utils modules
