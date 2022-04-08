@@ -15,9 +15,9 @@ A set of Python regularly used classes/functions
 - [Project template](#project-template)
 - [Project links](#project-links)
 - [Dev4py-utils modules](#dev4py-utils-modules)
-  * [dev4py.utils.types](#dev4pyutilstypes)
-  * [dev4py.utils.objects](#dev4pyutilsobjects)
-  * [dev4py.utils.JOptional](#dev4pyutilsjoptional)
+    * [dev4py.utils.JOptional](#dev4pyutilsjoptional)
+    * [dev4py.utils.objects](#dev4pyutilsobjects)
+    * [dev4py.utils.types](#dev4pyutilstypes)
 
 ## Project template
 
@@ -29,6 +29,51 @@ This project is based on [pymsdl_template](https://github.com/dev4py/pymsdl_temp
 * [PyPi project](https://pypi.org/project/dev4py-utils/)
 
 ## Dev4py-utils modules
+
+### dev4py.utils.JOptional
+
+[JOptional documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/JOptional.html)
+
+> ***Note:** [JOptional](src/main/python/dev4py/utils/JOptional.py) class is inspired from
+> [java.util.Optional](https://docs.oracle.com/en/java/javase/17/docs/api//java.base/java/util/Optional.html)
+> class with some adds (like `peek` method).*
+
+Examples:
+
+```python
+from dev4py.utils import JOptional
+
+value = 1
+
+JOptional.of_noneable(value).map(lambda v: f"The value is {v}").if_present(print)
+```
+
+### dev4py.utils.objects
+
+[Objects documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/objects.html)
+
+> ***Note:** The [objects](src/main/python/dev4py/utils/objects.py) module is inspired from
+> [java.util.Objects](https://docs.oracle.com/en/java/javase/17/docs/api//java.base/java/util/Objects.html)
+> class.*
+
+Examples:
+
+```python
+from dev4py.utils import objects
+
+# non_none sample
+value = None
+objects.non_none(value)
+
+# require_non_none sample
+value = "A value"
+objects.require_non_none(value)
+
+# to_string sample
+value = None
+default_value: str = "A default value"
+objects.to_string(value, default_value)
+```
 
 ### dev4py.utils.types
 
@@ -62,49 +107,4 @@ def my_consumer(arg: str) -> None:
 
 
 sample(my_consumer, "My value")
-```
-
-### dev4py.utils.objects
-
-[Objects documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/objects.html)
-
-> ***Note:** The [objects](src/main/python/dev4py/utils/objects.py) module is inspired from
-> [java.util.Objects](https://docs.oracle.com/en/java/javase/17/docs/api//java.base/java/util/Objects.html)
-> class.*
-
-Examples:
-
-```python
-from dev4py.utils import objects
-
-# non_none sample
-value = None
-objects.non_none(value)
-
-# require_non_none sample
-value = "A value"
-objects.require_non_none(value)
-
-# to_string sample
-value = None
-default_value: str = "A default value"
-objects.to_string(value, default_value)
-```
-
-### dev4py.utils.JOptional
-
-[JOptional documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/JOptional.html)
-
-> ***Note:** [JOptional](src/main/python/dev4py/utils/JOptional.py) class is inspired from
-> [java.util.Optional](https://docs.oracle.com/en/java/javase/17/docs/api//java.base/java/util/Optional.html)
-> class with some adds (like `peek` method).*
-
-Examples:
-
-```python
-from dev4py.utils import JOptional
-
-value = 1
-
-JOptional.of_noneable(value).map(lambda v: f"The value is {v}").if_present(print)
 ```
