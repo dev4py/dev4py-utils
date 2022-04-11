@@ -83,7 +83,7 @@ class JOptional(Generic[T]):
         Raises:
             ValueError: Raises a ValueError no value is present
         """
-        return self.or_else_throw()
+        return self.or_else_raise()
 
     def or_else(self, other: Optional[T]) -> Optional[T]:
         """
@@ -111,15 +111,15 @@ class JOptional(Generic[T]):
         """
         return self._value if self.is_present() else supplier()
 
-    def or_else_throw(
+    def or_else_raise(
             self, supplier: Supplier[Exception] = lambda: cast(Exception, ValueError(JOptional.__NO_VALUE_ERROR_MSG))
     ) -> T:
         """
-        If a value is present, returns the value, otherwise throws an exception produced by the exception supplying
+        If a value is present, returns the value, otherwise raises an exception produced by the exception supplying
         function
 
         Args:
-            supplier: The supplying function that produces an exception to be thrown (default: ValueError)
+            supplier: The supplying function that produces an exception to be raised (default: ValueError)
 
         Returns:
             value: The value, if present

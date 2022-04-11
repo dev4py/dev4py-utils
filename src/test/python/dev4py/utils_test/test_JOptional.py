@@ -274,8 +274,8 @@ class TestJOptional:
                 with raises(TypeError):
                     optional.or_else_get(None)
 
-    class TestOrElseThrow:
-        """or_else_throw method tests"""
+    class TestOrElseRaise:
+        """or_else_raise method tests"""
 
         class TestNominalCase:
             def test_value_exists__should__return_value(self) -> None:
@@ -286,7 +286,7 @@ class TestJOptional:
                 optional: JOptional[int] = JOptional.of_noneable(value)
 
                 # WHEN
-                result: int = optional.or_else_throw(supplier)
+                result: int = optional.or_else_raise(supplier)
 
                 # THEN
                 assert result == value
@@ -298,7 +298,7 @@ class TestJOptional:
                 optional: JOptional[int] = JOptional.of_noneable(value)
 
                 # WHEN
-                result: int = optional.or_else_throw(None)
+                result: int = optional.or_else_raise(None)
 
                 # THEN
                 assert result == value
@@ -312,7 +312,7 @@ class TestJOptional:
 
                 # WHEN / THEN
                 with raises(ValueError) as error:
-                    optional.or_else_throw(supplier)
+                    optional.or_else_raise(supplier)
 
                 assert str(error.value) == str(given_error)
 
@@ -324,7 +324,7 @@ class TestJOptional:
 
                 # WHEN / THEN
                 with raises(TypeError):
-                    optional.or_else_throw(None)
+                    optional.or_else_raise(None)
 
     class TestOrGet:
         """or_get method tests"""
