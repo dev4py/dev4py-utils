@@ -61,7 +61,7 @@
                                 <a class="function" href="#JOptional.or_else_get">or_else_get</a>
                         </li>
                         <li>
-                                <a class="function" href="#JOptional.or_else_throw">or_else_throw</a>
+                                <a class="function" href="#JOptional.or_else_raise">or_else_raise</a>
                         </li>
                         <li>
                                 <a class="function" href="#JOptional.or_get">or_get</a>
@@ -196,7 +196,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: Raises a ValueError no value is present</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">or_else_throw</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">or_else_raise</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">or_else</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -224,15 +224,15 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_present</span><span class="p">()</span> <span class="k">else</span> <span class="n">supplier</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">or_else_throw</span><span class="p">(</span>
+    <span class="k">def</span> <span class="nf">or_else_raise</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">supplier</span><span class="p">:</span> <span class="n">Supplier</span><span class="p">[</span><span class="ne">Exception</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">cast</span><span class="p">(</span><span class="ne">Exception</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">JOptional</span><span class="o">.</span><span class="n">__NO_VALUE_ERROR_MSG</span><span class="p">))</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        If a value is present, returns the value, otherwise throws an exception produced by the exception supplying</span>
+<span class="sd">        If a value is present, returns the value, otherwise raises an exception produced by the exception supplying</span>
 <span class="sd">        function</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            supplier: The supplying function that produces an exception to be thrown (default: ValueError)</span>
+<span class="sd">            supplier: The supplying function that produces an exception to be raised (default: ValueError)</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            value: The value, if present</span>
@@ -487,7 +487,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: Raises a ValueError no value is present</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">or_else_throw</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">or_else_raise</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">or_else</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -515,15 +515,15 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_present</span><span class="p">()</span> <span class="k">else</span> <span class="n">supplier</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">or_else_throw</span><span class="p">(</span>
+    <span class="k">def</span> <span class="nf">or_else_raise</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">supplier</span><span class="p">:</span> <span class="n">Supplier</span><span class="p">[</span><span class="ne">Exception</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">cast</span><span class="p">(</span><span class="ne">Exception</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">JOptional</span><span class="o">.</span><span class="n">__NO_VALUE_ERROR_MSG</span><span class="p">))</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        If a value is present, returns the value, otherwise throws an exception produced by the exception supplying</span>
+<span class="sd">        If a value is present, returns the value, otherwise raises an exception produced by the exception supplying</span>
 <span class="sd">        function</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            supplier: The supplying function that produces an exception to be thrown (default: ValueError)</span>
+<span class="sd">            supplier: The supplying function that produces an exception to be raised (default: ValueError)</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            value: The value, if present</span>
@@ -919,7 +919,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: Raises a ValueError no value is present</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">or_else_throw</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">or_else_raise</span><span class="p">()</span>
 </pre></div>
 
         </details>
@@ -1033,12 +1033,12 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 
 
                             </div>
-                            <div id="JOptional.or_else_throw" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#JOptional.or_else_throw">#&nbsp;&nbsp</a>
+                            <div id="JOptional.or_else_raise" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#JOptional.or_else_raise">#&nbsp;&nbsp</a>
 
         
             <span class="def">def</span>
-            <span class="name">or_else_throw</span><span class="signature">(
+            <span class="name">or_else_raise</span><span class="signature">(
     self,
     supplier: Callable[[], Exception] = &lt;function JOptional.&lt;lambda&gt;&gt;
 ) -&gt; ~T</span>:
@@ -1046,15 +1046,15 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 
             <details>
             <summary>View Source</summary>
-            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">or_else_throw</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">or_else_raise</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">supplier</span><span class="p">:</span> <span class="n">Supplier</span><span class="p">[</span><span class="ne">Exception</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">cast</span><span class="p">(</span><span class="ne">Exception</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">JOptional</span><span class="o">.</span><span class="n">__NO_VALUE_ERROR_MSG</span><span class="p">))</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        If a value is present, returns the value, otherwise throws an exception produced by the exception supplying</span>
+<span class="sd">        If a value is present, returns the value, otherwise raises an exception produced by the exception supplying</span>
 <span class="sd">        function</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            supplier: The supplying function that produces an exception to be thrown (default: ValueError)</span>
+<span class="sd">            supplier: The supplying function that produces an exception to be raised (default: ValueError)</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            value: The value, if present</span>
@@ -1070,13 +1070,13 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 
         </details>
 
-            <div class="docstring"><p>If a value is present, returns the value, otherwise throws an exception produced by the exception supplying
+            <div class="docstring"><p>If a value is present, returns the value, otherwise raises an exception produced by the exception supplying
 function</p>
 
 <h6 id="args">Args</h6>
 
 <ul>
-<li><strong>supplier:</strong>  The supplying function that produces an exception to be thrown (default: ValueError)</li>
+<li><strong>supplier:</strong>  The supplying function that produces an exception to be raised (default: ValueError)</li>
 </ul>
 
 <h6 id="returns">Returns</h6>
