@@ -102,6 +102,7 @@ skip_install = True
 deps =
     mutmut
     pytest
+    pytest-asyncio
 commands =
     python -c "\
         from subprocess import run as proc_run;\

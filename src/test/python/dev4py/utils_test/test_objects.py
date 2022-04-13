@@ -1,6 +1,7 @@
 """objects module tests"""
 from typing import Optional, Final
 
+import pytest
 from pytest import raises
 
 from dev4py.utils import objects
@@ -291,3 +292,67 @@ class TestToString:
 
             # THEN
             assert result == str(None)
+
+
+@pytest.mark.asyncio
+class TestAsyncRequireNonNone:
+    """async_require_non_none function tests"""
+    DEFAULT_ERROR_MESSAGE: Final[str] = "None async object error"
+
+    class TestNominalCase:
+
+        async def test_non_none_value__should__return_value(self) -> None:
+            """When the value is not None, should return it"""
+            # GIVEN
+            value: str = "A value"
+
+            # WHEN
+            result: str = await objects.async_require_non_none(value)
+
+            # THEN
+            assert result == value
+
+        async def test_non_none_async_value__should__return_value(self) -> None:
+            """When the value an awaitable with non None result, should return it"""
+            # GIVEN
+            value: str = "A value"
+
+            async def coroutine() -> str:
+                return value
+
+            # WHEN
+            result: str = await objects.async_require_non_none(coroutine())
+
+            # THEN
+            assert result == value
+
+        async def test_none_value__should__raise_type_error(self) -> None:
+            """When the value is None, should raise TypeError with default message"""
+            # GIVEN / WHEN / THEN
+            with raises(TypeError) as error:
+                await objects.async_require_non_none(None)
+
+            assert str(error.value) == TestAsyncRequireNonNone.DEFAULT_ERROR_MESSAGE
+
+        async def test_none_async_value__should__raise_type_error(self) -> None:
+            """When the value is an awaitable with None result, should raise TypeError with default message"""
+            # GIVEN
+            async def coroutine() -> None:
+                return None
+
+            # WHEN / THEN
+            with raises(TypeError) as error:
+                await objects.async_require_non_none(coroutine())
+
+            assert str(error.value) == TestAsyncRequireNonNone.DEFAULT_ERROR_MESSAGE
+
+        async def test_none_value_with_message__should__raise_type_error_with_given_message(self) -> None:
+            """When the value is None and a message is specified, should raise TypeError with given message"""
+            # GIVEN
+            message: str = "An error message"
+
+            # WHEN / THEN
+            with raises(TypeError) as error:
+                await objects.async_require_non_none(None, message=message)
+
+            assert str(error.value) == message
