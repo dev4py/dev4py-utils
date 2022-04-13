@@ -1,8 +1,8 @@
 """types module tests"""
 
-from typing import Callable
+from typing import Callable, Union, Awaitable
 
-from dev4py.utils.types import Function, T, R, Predicate, Consumer, Supplier, Runnable
+from dev4py.utils.types import Function, T, R, Predicate, Consumer, Supplier, Runnable, BiFunction, U, SyncOrAsync
 
 
 class TestFunction:
@@ -141,3 +141,86 @@ class TestRunnable:
 
             # WHEN / THEN
             assert current_type == Callable[[], None]
+
+
+class TestBiFunction:
+    """BiFunction type tests"""
+
+    class TestNominalCase:
+
+        def test_empty_bifunction__should__be_equivalent_to_callable_t_u_r(self):
+            """Empty BiFunction should be equivalent to Callable[[T, U], R]"""
+            # GIVEN
+            current_type = BiFunction
+
+            # WHEN / THEN
+            assert current_type == Callable[[T, U], R]
+
+        def test_int_bool_to_str_bifunction__should__be_equivalent_to_callable_int_bool_str(self):
+            """BiFunction[int, bool, str] should be equivalent to Callable[[int, bool], str]"""
+            # GIVEN
+            current_type = BiFunction[int, bool, str]
+
+            # WHEN / THEN
+            assert current_type == Callable[[int, bool], str]
+
+        def test_int_bool_to_str_bifunction__should__not_be_equivalent_to_callable_str_bool_str(self):
+            """BiFunction[int, str] should NOT be equivalent to Callable[[str, bool], str]"""
+            # GIVEN
+            current_type = BiFunction[int, bool, str]
+
+            # WHEN / THEN
+            assert current_type != Callable[[str, bool], str]
+
+        def test_int_bool_to_str_bifunction__should__not_be_equivalent_to_callable_int_str_str(self):
+            """BiFunction[int, str] should NOT be equivalent to Callable[[int, str], str]"""
+            # GIVEN
+            current_type = BiFunction[int, bool, str]
+
+            # WHEN / THEN
+            assert current_type != Callable[[int, str], str]
+
+
+class TestSyncOrAsync:
+    """SyncOrAsync type tests"""
+
+    class TestNominalCase:
+        def test_empty_syncorasync__should__be_equivalent_to_union_awaitable_t_t(self):
+            """Empty SyncOrAsync should be equivalent to Union[Awaitable[T], T]"""
+            # GIVEN
+            current_type = SyncOrAsync
+
+            # WHEN / THEN
+            assert current_type == Union[Awaitable[T], T]
+
+        def test_int_syncorasync__should__be_equivalent_to_union_awaitable_int_int(self):
+            """SyncOrAsync[int] should be equivalent to Union[Awaitable[int], int]"""
+            # GIVEN
+            current_type = SyncOrAsync[int]
+
+            # WHEN / THEN
+            assert current_type == Union[Awaitable[int], int]
+
+        def test_int_syncorasync__should__not_be_equivalent_to_awaitable_str_int(self):
+            """SyncOrAsync[int] should NOT be equivalent to Union[Awaitable[str], int]"""
+            # GIVEN
+            current_type = SyncOrAsync[int]
+
+            # WHEN / THEN
+            assert current_type != Union[Awaitable[str], int]
+
+        def test_int_syncorasync__should__not_be_equivalent_to_awaitable_int_str(self):
+            """SyncOrAsync[int] should NOT be equivalent to Union[Awaitable[int], str]"""
+            # GIVEN
+            current_type = SyncOrAsync[int]
+
+            # WHEN / THEN
+            assert current_type != Union[Awaitable[int], str]
+
+        def test_int_syncorasync__should__not_be_equivalent_to_awaitable_str_str(self):
+            """SyncOrAsync[int] should NOT be equivalent to Union[Awaitable[str], str]"""
+            # GIVEN
+            current_type = SyncOrAsync[int]
+
+            # WHEN / THEN
+            assert current_type != Union[Awaitable[str], str]
