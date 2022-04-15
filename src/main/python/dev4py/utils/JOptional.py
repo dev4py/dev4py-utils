@@ -4,6 +4,7 @@ from __future__ import annotations
 from typing import Generic, Optional, Final, Any, cast
 
 from dev4py.utils import objects
+from dev4py.utils.awaitables import is_awaitable
 from dev4py.utils.types import T, Supplier, Function, R, Consumer, Runnable, Predicate
 
 
@@ -276,6 +277,14 @@ class JOptional(Generic[T]):
         self.if_present(consumer)
         return self
 
+    def is_awaitable(self) -> bool:
+        """
+        If the value is an Awaitable (Coroutine, Task or Future), returns true, otherwise false
+
+        Returns:
+            bool: true if the value is an Awaitable, otherwise false
+        """
+        return is_awaitable(self._value)
 
 # INIT STATIC VARIABLES
 # noinspection PyProtectedMember

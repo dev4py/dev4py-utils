@@ -1,8 +1,10 @@
 """JOptional module tests"""
-from typing import Final, Optional, cast
+import asyncio
+from asyncio import Task, Future
+from typing import Final, Optional, cast, Awaitable
 from unittest.mock import patch, MagicMock
 
-from pytest import raises
+from pytest import raises, mark
 
 from dev4py.utils import JOptional
 from dev4py.utils.types import Supplier, Function, Consumer, Runnable, Predicate
@@ -827,3 +829,76 @@ class TestJOptional:
                 # WHEN / THEN
                 with raises(TypeError):
                     optional.if_present(None)
+
+    class TestIsAwaitable:
+        """is_awaitable method tests"""
+
+        class TestNominalCase:
+            def test_none__should__return_false(self) -> None:
+                """When value is None should return False"""
+                # GIVEN
+                optional: JOptional[int] = JOptional.empty()
+
+                # WHEN
+                result: bool = optional.is_awaitable()
+
+                # THEN
+                assert not result
+
+            @mark.asyncio
+            async def test_coroutine_value__should__return_true(self) -> None:
+                """When value is a Coroutine should return True"""
+
+                # GIVEN
+                async def coroutine() -> None: ...
+
+                optional: JOptional[Awaitable[None]] = JOptional.of(coroutine())
+
+                # WHEN
+                result: bool = optional.is_awaitable()
+
+                # THEN
+                assert result
+                await optional.get()  # Remove warning
+
+            @mark.asyncio
+            async def test_task_value__should__return_true(self) -> None:
+                """When value is a Task should return True"""
+
+                # GIVEN
+                async def coroutine() -> None: ...
+                optional: JOptional[Task] = JOptional.of(asyncio.create_task(coroutine()))
+
+                # WHEN
+                result: bool = optional.is_awaitable()
+
+                # THEN
+                assert result
+                await optional.get()  # Remove warning
+
+            @mark.asyncio
+            async def test_future_value__should__return_true(self) -> None:
+                """When value is a Future should return True"""
+
+                # GIVEN
+                async def coroutine() -> None: ...
+
+                optional: JOptional[Future] = JOptional.of(asyncio.ensure_future(coroutine()))
+
+                # WHEN
+                result: bool = optional.is_awaitable()
+
+                # THEN
+                assert result
+                await optional.get()  # Remove warning
+
+            def test_not_awaitable_value__should__return_false(self) -> None:
+                """When value is not an awaitable should return False"""
+                # GIVEN
+                optional: JOptional[str] = JOptional.of("A value")
+
+                # WHEN
+                result: bool = optional.is_awaitable()
+
+                # THEN
+                assert not result
