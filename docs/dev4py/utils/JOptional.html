@@ -87,6 +87,12 @@
                         <li>
                                 <a class="function" href="#JOptional.peek">peek</a>
                         </li>
+                        <li>
+                                <a class="function" href="#JOptional.is_awaitable">is_awaitable</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#JOptional.to_sync_value">to_sync_value</a>
+                        </li>
                 </ul>
 
             </li>
@@ -114,9 +120,10 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
             <div class="pdoc-code codehilite"><pre><span></span><span class="sd">&quot;&quot;&quot;The `JOptional` class provides a java like Optional class&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Final</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">cast</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Final</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">cast</span><span class="p">,</span> <span class="n">Awaitable</span>
 
 <span class="kn">from</span> <span class="nn">dev4py.utils</span> <span class="kn">import</span> <span class="n">objects</span>
+<span class="kn">from</span> <span class="nn">dev4py.utils.awaitables</span> <span class="kn">import</span> <span class="n">is_awaitable</span>
 <span class="kn">from</span> <span class="nn">dev4py.utils.types</span> <span class="kn">import</span> <span class="n">T</span><span class="p">,</span> <span class="n">Supplier</span><span class="p">,</span> <span class="n">Function</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">Consumer</span><span class="p">,</span> <span class="n">Runnable</span><span class="p">,</span> <span class="n">Predicate</span>
 
 
@@ -388,6 +395,28 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">if_present</span><span class="p">(</span><span class="n">consumer</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">is_awaitable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If the value is an Awaitable (Coroutine, Task or Future), returns true, otherwise false</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: true if the value is an Awaitable, otherwise false</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">is_awaitable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">to_sync_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JOptional</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If the value is an Awaitable (Coroutine, Task or Future), awaits and returns a JOptional with the obtained</span>
+<span class="sd">        value, otherwise if the value is not an Awaitable returns self</span>
+
+<span class="sd">        Note: can be useful in order to call is_present, is_empty, if_present, if_empty, ect. depending on the awaited</span>
+<span class="sd">        value result (otherwise, for example, is_present is always True with an &#39;Awaitable&#39; value)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            JOptional: A JOptional with synchronized value (i.e. not an Awaitable value)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">JOptional</span><span class="o">.</span><span class="n">of_noneable</span><span class="p">(</span><span class="k">await</span> <span class="n">cast</span><span class="p">(</span><span class="n">Awaitable</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">))</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_awaitable</span><span class="p">()</span> <span class="k">else</span> <span class="bp">self</span>
 
 
 <span class="c1"># INIT STATIC VARIABLES</span>
@@ -679,6 +708,28 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">if_present</span><span class="p">(</span><span class="n">consumer</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">is_awaitable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If the value is an Awaitable (Coroutine, Task or Future), returns true, otherwise false</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: true if the value is an Awaitable, otherwise false</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">is_awaitable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">to_sync_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JOptional</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If the value is an Awaitable (Coroutine, Task or Future), awaits and returns a JOptional with the obtained</span>
+<span class="sd">        value, otherwise if the value is not an Awaitable returns self</span>
+
+<span class="sd">        Note: can be useful in order to call is_present, is_empty, if_present, if_empty, ect. depending on the awaited</span>
+<span class="sd">        value result (otherwise, for example, is_present is always True with an &#39;Awaitable&#39; value)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            JOptional: A JOptional with synchronized value (i.e. not an Awaitable value)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">JOptional</span><span class="o">.</span><span class="n">of_noneable</span><span class="p">(</span><span class="k">await</span> <span class="n">cast</span><span class="p">(</span><span class="n">Awaitable</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">))</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_awaitable</span><span class="p">()</span> <span class="k">else</span> <span class="bp">self</span>
 </pre></div>
 
         </details>
@@ -1560,6 +1611,80 @@ current JOptional</p>
 <ul>
 <li><strong>TypeError:</strong>  if the consumer is None and the value is present</li>
 </ul>
+</div>
+
+
+                            </div>
+                            <div id="JOptional.is_awaitable" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#JOptional.is_awaitable">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">is_awaitable</span><span class="signature">(self) -&gt; bool</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">is_awaitable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If the value is an Awaitable (Coroutine, Task or Future), returns true, otherwise false</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: true if the value is an Awaitable, otherwise false</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">is_awaitable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">)</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>If the value is an Awaitable (Coroutine, Task or Future), returns true, otherwise false</p>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>bool: true if the value is an Awaitable, otherwise false</p>
+</blockquote>
+</div>
+
+
+                            </div>
+                            <div id="JOptional.to_sync_value" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#JOptional.to_sync_value">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">async def</span>
+            <span class="name">to_sync_value</span><span class="signature">(self) -&gt; <a href="#JOptional">dev4py.utils.JOptional.JOptional</a>[typing.Any]</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">async</span> <span class="k">def</span> <span class="nf">to_sync_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JOptional</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If the value is an Awaitable (Coroutine, Task or Future), awaits and returns a JOptional with the obtained</span>
+<span class="sd">        value, otherwise if the value is not an Awaitable returns self</span>
+
+<span class="sd">        Note: can be useful in order to call is_present, is_empty, if_present, if_empty, ect. depending on the awaited</span>
+<span class="sd">        value result (otherwise, for example, is_present is always True with an &#39;Awaitable&#39; value)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            JOptional: A JOptional with synchronized value (i.e. not an Awaitable value)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">JOptional</span><span class="o">.</span><span class="n">of_noneable</span><span class="p">(</span><span class="k">await</span> <span class="n">cast</span><span class="p">(</span><span class="n">Awaitable</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">))</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_awaitable</span><span class="p">()</span> <span class="k">else</span> <span class="bp">self</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>If the value is an Awaitable (Coroutine, Task or Future), awaits and returns a JOptional with the obtained
+value, otherwise if the value is not an Awaitable returns self</p>
+
+<p>Note: can be useful in order to call is_present, is_empty, if_present, if_empty, ect. depending on the awaited
+value result (otherwise, for example, is_present is always True with an 'Awaitable' value)</p>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>JOptional: A JOptional with synchronized value (i.e. not an Awaitable value)</p>
+</blockquote>
 </div>
 
 

@@ -2,9 +2,10 @@
 The `objects` module provides a set of utility functions to simplify objects/variables operations or checks
 """
 
-from typing import Any, Optional, cast
+from typing import Any, Optional, cast, Awaitable
 
-from dev4py.utils.types import Supplier, T
+from dev4py.utils.awaitables import is_awaitable
+from dev4py.utils.types import Supplier, T, SyncOrAsync
 
 
 def is_none(obj: Any) -> bool:
@@ -98,3 +99,25 @@ def to_string(obj: Any, default_str: Optional[str] = None) -> str:
         str: A str representing obj, default_str otherwise
     """
     return str(obj if non_none(obj) else default_str)
+
+
+async def async_require_non_none(obj: SyncOrAsync[T], message: str = "None async object error") -> T:
+    """
+    Checks if the given object or awaitable object result is not None or raises an error
+
+    Args:
+        obj: The object or awaitable object to check
+        message: The error message is case of obj or awaitable obj is None
+
+    Returns:
+        object: obj if obj is not None and not an Awaitable or Awaitable result if obj is an awaitable and the result is
+        not None
+
+    Raises:
+        TypeError: Raises a TypeError if obj is None or if obj is an awaitable with None result
+    """
+    return cast(
+        T,
+        require_non_none(await cast(Awaitable[T], obj), message) if is_awaitable(
+            require_non_none(obj, message)) else obj
+    )
