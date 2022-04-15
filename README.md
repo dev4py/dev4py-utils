@@ -15,6 +15,7 @@ A set of Python regularly used classes/functions
 - [Project template](#project-template)
 - [Project links](#project-links)
 - [Dev4py-utils modules](#dev4py-utils-modules)
+    * [dev4py.utils.awaitables](#dev4pyutilsawaitables)
     * [dev4py.utils.JOptional](#dev4pyutilsjoptional)
     * [dev4py.utils.objects](#dev4pyutilsobjects)
     * [dev4py.utils.types](#dev4pyutilstypes)
@@ -30,6 +31,42 @@ This project is based on [pymsdl_template](https://github.com/dev4py/pymsdl_temp
 
 ## Dev4py-utils modules
 
+### dev4py.utils.awaitables
+
+[Awaitables documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/awaitables.html)
+
+Examples:
+
+```python
+import asyncio
+from dev4py.utils import awaitables, JOptional
+
+# is_awaitable sample
+awaitables.is_awaitable(asyncio.sleep(2))  # True
+awaitables.is_awaitable(print("Hello"))  # False
+
+
+# to_sync_or_async_param_function sample
+def mapper(s: str) -> str:
+    return s + "_suffix"
+
+
+async def async_mapper(s: str) -> str:
+    await asyncio.sleep(1)
+    return s + "_async_suffix"
+
+
+async def async_test():
+    # Note: mapper parameter is str and async_mapper returns an Awaitable[str] so we have to manage it
+    result: str = await JOptional.of("A value")\
+      .map(async_mapper)\
+      .map(awaitables.to_sync_or_async_param_function(mapper))\
+      .get()
+    print(result)  # A value_async_suffix_suffix
+
+asyncio.run(async_test())
+````
+
 ### dev4py.utils.JOptional
 
 [JOptional documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/JOptional.html)
@@ -44,8 +81,9 @@ Examples:
 from dev4py.utils import JOptional
 
 value = 1
-
-JOptional.of_noneable(value).map(lambda v: f"The value is {v}").if_present(print)
+JOptional.of_noneable(value)\
+  .map(lambda v: f"The value is {v}")\
+  .if_present(print)
 ```
 
 ### dev4py.utils.objects

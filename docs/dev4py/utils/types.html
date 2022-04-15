@@ -45,6 +45,12 @@
             <li>
                     <a class="variable" href="#Runnable">Runnable</a>
             </li>
+            <li>
+                    <a class="variable" href="#BiFunction">BiFunction</a>
+            </li>
+            <li>
+                    <a class="variable" href="#SyncOrAsync">SyncOrAsync</a>
+            </li>
     </ul>
 
 
@@ -70,9 +76,10 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.types    </h1>
 <span class="sd">The `types` module provides a set commonly used types useful for static type checking</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">TypeAlias</span><span class="p">,</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">TypeAlias</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Awaitable</span>
 
 <span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">)</span>  <span class="c1"># pragma: no mutate</span>
+<span class="n">U</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;U&#39;</span><span class="p">)</span>  <span class="c1"># pragma: no mutate</span>
 <span class="n">R</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;R&#39;</span><span class="p">)</span>  <span class="c1"># pragma: no mutate</span>
 
 <span class="c1"># See: https://peps.python.org/pep-0484/#type-aliases</span>
@@ -81,7 +88,6 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.types    </h1>
 <span class="c1">#     -&gt; Predicate[str] is equivalent to Callable[[str], bool]</span>
 <span class="c1">#     -&gt; Supplier[str] is equivalent to Callable[[], str]</span>
 <span class="c1"># Note (on march 2022): Use mypy for typing validation (By default pycharm is not compliant)</span>
-
 <span class="n">Function</span><span class="p">:</span> <span class="n">TypeAlias</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="n">R</span><span class="p">]</span>
 <span class="sd">&quot;&quot;&quot;Function[T, R]: A function that accepts one T type argument and produces a R type result&quot;&quot;&quot;</span>
 <span class="n">Function</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> \
@@ -97,12 +103,22 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.types    </h1>
     <span class="s2">&quot;Consumer[T]: An operation that accepts a single T type argument and returns no result&quot;</span>  <span class="c1"># pragma: no mutate</span>
 
 <span class="n">Supplier</span><span class="p">:</span> <span class="n">TypeAlias</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">R</span><span class="p">]</span>
-<span class="sd">&quot;&quot;&quot;A supplier of results of R type&quot;&quot;&quot;</span>
-<span class="n">Supplier</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;A supplier of results of R type&quot;</span>  <span class="c1"># pragma: no mutate</span>
+<span class="sd">&quot;&quot;&quot;Supplier[R]: A supplier of results of R type&quot;&quot;&quot;</span>
+<span class="n">Supplier</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;Supplier[R]: A supplier of results of R type&quot;</span>  <span class="c1"># pragma: no mutate</span>
 
 <span class="n">Runnable</span><span class="p">:</span> <span class="n">TypeAlias</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="kc">None</span><span class="p">]</span>
 <span class="sd">&quot;&quot;&quot;A function that accepts no T type argument and returns no result&quot;&quot;&quot;</span>
 <span class="n">Runnable</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;A function that accepts no T type argument and returns no result&quot;</span>  <span class="c1"># pragma: no mutate</span>
+
+<span class="n">BiFunction</span><span class="p">:</span> <span class="n">TypeAlias</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">,</span> <span class="n">U</span><span class="p">],</span> <span class="n">R</span><span class="p">]</span>
+<span class="sd">&quot;&quot;&quot;Function[T, U, R]: A function that accepts two arguments and produces a R type result&quot;&quot;&quot;</span>
+<span class="n">BiFunction</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> \
+    <span class="s2">&quot;Function[T, U, R]: A function that accepts two arguments and produces a R type result&quot;</span>  <span class="c1"># pragma: no mutate</span>
+
+<span class="n">SyncOrAsync</span><span class="p">:</span> <span class="n">TypeAlias</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">T</span><span class="p">]</span>
+<span class="sd">&quot;&quot;&quot;SyncOrAsync[T]: is used to specify that a value can be sync or async&quot;&quot;&quot;</span>
+<span class="n">SyncOrAsync</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> \
+    <span class="s2">&quot;SyncOrAsync[T]: is used to specify that a value can be sync or async&quot;</span>  <span class="c1"># pragma: no mutate</span>
 </pre></div>
 
         </details>
@@ -151,7 +167,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.types    </h1>
     </div>
 
     
-            <div class="docstring"><p>A supplier of results of R type</p>
+            <div class="docstring"><p>Supplier[R]: A supplier of results of R type</p>
 </div>
 
 
@@ -164,6 +180,30 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.types    </h1>
 
     
             <div class="docstring"><p>A function that accepts no T type argument and returns no result</p>
+</div>
+
+
+                </section>
+                <section id="BiFunction">
+                                <div class="attr variable"><a class="headerlink" href="#BiFunction">#&nbsp;&nbsp</a>
+
+        <span class="name">BiFunction</span><span class="annotation">: TypeAlias</span><span class="default_value"> = typing.Callable[[~T, ~U], ~R]</span>
+    </div>
+
+    
+            <div class="docstring"><p>Function[T, U, R]: A function that accepts two arguments and produces a R type result</p>
+</div>
+
+
+                </section>
+                <section id="SyncOrAsync">
+                                <div class="attr variable"><a class="headerlink" href="#SyncOrAsync">#&nbsp;&nbsp</a>
+
+        <span class="name">SyncOrAsync</span><span class="annotation">: TypeAlias</span><span class="default_value"> = typing.Union[typing.Awaitable[~T], ~T]</span>
+    </div>
+
+    
+            <div class="docstring"><p>SyncOrAsync[T]: is used to specify that a value can be sync or async</p>
 </div>
 
 

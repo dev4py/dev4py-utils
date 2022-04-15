@@ -294,7 +294,8 @@ class JOptional(Generic[T]):
         Note: can be useful in order to call is_present, is_empty, if_present, if_empty, ect. depending on the awaited
         value result (otherwise, for example, is_present is always True with an 'Awaitable' value)
 
-        Returns: A JOptional with synchronized value (i.e. not an Awaitable value)
+        Returns:
+            JOptional: A JOptional with synchronized value (i.e. not an Awaitable value)
         """
         return JOptional.of_noneable(await cast(Awaitable[Any], self._value)) if self.is_awaitable() else self
 
