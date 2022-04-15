@@ -27,7 +27,7 @@ def to_sync_or_async_param_function(
     Returned Function specificities:
         1. Is an async function (it means if the given function result is R the new function result is an Awaitable[R])
         2. If the given function is async (i.e. result is an Awaitable[R]), the new function result stay an Awaitable[R]
-        3 WARNING. If the given function expected parameter is an Awaitable, it will be awaited by the wrapper before
+        3. !WARNING! If the given function expected parameter is an Awaitable, it will be awaited by the wrapper before
         being passed as given function parameter. So, it will probably raise an error depending on your code
 
     Note: This function can be useful associated with the map function of a `JOptional` with Awaitable value

@@ -86,7 +86,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.awaitables    </h1>
 <span class="sd">    Returned Function specificities:</span>
 <span class="sd">        1. Is an async function (it means if the given function result is R the new function result is an Awaitable[R])</span>
 <span class="sd">        2. If the given function is async (i.e. result is an Awaitable[R]), the new function result stay an Awaitable[R]</span>
-<span class="sd">        3 WARNING. If the given function expected parameter is an Awaitable, it will be awaited by the wrapper before</span>
+<span class="sd">        3. !WARNING! If the given function expected parameter is an Awaitable, it will be awaited by the wrapper before</span>
 <span class="sd">        being passed as given function parameter. So, it will probably raise an error depending on your code</span>
 
 <span class="sd">    Note: This function can be useful associated with the map function of a `JOptional` with Awaitable value</span>
@@ -169,7 +169,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.awaitables    </h1>
 <span class="sd">    Returned Function specificities:</span>
 <span class="sd">        1. Is an async function (it means if the given function result is R the new function result is an Awaitable[R])</span>
 <span class="sd">        2. If the given function is async (i.e. result is an Awaitable[R]), the new function result stay an Awaitable[R]</span>
-<span class="sd">        3 WARNING. If the given function expected parameter is an Awaitable, it will be awaited by the wrapper before</span>
+<span class="sd">        3. !WARNING! If the given function expected parameter is an Awaitable, it will be awaited by the wrapper before</span>
 <span class="sd">        being passed as given function parameter. So, it will probably raise an error depending on your code</span>
 
 <span class="sd">    Note: This function can be useful associated with the map function of a `JOptional` with Awaitable value</span>
@@ -204,8 +204,8 @@ parameter</p>
 <blockquote>
   <ol>
   <li>Is an async function (it means if the given function result is R the new function result is an Awaitable[R])</li>
-  <li>If the given function is async (i.e. result is an Awaitable[R]), the new function result stay an Awaitable[R]
-  3 WARNING. If the given function expected parameter is an Awaitable, it will be awaited by the wrapper before
+  <li>If the given function is async (i.e. result is an Awaitable[R]), the new function result stay an Awaitable[R]</li>
+  <li>!WARNING! If the given function expected parameter is an Awaitable, it will be awaited by the wrapper before
   being passed as given function parameter. So, it will probably raise an error depending on your code</li>
   </ol>
 </blockquote>
