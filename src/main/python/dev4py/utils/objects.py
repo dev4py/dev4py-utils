@@ -2,10 +2,10 @@
 The `objects` module provides a set of utility functions to simplify objects/variables operations or checks
 """
 
-from typing import Any, Optional, cast, Union, Awaitable
+from typing import Any, Optional, cast, Awaitable
 
 from dev4py.utils.awaitables import is_awaitable
-from dev4py.utils.types import Supplier, T
+from dev4py.utils.types import Supplier, T, SyncOrAsync
 
 
 def is_none(obj: Any) -> bool:
@@ -101,7 +101,7 @@ def to_string(obj: Any, default_str: Optional[str] = None) -> str:
     return str(obj if non_none(obj) else default_str)
 
 
-async def async_require_non_none(obj: Union[Awaitable[T], T], message: str = "None async object error") -> T:
+async def async_require_non_none(obj: SyncOrAsync[T], message: str = "None async object error") -> T:
     """
     Checks if the given object or awaitable object result is not None or raises an error
 
