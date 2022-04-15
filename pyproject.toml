@@ -3,7 +3,7 @@
 ##################
 [tool.poetry]
 name = 'dev4py-utils'
-version = '2.0.0'
+version = '2.1.0'
 description = 'A set of Python regularly used classes/functions'
 authors = ['St4rG00se <st4rg00se@protonmail.com>']
 license = 'Apache-2.0'
