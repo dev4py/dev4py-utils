@@ -1,7 +1,7 @@
 """The `JOptional` class provides a java like Optional class"""
 from __future__ import annotations
 
-from typing import Generic, Optional, Final, Any, cast
+from typing import Generic, Optional, Final, Any, cast, Awaitable
 
 from dev4py.utils import objects
 from dev4py.utils.awaitables import is_awaitable
@@ -285,6 +285,19 @@ class JOptional(Generic[T]):
             bool: true if the value is an Awaitable, otherwise false
         """
         return is_awaitable(self._value)
+
+    async def to_sync_value(self) -> JOptional[Any]:
+        """
+        If the value is an Awaitable (Coroutine, Task or Future), awaits and returns a JOptional with the obtained
+        value, otherwise if the value is not an Awaitable returns self
+
+        Note: can be useful in order to call is_present, is_empty, if_present, if_empty, ect. depending on the awaited
+        value result (otherwise, for example, is_present is always True with an 'Awaitable' value)
+
+        Returns: A JOptional with synchronized value (i.e. not an Awaitable value)
+        """
+        return JOptional.of_noneable(await cast(Awaitable[Any], self._value)) if self.is_awaitable() else self
+
 
 # INIT STATIC VARIABLES
 # noinspection PyProtectedMember

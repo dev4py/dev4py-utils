@@ -809,7 +809,7 @@ class TestJOptional:
 
             @patch('builtins.print')
             def test_none_value_and_none_consumer__should__do_nothing(self, print_mock: MagicMock) -> None:
-                """When no value and no consummer are provided, should do nothing"""
+                """When no value and no consumer are provided, should do nothing"""
                 # GIVEN
                 optional: JOptional[int] = JOptional.empty()
 
@@ -867,6 +867,7 @@ class TestJOptional:
 
                 # GIVEN
                 async def coroutine() -> None: ...
+
                 optional: JOptional[Task] = JOptional.of(asyncio.create_task(coroutine()))
 
                 # WHEN
@@ -902,3 +903,78 @@ class TestJOptional:
 
                 # THEN
                 assert not result
+
+    @mark.asyncio
+    class TestToSyncValue:
+        """to_sync_value method tests"""
+
+        class TestNominalCase:
+            async def test_none_value__should__return_self(self) -> None:
+                """When value is None should return self"""
+                # GIVEN
+                optional: JOptional[int] = JOptional.empty()
+
+                # WHEN
+                result: JOptional[int] = await optional.to_sync_value()
+
+                # THEN
+                assert result == optional
+
+            async def test_not_awaitable_value__should__return_self(self) -> None:
+                """When value is not Awaitable should return self"""
+                # GIVEN
+                optional: JOptional[int] = JOptional.of(1)
+
+                # WHEN
+                result: JOptional[int] = await optional.to_sync_value()
+
+                # THEN
+                assert result == optional
+
+            async def test_coroutine_value__should__return_joptional_with_synchronized_value(self) -> None:
+                """When value is a Coroutine should return a JOptional describing the awaited value"""
+
+                # GIVEN
+                value: str = "A string value"
+
+                async def coroutine() -> str: return value
+
+                optional: JOptional[Awaitable[str]] = JOptional.of(coroutine())
+
+                # WHEN
+                result: JOptional[str] = await optional.to_sync_value()
+
+                # THEN
+                assert result.get() == value
+
+            async def test_task_value__should__return_joptional_with_synchronized_value(self) -> None:
+                """When value is a Task should return a JOptional describing the awaited value"""
+
+                # GIVEN
+                value: str = "A string value"
+
+                async def coroutine() -> str: return value
+
+                optional: JOptional[Awaitable[str]] = JOptional.of(asyncio.create_task(coroutine()))
+
+                # WHEN
+                result: JOptional[str] = await optional.to_sync_value()
+
+                # THEN
+                assert result.get() == value
+
+            async def test_future_value__should__return_joptional_with_synchronized_value(self) -> None:
+                """When value is a Future should return a JOptional describing the awaited value"""
+
+                # GIVEN
+                value: str = "A string value"
+
+                async def coroutine() -> str: return value
+
+                optional: JOptional[Awaitable[str]] = JOptional.of(asyncio.ensure_future(coroutine()))
+
+                # WHEN
+                result: JOptional[str] = await optional.to_sync_value()
+
+                # THEN
+                assert result.get() == value
