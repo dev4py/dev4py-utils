@@ -175,3 +175,80 @@ class TestToSyncOrAsyncParamFunction:
             assert await async_param_async_function(async_param_supplier()) == await async_param_supplier()
             with raises(TypeError):
                 await result_function(async_param_supplier())
+
+
+@mark.asyncio
+class TestToAwaitable:
+    """to_awaitable function tests"""
+
+    class TestNominalCase:
+        async def test_none__should__return_awaitable_of_none(self) -> None:
+            """When value is None should return Awaitable[None]"""
+            # GIVEN / WHEN
+            result: Awaitable[None] = awaitables.to_awaitable(None)
+
+            # THEN
+            assert await result is None
+
+        async def test_t_coroutine_value__should__return_t_awaitable(self) -> None:
+            """When value is a Coroutine of T should return Awaitable[T]"""
+
+            # GIVEN
+            expected_result: int = 1
+
+            async def coroutine() -> int:
+                return expected_result
+
+            value = coroutine()
+
+            # WHEN
+            result: Awaitable[int] = awaitables.to_awaitable(value)
+
+            # THEN
+            assert await result == expected_result
+
+        async def test_t_task_value__should__return_t_awaitable(self) -> None:
+            """When value is a Task of T should return Awaitable[T]"""
+
+            # GIVEN
+            expected_result: int = 1
+
+            async def coroutine() -> int:
+                return expected_result
+
+            value: Task = asyncio.create_task(coroutine())
+
+            # WHEN
+            result: Awaitable[int] = awaitables.to_awaitable(value)
+
+            # THEN
+            assert await result == expected_result
+
+        @mark.asyncio
+        async def test_t_future_value__should__return_t_awaitable(self) -> None:
+            """When value is a Future of T should return Awaitable[T]"""
+
+            # GIVEN
+            expected_result: int = 1
+
+            async def coroutine() -> int:
+                return expected_result
+
+            value: Future = asyncio.ensure_future(coroutine())
+
+            # WHEN
+            result: Awaitable[int] = awaitables.to_awaitable(value)
+
+            # THEN
+            assert await result == expected_result
+
+        async def test_not_awaitable_t_value__should__return_t_awaitable(self) -> None:
+            """When value of T is not an awaitable should return Awaitable[T]"""
+            # GIVEN
+            value: int = 1
+
+            # WHEN
+            result: Awaitable[int] = awaitables.to_awaitable(value)
+
+            # THEN
+            assert await result == value
