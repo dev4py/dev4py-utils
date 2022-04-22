@@ -86,7 +86,7 @@ class JOptional(Generic[T]):
         """
         return self.or_else_raise()
 
-    def or_else(self, other: Optional[T]) -> Optional[T]:
+    def or_else(self, other: Optional[T] = None) -> Optional[T]:
         """
         If a value is present, returns the value, otherwise returns other
         Args:
@@ -97,7 +97,7 @@ class JOptional(Generic[T]):
         """
         return self.or_else_get(lambda: other)
 
-    def or_else_get(self, supplier: Supplier[Optional[T]]) -> Optional[T]:
+    def or_else_get(self, supplier: Supplier[Optional[T]] = lambda: None) -> Optional[T]:
         """
         If a value is present, returns the value, otherwise returns the result produced by the supplying function
 

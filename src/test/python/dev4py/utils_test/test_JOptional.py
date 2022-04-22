@@ -224,6 +224,17 @@ class TestJOptional:
                 # THEN
                 assert result is None
 
+            def test_none_value_and_no_default__should__return_none(self) -> None:
+                """When no value is provided and no default value, return None value"""
+                # GIVEN
+                optional: JOptional[int] = JOptional.empty()
+
+                # WHEN
+                result: Optional[int] = optional.or_else()
+
+                # THEN
+                assert result is None
+
     class TestOrElseGet:
         """or_else_get method tests"""
 
@@ -265,6 +276,17 @@ class TestJOptional:
 
                 # THEN
                 assert result == default_value
+
+            def test_none_value_and_no_supplier__should__return_none_value(self) -> None:
+                """When no value is provided, return the supplied default value"""
+                # GIVEN
+                optional: JOptional[int] = JOptional.empty()
+
+                # WHEN
+                result: Optional[int] = optional.or_else_get()
+
+                # THEN
+                assert result is None
 
         class TestErrorCase:
             def test_none_value_and_none_supplier__should__raise_type_error(self) -> None:
