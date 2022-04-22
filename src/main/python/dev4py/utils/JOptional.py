@@ -3,9 +3,10 @@ from __future__ import annotations
 
 from typing import Generic, Optional, Final, Any, cast, Awaitable
 
+from dev4py import utils
 from dev4py.utils import objects
 from dev4py.utils.awaitables import is_awaitable
-from dev4py.utils.types import T, Supplier, Function, R, Consumer, Runnable, Predicate
+from dev4py.utils.types import T, Supplier, Function, R, Consumer, Runnable, Predicate, SyncOrAsync
 
 
 class JOptional(Generic[T]):
@@ -301,6 +302,17 @@ class JOptional(Generic[T]):
             JOptional: A JOptional with synchronized value (i.e. not an Awaitable value)
         """
         return JOptional.of_noneable(await cast(Awaitable[Any], self._value)) if self.is_awaitable() else self
+
+    def to_async_joptional(self) -> utils.AsyncJOptional[SyncOrAsync[T]]:
+        """
+        Convert the current JOptional to an AsyncJOptional
+
+        Note: It can be useful in order to use async mapper
+
+        Returns:
+            AsyncJOptional[T]: The corresponding AsyncJOptional
+        """
+        return utils.AsyncJOptional.of_noneable(self._value)
 
 
 # INIT STATIC VARIABLES

@@ -4,7 +4,7 @@ from unittest.mock import patch, MagicMock
 
 from pytest import raises, mark
 
-from dev4py.utils import AsyncJOptional
+from dev4py.utils import AsyncJOptional, JOptional
 from dev4py.utils.awaitables import to_awaitable, async_none
 from dev4py.utils.types import Supplier, Function, Consumer, Runnable, Predicate
 
@@ -1652,4 +1652,58 @@ class TestAsyncJOptional:
                 with raises(TypeError):
                     optional.peek(None)
 
-                await async_value  # Remove warning)
+                await async_value  # Remove warning
+
+    class TestToJOptional:
+        """to_joptional method tests"""
+
+        class TestNominalCase:
+            async def test_empty__should__return_awaitable_none_joptional(self) -> None:
+                """When empty AsyncJOptional should return empty JOptional[Awaitable[None]]"""
+                # GIVEN
+                async_optional: AsyncJOptional[str] = AsyncJOptional.empty()
+
+                # WHEN
+                optional: JOptional[Awaitable[str]] = async_optional.to_joptional()
+
+                # THEN
+                assert optional.is_awaitable()
+                assert await optional.get() is None
+
+            async def test_async_none_value__should__return_awaitable_none_joptional(self) -> None:
+                """When async None value should return empty JOptional[Awaitable[None]]"""
+                # GIVEN
+                async_optional: AsyncJOptional[str] = AsyncJOptional.of_noneable(async_none())
+
+                # WHEN
+                optional: JOptional[Awaitable[str]] = async_optional.to_joptional()
+
+                # THEN
+                assert optional.is_awaitable()
+                assert await optional.get() is None
+
+            async def test_str_value__should__return_awaitable_str_joptional(self) -> None:
+                """When str value should return an JOptional[Awaitable[str]] with value"""
+                # GIVEN
+                value: str = "A test value"
+                async_optional: AsyncJOptional[str] = AsyncJOptional.of(value)
+
+                # WHEN
+                optional: JOptional[Awaitable[str]] = async_optional.to_joptional()
+
+                # THEN
+                assert optional.is_awaitable()
+                assert await optional.get() == value
+
+            async def test_async_str_value__should__return_awaitable_str_joptional(self) -> None:
+                """When async str value should return an JOptional[Awaitable[str]] with value"""
+                # GIVEN
+                value: str = "A test value"
+                async_optional: AsyncJOptional[str] = AsyncJOptional.of(to_awaitable(value))
+
+                # WHEN
+                optional: JOptional[Awaitable[str]] = async_optional.to_joptional()
+
+                # THEN
+                assert optional.is_awaitable()
+                assert await optional.get() == value

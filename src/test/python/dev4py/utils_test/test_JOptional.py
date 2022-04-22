@@ -6,7 +6,8 @@ from unittest.mock import patch, MagicMock
 
 from pytest import raises, mark
 
-from dev4py.utils import JOptional
+from dev4py.utils import JOptional, AsyncJOptional
+from dev4py.utils.awaitables import to_awaitable
 from dev4py.utils.types import Supplier, Function, Consumer, Runnable, Predicate
 
 
@@ -992,3 +993,45 @@ class TestJOptional:
 
                 # THEN
                 assert result.get() == value
+
+    @mark.asyncio
+    class TestToAsyncJOptional:
+        """to_async_joptional method tests"""
+
+        class TestNominalCase:
+            async def test_empty__should__return_empty_async_joptional(self) -> None:
+                """When value is None should return empty AsyncJOptional"""
+                # GIVEN
+                optional: JOptional[str] = JOptional.empty()
+
+                # WHEN
+                async_optional: AsyncJOptional[str] = optional.to_async_joptional()
+
+                # THEN
+                assert await async_optional.is_empty()
+
+            async def test_str_value__should__return_str_async_joptional(self) -> None:
+                """When str value should return an AsyncJOptional[str] with value"""
+                # GIVEN
+                value: str = "A test value"
+                optional: JOptional[str] = JOptional.of(value)
+
+                # WHEN
+                async_optional: AsyncJOptional[str] = optional.to_async_joptional()
+
+                # THEN
+                assert await async_optional.is_present()
+                assert await async_optional.get() == value
+
+            async def test_async_str_value__should__return_str_async_joptional(self) -> None:
+                """When str value should return an AsyncJOptional[str] with value"""
+                # GIVEN
+                value: str = "A test value"
+                optional: JOptional[Awaitable[str]] = JOptional.of(to_awaitable(value))
+
+                # WHEN
+                async_optional: AsyncJOptional[str] = optional.to_async_joptional()
+
+                # THEN
+                assert await async_optional.is_present()
+                assert await async_optional.get() == value

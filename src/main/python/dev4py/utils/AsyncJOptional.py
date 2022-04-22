@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import Generic, Final, Optional, TypeAlias, cast, Any, Awaitable, TypeVar
 
+from dev4py.utils import JOptional
 from dev4py.utils.awaitables import is_awaitable
 from dev4py.utils.objects import async_require_non_none, non_none, is_none, require_non_none
 from dev4py.utils.types import T, SyncOrAsync, Supplier, Function, R, Consumer, Runnable, Predicate
@@ -324,6 +325,17 @@ class AsyncJOptional(Generic[T]):
             return await current.or_else_get()
 
         return AsyncJOptional.of_noneable(_async_peek(self, consumer))
+
+    def to_joptional(self) -> JOptional[Awaitable[Optional[T]]]:
+        """
+        Convert the current AsyncJOptional to a JOptional
+
+        Note: the returned JOptional will contain an Awaitable[Optional[T]] value
+
+        Returns:
+            JOptional[Awaitable[Optional[T]]]: The corresponding JOptional
+        """
+        return JOptional.of_noneable(cast(Awaitable[Optional[T]], self._get_value()))
 
 
 # INIT STATIC VARIABLES
