@@ -130,8 +130,9 @@ class AsyncJOptional(Generic[T]):
             value: The value, if present, otherwise the result produced by the supplying function
 
         Raises:
-            TypeError: if the value is empty and the supplying function is None
+            TypeError: if the supplying function is None
         """
+        require_non_none(supplier)
         return cast(Optional[T], self._value if await self.is_present() else supplier())
 
     async def or_else_raise(
@@ -150,8 +151,9 @@ class AsyncJOptional(Generic[T]):
 
         Raises:
             Exception: If value is empty
-            TypeError: if value is empty and the exception supplying function is None
+            TypeError: if the exception supplying function is None
         """
+        require_non_none(supplier)
         if await self.is_empty():
             raise supplier()
         return cast(T, self._value)
@@ -243,8 +245,9 @@ class AsyncJOptional(Generic[T]):
             Nothing
 
         Raises:
-            TypeError: if the consumer is None and the value is present
+            TypeError: if the consumer is None
         """
+        require_non_none(consumer)
         # pylint: disable=W0106
         (await self.is_present()) and consumer(cast(T, self._value))
 
@@ -259,8 +262,9 @@ class AsyncJOptional(Generic[T]):
             Nothing
 
         Raises:
-            TypeError: if the runnable is None and the value is not present
+            TypeError: if the runnable is None
         """
+        require_non_none(empty_action)
         # pylint: disable=W0106
         (await self.is_empty()) and empty_action()
 
@@ -276,9 +280,10 @@ class AsyncJOptional(Generic[T]):
             Nothing
 
         Raises:
-            TypeError: if the consumer is None and the value is present or if the runnable is None and the value is not
-            present
+            TypeError: if the consumer is None or if the runnable is None
         """
+        require_non_none(consumer)
+        require_non_none(empty_action)
         # pylint: disable=W0106
         consumer(cast(T, self._value)) if await self.is_present() else empty_action()
 

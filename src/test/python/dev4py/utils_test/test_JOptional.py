@@ -253,18 +253,6 @@ class TestJOptional:
                 # THEN
                 assert result == value
 
-            def test_value_exists_and_none_supplier__should__return_value(self) -> None:
-                """When value is provided but supplier is none, return the value"""
-                # GIVEN
-                value: int = 1
-                optional: JOptional[int] = JOptional.of_noneable(value)
-
-                # WHEN
-                result: int = optional.or_else_get(None)
-
-                # THEN
-                assert result == value
-
             def test_none_value__should__return_supplied_value(self) -> None:
                 """When no value is provided, return the supplied default value"""
                 # GIVEN
@@ -299,6 +287,16 @@ class TestJOptional:
                 with raises(TypeError):
                     optional.or_else_get(None)
 
+            def test_value_exists_and_none_supplier__should__raise_type_error(self) -> None:
+                """When value is provided but supplier is none, should raise a TypeError exception"""
+                # GIVEN
+                value: int = 1
+                optional: JOptional[int] = JOptional.of_noneable(value)
+
+                # WHEN / THEN
+                with raises(TypeError):
+                    optional.or_else_get(None)
+
     class TestOrElseRaise:
         """or_else_raise method tests"""
 
@@ -312,18 +310,6 @@ class TestJOptional:
 
                 # WHEN
                 result: int = optional.or_else_raise(supplier)
-
-                # THEN
-                assert result == value
-
-            def test_value_exists_and_none_supplier__should__return_value(self) -> None:
-                """When value is provided but supplier is none, return the value"""
-                # GIVEN
-                value: int = 1
-                optional: JOptional[int] = JOptional.of_noneable(value)
-
-                # WHEN
-                result: int = optional.or_else_raise(None)
 
                 # THEN
                 assert result == value
@@ -346,6 +332,16 @@ class TestJOptional:
                 """When no value and no supplier are provided, should raise a TypeError exception"""
                 # GIVEN
                 optional: JOptional[int] = JOptional.empty()
+
+                # WHEN / THEN
+                with raises(TypeError):
+                    optional.or_else_raise(None)
+
+            def test_value_exists_and_none_supplier__should__raise_type_error(self) -> None:
+                """When value is provided but supplier is none, should raise a TypeError exception"""
+                # GIVEN
+                value: int = 1
+                optional: JOptional[int] = JOptional.of_noneable(value)
 
                 # WHEN / THEN
                 with raises(TypeError):
@@ -550,23 +546,20 @@ class TestJOptional:
                 # THEN
                 print_mock.assert_not_called()
 
-            @patch('builtins.print')
-            def test_none_value_and_none_consumer__should__do_nothing(self, print_mock: MagicMock) -> None:
-                """When no value and no consummer are provided, should do nothing"""
-                # GIVEN
-                optional: JOptional[int] = JOptional.empty()
-
-                # WHEN
-                optional.if_present(None)
-
-                # THEN
-                print_mock.assert_not_called()
-
         class TestErrorCase:
             def test_value_exists_and_none_consumer__should__raise_type_error(self) -> None:
                 """When value is provided but consumer is not, should raise a TypeError exception"""
                 # GIVEN
                 optional: JOptional[int] = JOptional.of(1)
+
+                # WHEN / THEN
+                with raises(TypeError):
+                    optional.if_present(None)
+
+            def test_none_value_and_none_consumer__should__raise_type_error(self) -> None:
+                """When no value and no consumer are provided, should raise a TypeError exception"""
+                # GIVEN
+                optional: JOptional[int] = JOptional.empty()
 
                 # WHEN / THEN
                 with raises(TypeError):
@@ -591,18 +584,6 @@ class TestJOptional:
                 print_mock.assert_not_called()
 
             @patch('builtins.print')
-            def test_value_exists_and_none_runnable__should__do_nothing(self, print_mock: MagicMock) -> None:
-                """When value is provided but runnable is not, should do nothing"""
-                # GIVEN
-                optional: JOptional[int] = JOptional.of(1)
-
-                # WHEN
-                optional.if_empty(cast(Runnable, None))
-
-                # THEN
-                print_mock.assert_not_called()
-
-            @patch('builtins.print')
             def test_none_value__should__call_given_runnable(self, print_mock: MagicMock) -> None:
                 """When no value is provided, should call the given runnable"""
                 # GIVEN
@@ -618,9 +599,18 @@ class TestJOptional:
 
         class TestErrorCase:
             def test_none_value_and_none_runnable__should__raise_type_error(self) -> None:
-                """When no value and no consummer are provided, should do nothing"""
+                """When no value and no consummer are provided, should raise TypeError exception"""
                 # GIVEN
                 optional: JOptional[int] = JOptional.empty()
+
+                # WHEN / THEN
+                with raises(TypeError):
+                    optional.if_empty(cast(Runnable, None))
+
+            def test_value_exists_and_none_runnable__should__raise_type_error(self) -> None:
+                """When value is provided but runnable is not, should raise TypeError exception"""
+                # GIVEN
+                optional: JOptional[int] = JOptional.of(1)
 
                 # WHEN / THEN
                 with raises(TypeError):
@@ -656,35 +646,6 @@ class TestJOptional:
 
                 # WHEN
                 optional.if_present_or_else(consumer, runnable)
-
-                # THEN
-                print_mock.assert_called_once_with(message)
-
-            @patch('builtins.print')
-            def test_value_exists_and_none_runnable__should__call_given_consumer(self,
-                                                                                 print_mock: MagicMock) -> None:
-                """When value is provided but not the runnable, should call the given consumer"""
-                # GIVEN
-                value: int = 1
-                optional: JOptional[int] = JOptional.of(value)
-                consumer: Consumer[[int]] = print
-
-                # WHEN
-                optional.if_present_or_else(consumer, cast(Runnable, None))
-
-                # THEN
-                print_mock.assert_called_once_with(value)
-
-            @patch('builtins.print')
-            def test_none_value_and_none_consumer__should__call_given_runnable(self, print_mock: MagicMock) -> None:
-                """When value is not provided and consumer is None, should call the given runnable"""
-                # GIVEN
-                message: str = "A test message"
-                optional: JOptional[int] = JOptional.empty()
-                runnable: Runnable = lambda: print("A test message")
-
-                # WHEN
-                optional.if_present_or_else(None, runnable)
 
                 # THEN
                 print_mock.assert_called_once_with(message)
@@ -729,6 +690,27 @@ class TestJOptional:
                 # WHEN / THEN
                 with raises(TypeError):
                     optional.if_present_or_else(consumer, cast(Runnable, None))
+
+            def test_value_exists_and_none_runnable__should__raise_type_error(self) -> None:
+                """When value is provided but not the runnable, should raise a TypeError exception"""
+                # GIVEN
+                value: int = 1
+                optional: JOptional[int] = JOptional.of(value)
+                consumer: Consumer[[int]] = print
+
+                # WHEN / THEN
+                with raises(TypeError):
+                    optional.if_present_or_else(consumer, cast(Runnable, None))
+
+            def test_none_value_and_none_consumer__should__raise_type_error(self) -> None:
+                """When value is not provided and consumer is None, should raise a TypeError exception"""
+                # GIVEN
+                optional: JOptional[int] = JOptional.empty()
+                runnable: Runnable = lambda: print("A test message")
+
+                # WHEN / THEN
+                with raises(TypeError):
+                    optional.if_present_or_else(None, runnable)
 
     class TestFilter:
         """filter method tests"""

@@ -109,8 +109,9 @@ class JOptional(Generic[T]):
             value: The value, if present, otherwise the result produced by the supplying function
 
         Raises:
-            TypeError: if no value is present and the supplying function is None
+            TypeError: if the supplying function is None
         """
+        objects.require_non_none(supplier)
         return self._value if self.is_present() else supplier()
 
     def or_else_raise(
@@ -127,9 +128,10 @@ class JOptional(Generic[T]):
             value: The value, if present
 
         Raises:
-            Exception: If no value is present
-            TypeError: if no value is present and the exception supplying function is None
+            Exception: if the supplying function is None
+            TypeError: if supplier is None
         """
+        objects.require_non_none(supplier)
         if self.is_empty():
             raise supplier()
         return cast(T, self._value)
@@ -206,8 +208,9 @@ class JOptional(Generic[T]):
             Nothing
 
         Raises:
-            TypeError: if the consumer is None and the value is present
+            TypeError: if the consumer is None
         """
+        objects.require_non_none(consumer)
         # pylint: disable=W0106
         self.is_present() and consumer(cast(T, self._value))
 
@@ -222,8 +225,9 @@ class JOptional(Generic[T]):
             Nothing
 
         Raises:
-            TypeError: if the runnable is None and the value is not present
+            TypeError: if the runnable is None
         """
+        objects.require_non_none(empty_action)
         # pylint: disable=W0106
         self.is_empty() and empty_action()
 
@@ -239,9 +243,10 @@ class JOptional(Generic[T]):
             Nothing
 
         Raises:
-            TypeError: if the consumer is None and the value is present or if the runnable is None and the value is not
-            present
+            TypeError: if the consumer is None or if the runnable is None
         """
+        objects.require_non_none(consumer)
+        objects.require_non_none(empty_action)
         # pylint: disable=W0106
         consumer(cast(T, self._value)) if self.is_present() else empty_action()
 
