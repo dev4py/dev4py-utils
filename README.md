@@ -15,6 +15,7 @@ A set of Python regularly used classes/functions
 - [Project template](#project-template)
 - [Project links](#project-links)
 - [Dev4py-utils modules](#dev4py-utils-modules)
+    * [dev4py.utils.AsyncJOptional](#dev4pyutilsasyncjoptional)
     * [dev4py.utils.awaitables](#dev4pyutilsawaitables)
     * [dev4py.utils.JOptional](#dev4pyutilsjoptional)
     * [dev4py.utils.objects](#dev4pyutilsobjects)
@@ -30,6 +31,38 @@ This project is based on [pymsdl_template](https://github.com/dev4py/pymsdl_temp
 * [PyPi project](https://pypi.org/project/dev4py-utils/)
 
 ## Dev4py-utils modules
+
+### dev4py.utils.AsyncJOptional
+
+[AsyncJOptional documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/AsyncJOptional.html)
+
+> ***Note:** [AsyncJOptional](src/main/python/dev4py/utils/AsyncJOptional.py) class is designed in order to simplify
+> JOptional with async mapper*
+
+> **Note:** AsyncJOptional support T or Awaitable[T] values. That's why some checks are done when terminal operation is
+> called with `await`*
+
+Examples:
+
+```python
+import asyncio
+from dev4py.utils import AsyncJOptional
+
+def sync_mapper(i: int) -> int:
+  return i * 2
+
+async def async_mapper(i: int) -> str:
+  return f"The value is {i}"
+
+async def async_sample() -> None:
+  value: int = 1
+  await AsyncJOptional.of_noneable(value)\
+    .map(sync_mapper)\
+    .map(async_mapper)\
+    .if_present(print)
+
+asyncio.run(async_sample())
+```
 
 ### dev4py.utils.awaitables
 
@@ -50,14 +83,13 @@ awaitables.is_awaitable(print("Hello"))  # False
 def mapper(s: str) -> str:
     return s + "_suffix"
 
-
 async def async_mapper(s: str) -> str:
     await asyncio.sleep(1)
     return s + "_async_suffix"
 
-
 async def async_test():
     # Note: mapper parameter is str and async_mapper returns an Awaitable[str] so we have to manage it
+    # Note: !WARNING! Since 3.0.0 see AsyncJOptional / JOptional to_async_joptional method
     result: str = await JOptional.of("A value")\
       .map(async_mapper)\
       .map(awaitables.to_sync_or_async_param_function(mapper))\
@@ -80,7 +112,7 @@ Examples:
 ```python
 from dev4py.utils import JOptional
 
-value = 1
+value: int = 1
 JOptional.of_noneable(value)\
   .map(lambda v: f"The value is {v}")\
   .if_present(print)
@@ -134,15 +166,12 @@ str_result: str = int_to_str(1)
 str_predicate: Predicate[str] = lambda s: s == "A value"
 pred_result = str_predicate("Value to test")
 
-
 # Consumer sample
 def sample(consumer: Consumer[str], value: str) -> None:
     consumer(value)
 
-
 def my_consumer(arg: str) -> None:
     print(arg)
-
 
 sample(my_consumer, "My value")
 ```
