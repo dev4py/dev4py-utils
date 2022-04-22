@@ -1,8 +1,7 @@
 """objects module tests"""
 from typing import Optional, Final
 
-import pytest
-from pytest import raises
+from pytest import raises, mark
 
 from dev4py.utils import objects
 from dev4py.utils.types import Supplier
@@ -294,7 +293,7 @@ class TestToString:
             assert result == str(None)
 
 
-@pytest.mark.asyncio
+@mark.asyncio
 class TestAsyncRequireNonNone:
     """async_require_non_none function tests"""
     DEFAULT_ERROR_MESSAGE: Final[str] = "None async object error"
@@ -336,6 +335,7 @@ class TestAsyncRequireNonNone:
 
         async def test_none_async_value__should__raise_type_error(self) -> None:
             """When the value is an awaitable with None result, should raise TypeError with default message"""
+
             # GIVEN
             async def coroutine() -> None:
                 return None
@@ -356,3 +356,270 @@ class TestAsyncRequireNonNone:
                 await objects.async_require_non_none(None, message=message)
 
             assert str(error.value) == message
+
+
+@mark.asyncio
+class TestAsyncRequireNonNoneElse:
+    """async_require_non_none_else function tests"""
+
+    class TestNominalCase:
+        async def test_non_none_value__should__return_value(self) -> None:
+            """When the value is not None, should return it"""
+            # GIVEN
+            value: str = "A value"
+            default_value: str = "A default value"
+
+            # WHEN
+            result: str = await objects.async_require_non_none_else(value, default=default_value)
+
+            # THEN
+            assert result == value
+
+        async def test_non_none_async_value__should__return_value(self) -> None:
+            """When the value is a non None async value, should return it"""
+            # GIVEN
+            value: str = "A value"
+
+            async def coroutine() -> str: return value
+
+            default_value: str = "A default value"
+
+            # WHEN
+            result: str = await objects.async_require_non_none_else(coroutine(), default=default_value)
+
+            # THEN
+            assert result == value
+
+        async def test_non_none_value_with_none_default__should__return_value(self) -> None:
+            """When the value is not None and default value is None, should return the value"""
+            # GIVEN
+            value: str = "A value"
+            # noinspection PyTypeChecker
+            default_value: str = None
+
+            # WHEN
+            result: str = await objects.async_require_non_none_else(value, default=default_value)
+
+            # THEN
+            assert result == value
+
+        async def test_non_none_async_value_with_none_default__should__return_value(self) -> None:
+            """When the value is non None async value and default value is None, should return the value"""
+            # GIVEN
+            value: str = "A value"
+
+            async def coroutine() -> str: return value
+
+            # noinspection PyTypeChecker
+            default_value: str = None
+
+            # WHEN
+            result: str = await objects.async_require_non_none_else(coroutine(), default=default_value)
+
+            # THEN
+            assert result == value
+
+        async def test_none_value__should__return_the_default_value(self) -> None:
+            """When the value is None, should return the default value"""
+            # GIVEN
+            value: Optional[str] = None
+            default_value: str = "A default value"
+
+            # WHEN
+            result: str = await objects.async_require_non_none_else(value, default=default_value)
+
+            # THEN
+            assert result == default_value
+
+        async def test_none_async_value__should__return_the_default_value(self) -> None:
+            """When the value is None async value, should return the default value"""
+
+            # GIVEN
+            async def coroutine() -> Optional[str]: return None
+
+            default_value: str = "A default value"
+
+            # WHEN
+            result: str = await objects.async_require_non_none_else(coroutine(), default=default_value)
+
+            # THEN
+            assert result == default_value
+
+    class TestErrorCase:
+
+        async def test_none_value_with_none_default__should__raise_type_error(self) -> None:
+            """When the value and default are None, should raise TypeError"""
+            # GIVEN / WHEN / THEN
+            with raises(TypeError) as error:
+                await objects.async_require_non_none_else(None, default=None)
+
+            assert str(error.value) == TestRequireNonNone.DEFAULT_ERROR_MESSAGE
+
+        async def test_none_async_value_with_none_default__should__raise_type_error(self) -> None:
+            """When the async value and default are None, should raise TypeError"""
+
+            # GIVEN
+            async def coroutine() -> Optional[str]: return None
+
+            # WHEN / THEN
+            with raises(TypeError) as error:
+                await objects.async_require_non_none_else(coroutine(), default=None)
+
+            assert str(error.value) == TestRequireNonNone.DEFAULT_ERROR_MESSAGE
+
+
+@mark.asyncio
+class TestRequireNonNoneElseGet:
+    """async_require_non_none_else_get function tests"""
+
+    class TestNominalCase:
+        async def test_non_none_value__should__return_value(self) -> None:
+            """When the value is not None, should return it"""
+            # GIVEN
+            value: str = "A value"
+            default_supplier: Supplier[str] = lambda: "A default value"
+
+            # WHEN
+            result: str = await objects.async_require_non_none_else_get(value, supplier=default_supplier)
+
+            # THEN
+            assert result == value
+
+        async def test_non_none_async_value__should__return_value(self) -> None:
+            """When the value is non None async, should return it"""
+            # GIVEN
+            value: str = "A value"
+            default_supplier: Supplier[str] = lambda: "A default value"
+
+            async def coroutine() -> str: return value
+
+            # WHEN
+            result: str = await objects.async_require_non_none_else_get(coroutine(), supplier=default_supplier)
+
+            # THEN
+            assert result == value
+
+        async def test_non_none_value_with_none_default__should__return_value(self) -> None:
+            """When the value is not None and default supplier value is None, should return the value"""
+            # GIVEN
+            value: str = "A value"
+            # noinspection PyTypeChecker
+            default_supplier: Supplier[str] = lambda: None
+
+            # WHEN
+            result: str = await objects.async_require_non_none_else_get(value, supplier=default_supplier)
+
+            # THEN
+            assert result == value
+
+        async def test_non_none_async_value_with_none_default__should__return_value(self) -> None:
+            """When the value is non None async and default supplier value is None, should return the value"""
+            # GIVEN
+            value: str = "A value"
+            # noinspection PyTypeChecker
+            default_supplier: Supplier[str] = lambda: None
+
+            async def coroutine() -> str: return value
+
+            # WHEN
+            result: str = await objects.async_require_non_none_else_get(coroutine(), supplier=default_supplier)
+
+            # THEN
+            assert result == value
+
+        async def test_non_none_value_with_none_supplier__should__return_value(self) -> None:
+            """When the value is not None and default supplier is None, should return the value"""
+            # GIVEN
+            value: str = "A value"
+            # noinspection PyTypeChecker
+            default_supplier: Supplier[str] = None
+
+            # WHEN
+            result: str = await objects.async_require_non_none_else_get(value, supplier=default_supplier)
+
+            # THEN
+            assert result == value
+
+        async def test_non_none_async_value_with_none_supplier__should__return_value(self) -> None:
+            """When the value is non None async and default supplier is None, should return the value"""
+            # GIVEN
+            value: str = "A value"
+            # noinspection PyTypeChecker
+            default_supplier: Supplier[str] = None
+
+            async def coroutine() -> str: return value
+
+            # WHEN
+            result: str = await objects.async_require_non_none_else_get(coroutine(), supplier=default_supplier)
+
+            # THEN
+            assert result == value
+
+        async def test_none_value__should__return_the_default_value(self) -> None:
+            """When the value is None, should return the default value"""
+            # GIVEN
+            value: Optional[str] = None
+            default_value: str = "A default value"
+            default_supplier: Supplier[str] = lambda: default_value
+
+            # WHEN
+            result: str = await objects.async_require_non_none_else_get(value, supplier=default_supplier)
+
+            # THEN
+            assert result == default_value
+
+        async def test_none_async_value__should__return_the_default_value(self) -> None:
+            """When the value is async None, should return the default value"""
+            # GIVEN
+            default_value: str = "A default value"
+            default_supplier: Supplier[str] = lambda: default_value
+
+            async def coroutine() -> Optional[str]: return None
+
+            # WHEN
+            result: str = await objects.async_require_non_none_else_get(coroutine(), supplier=default_supplier)
+
+            # THEN
+            assert result == default_value
+
+    class TestErrorCase:
+
+        async def test_none_value_with_none_default__should__raise_type_error(self) -> None:
+            """When the value and default are None, should raise TypeError"""
+            # GIVEN / WHEN / THEN
+            with raises(TypeError) as error:
+                await objects.async_require_non_none_else_get(None, supplier=lambda: None)
+
+            assert str(error.value) == TestRequireNonNone.DEFAULT_ERROR_MESSAGE
+
+        async def test_none_async_value_with_none_default__should__raise_type_error(self) -> None:
+            """When the value is async None and default are None, should raise TypeError"""
+
+            # GIVEN
+            async def coroutine() -> Optional[str]: return None
+
+            # WHEN / THEN
+            with raises(TypeError) as error:
+                await objects.async_require_non_none_else_get(coroutine(), supplier=lambda: None)
+
+            assert str(error.value) == TestRequireNonNone.DEFAULT_ERROR_MESSAGE
+
+        async def test_none_value_with_none_supplier__should__raise_type_error(self) -> None:
+            """When the value and supplier are None, should raise TypeError"""
+            # GIVEN / WHEN / THEN
+            with raises(TypeError) as error:
+                await objects.async_require_non_none_else_get(None, None)
+
+            assert str(error.value) == "Supplier cannot be None"
+
+        async def test_none_async_value_with_none_supplier__should__raise_type_error(self) -> None:
+            """When the value is None async and supplier are None, should raise TypeError"""
+
+            # GIVEN
+            async def coroutine() -> Optional[str]: return None
+
+            # WHEN / THEN
+            with raises(TypeError) as error:
+                await objects.async_require_non_none_else_get(coroutine(), None)
+
+            assert str(error.value) == "Supplier cannot be None"
