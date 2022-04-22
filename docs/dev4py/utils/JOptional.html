@@ -93,6 +93,9 @@
                         <li>
                                 <a class="function" href="#JOptional.to_sync_value">to_sync_value</a>
                         </li>
+                        <li>
+                                <a class="function" href="#JOptional.to_async_joptional">to_async_joptional</a>
+                        </li>
                 </ul>
 
             </li>
@@ -122,9 +125,10 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Final</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">cast</span><span class="p">,</span> <span class="n">Awaitable</span>
 
+<span class="kn">from</span> <span class="nn">dev4py</span> <span class="kn">import</span> <span class="n">utils</span>
 <span class="kn">from</span> <span class="nn">dev4py.utils</span> <span class="kn">import</span> <span class="n">objects</span>
 <span class="kn">from</span> <span class="nn">dev4py.utils.awaitables</span> <span class="kn">import</span> <span class="n">is_awaitable</span>
-<span class="kn">from</span> <span class="nn">dev4py.utils.types</span> <span class="kn">import</span> <span class="n">T</span><span class="p">,</span> <span class="n">Supplier</span><span class="p">,</span> <span class="n">Function</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">Consumer</span><span class="p">,</span> <span class="n">Runnable</span><span class="p">,</span> <span class="n">Predicate</span>
+<span class="kn">from</span> <span class="nn">dev4py.utils.types</span> <span class="kn">import</span> <span class="n">T</span><span class="p">,</span> <span class="n">Supplier</span><span class="p">,</span> <span class="n">Function</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">Consumer</span><span class="p">,</span> <span class="n">Runnable</span><span class="p">,</span> <span class="n">Predicate</span><span class="p">,</span> <span class="n">SyncOrAsync</span>
 
 
 <span class="k">class</span> <span class="nc">JOptional</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
@@ -160,7 +164,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            JOptional[T]: A JOptional of value T type with the value present if the specified value is non-None,</span>
-<span class="sd">            otherwise an empty Optional</span>
+<span class="sd">            otherwise an empty JOptional</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">empty</span><span class="p">()</span> <span class="k">if</span> <span class="n">objects</span><span class="o">.</span><span class="n">is_none</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">else</span> <span class="bp">cls</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
 
@@ -201,11 +205,11 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">            value: The non-None value described by this JOptional</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            ValueError: Raises a ValueError no value is present</span>
+<span class="sd">            ValueError: Raises a ValueError if no value is present</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">or_else_raise</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">or_else</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">or_else</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        If a value is present, returns the value, otherwise returns other</span>
 <span class="sd">        Args:</span>
@@ -216,7 +220,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">or_else_get</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">other</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">or_else_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">supplier</span><span class="p">:</span> <span class="n">Supplier</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">or_else_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">supplier</span><span class="p">:</span> <span class="n">Supplier</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]]</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        If a value is present, returns the value, otherwise returns the result produced by the supplying function</span>
 
@@ -227,8 +231,9 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">            value: The value, if present, otherwise the result produced by the supplying function</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            TypeError: if no value is present and the supplying function is None</span>
+<span class="sd">            TypeError: if the supplying function is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">supplier</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_present</span><span class="p">()</span> <span class="k">else</span> <span class="n">supplier</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">or_else_raise</span><span class="p">(</span>
@@ -245,9 +250,10 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">            value: The value, if present</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            Exception: If no value is present</span>
-<span class="sd">            TypeError: if no value is present and the exception supplying function is None</span>
+<span class="sd">            Exception: if the supplying function is None</span>
+<span class="sd">            TypeError: if supplier is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">supplier</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
             <span class="k">raise</span> <span class="n">supplier</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">)</span>
@@ -267,7 +273,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">            a JOptional produced by the supplying function</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            TypeError: if the supplying function is None or value is not present and produces a None result</span>
+<span class="sd">            TypeError: if the supplying function is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">supplier</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_present</span><span class="p">()</span> <span class="k">else</span> <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">supplier</span><span class="p">())</span>
@@ -289,7 +295,8 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">        Raises:</span>
 <span class="sd">            TypeError: If the mapping function is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">flat_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">JOptional</span><span class="o">.</span><span class="n">of_noneable</span><span class="p">(</span><span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">mapper</span><span class="p">)(</span><span class="n">v</span><span class="p">)))</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">mapper</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">flat_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">JOptional</span><span class="o">.</span><span class="n">of_noneable</span><span class="p">(</span><span class="n">mapper</span><span class="p">(</span><span class="n">v</span><span class="p">)))</span>
 
     <span class="k">def</span> <span class="nf">flat_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapper</span><span class="p">:</span> <span class="n">Function</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="n">JOptional</span><span class="p">[</span><span class="n">R</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">JOptional</span><span class="p">[</span><span class="n">R</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -307,7 +314,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">            if a value is present, otherwise an empty JOptional</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            TypeError: if the mapping function is None or returns a None result</span>
+<span class="sd">            TypeError: if the mapping function is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">mapper</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">JOptional</span><span class="o">.</span><span class="n">empty</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">()</span> <span class="k">else</span> <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">mapper</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">)))</span>
@@ -323,8 +330,9 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">            Nothing</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            TypeError: if the consumer is None and the value is present</span>
+<span class="sd">            TypeError: if the consumer is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">consumer</span><span class="p">)</span>
         <span class="c1"># pylint: disable=W0106</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_present</span><span class="p">()</span> <span class="ow">and</span> <span class="n">consumer</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">))</span>
 
@@ -339,8 +347,9 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">            Nothing</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            TypeError: if the runnable is None and the value is not present</span>
+<span class="sd">            TypeError: if the runnable is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">empty_action</span><span class="p">)</span>
         <span class="c1"># pylint: disable=W0106</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">()</span> <span class="ow">and</span> <span class="n">empty_action</span><span class="p">()</span>
 
@@ -356,9 +365,10 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">            Nothing</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            TypeError: if the consumer is None and the value is present or if the runnable is None and the value is not</span>
-<span class="sd">            present</span>
+<span class="sd">            TypeError: if the consumer is None or if the runnable is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">consumer</span><span class="p">)</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">empty_action</span><span class="p">)</span>
         <span class="c1"># pylint: disable=W0106</span>
         <span class="n">consumer</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">))</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_present</span><span class="p">()</span> <span class="k">else</span> <span class="n">empty_action</span><span class="p">()</span>
 
@@ -377,6 +387,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">        Raises:</span>
 <span class="sd">            TypeError: if the predicate is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">()</span> <span class="ow">or</span> <span class="n">predicate</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">))</span> <span class="k">else</span> <span class="n">JOptional</span><span class="o">.</span><span class="n">empty</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">peek</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">consumer</span><span class="p">:</span> <span class="n">Consumer</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">JOptional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
@@ -391,8 +402,9 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">             JOptional[T]: The current JOptional (self)</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            TypeError: if the consumer is None and the value is present</span>
+<span class="sd">            TypeError: if the consumer is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">consumer</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">if_present</span><span class="p">(</span><span class="n">consumer</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span>
 
@@ -417,6 +429,17 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">            JOptional: A JOptional with synchronized value (i.e. not an Awaitable value)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">JOptional</span><span class="o">.</span><span class="n">of_noneable</span><span class="p">(</span><span class="k">await</span> <span class="n">cast</span><span class="p">(</span><span class="n">Awaitable</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">))</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_awaitable</span><span class="p">()</span> <span class="k">else</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">to_async_joptional</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">utils</span><span class="o">.</span><span class="n">AsyncJOptional</span><span class="p">[</span><span class="n">SyncOrAsync</span><span class="p">[</span><span class="n">T</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert the current JOptional to an AsyncJOptional</span>
+
+<span class="sd">        Note: It can be useful in order to use async mapper</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            AsyncJOptional[T]: The corresponding AsyncJOptional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">utils</span><span class="o">.</span><span class="n">AsyncJOptional</span><span class="o">.</span><span class="n">of_noneable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">)</span>
 
 
 <span class="c1"># INIT STATIC VARIABLES</span>
@@ -473,7 +496,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            JOptional[T]: A JOptional of value T type with the value present if the specified value is non-None,</span>
-<span class="sd">            otherwise an empty Optional</span>
+<span class="sd">            otherwise an empty JOptional</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">empty</span><span class="p">()</span> <span class="k">if</span> <span class="n">objects</span><span class="o">.</span><span class="n">is_none</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">else</span> <span class="bp">cls</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
 
@@ -514,11 +537,11 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">            value: The non-None value described by this JOptional</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            ValueError: Raises a ValueError no value is present</span>
+<span class="sd">            ValueError: Raises a ValueError if no value is present</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">or_else_raise</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">or_else</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">or_else</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        If a value is present, returns the value, otherwise returns other</span>
 <span class="sd">        Args:</span>
@@ -529,7 +552,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">or_else_get</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">other</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">or_else_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">supplier</span><span class="p">:</span> <span class="n">Supplier</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">or_else_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">supplier</span><span class="p">:</span> <span class="n">Supplier</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]]</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        If a value is present, returns the value, otherwise returns the result produced by the supplying function</span>
 
@@ -540,8 +563,9 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">            value: The value, if present, otherwise the result produced by the supplying function</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            TypeError: if no value is present and the supplying function is None</span>
+<span class="sd">            TypeError: if the supplying function is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">supplier</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_present</span><span class="p">()</span> <span class="k">else</span> <span class="n">supplier</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">or_else_raise</span><span class="p">(</span>
@@ -558,9 +582,10 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">            value: The value, if present</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            Exception: If no value is present</span>
-<span class="sd">            TypeError: if no value is present and the exception supplying function is None</span>
+<span class="sd">            Exception: if the supplying function is None</span>
+<span class="sd">            TypeError: if supplier is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">supplier</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
             <span class="k">raise</span> <span class="n">supplier</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">)</span>
@@ -580,7 +605,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">            a JOptional produced by the supplying function</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            TypeError: if the supplying function is None or value is not present and produces a None result</span>
+<span class="sd">            TypeError: if the supplying function is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">supplier</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_present</span><span class="p">()</span> <span class="k">else</span> <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">supplier</span><span class="p">())</span>
@@ -602,7 +627,8 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">        Raises:</span>
 <span class="sd">            TypeError: If the mapping function is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">flat_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">JOptional</span><span class="o">.</span><span class="n">of_noneable</span><span class="p">(</span><span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">mapper</span><span class="p">)(</span><span class="n">v</span><span class="p">)))</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">mapper</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">flat_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">JOptional</span><span class="o">.</span><span class="n">of_noneable</span><span class="p">(</span><span class="n">mapper</span><span class="p">(</span><span class="n">v</span><span class="p">)))</span>
 
     <span class="k">def</span> <span class="nf">flat_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapper</span><span class="p">:</span> <span class="n">Function</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="n">JOptional</span><span class="p">[</span><span class="n">R</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">JOptional</span><span class="p">[</span><span class="n">R</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -620,7 +646,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">            if a value is present, otherwise an empty JOptional</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            TypeError: if the mapping function is None or returns a None result</span>
+<span class="sd">            TypeError: if the mapping function is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">mapper</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">JOptional</span><span class="o">.</span><span class="n">empty</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">()</span> <span class="k">else</span> <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">mapper</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">)))</span>
@@ -636,8 +662,9 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">            Nothing</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            TypeError: if the consumer is None and the value is present</span>
+<span class="sd">            TypeError: if the consumer is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">consumer</span><span class="p">)</span>
         <span class="c1"># pylint: disable=W0106</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_present</span><span class="p">()</span> <span class="ow">and</span> <span class="n">consumer</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">))</span>
 
@@ -652,8 +679,9 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">            Nothing</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            TypeError: if the runnable is None and the value is not present</span>
+<span class="sd">            TypeError: if the runnable is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">empty_action</span><span class="p">)</span>
         <span class="c1"># pylint: disable=W0106</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">()</span> <span class="ow">and</span> <span class="n">empty_action</span><span class="p">()</span>
 
@@ -669,9 +697,10 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">            Nothing</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            TypeError: if the consumer is None and the value is present or if the runnable is None and the value is not</span>
-<span class="sd">            present</span>
+<span class="sd">            TypeError: if the consumer is None or if the runnable is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">consumer</span><span class="p">)</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">empty_action</span><span class="p">)</span>
         <span class="c1"># pylint: disable=W0106</span>
         <span class="n">consumer</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">))</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_present</span><span class="p">()</span> <span class="k">else</span> <span class="n">empty_action</span><span class="p">()</span>
 
@@ -690,6 +719,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">        Raises:</span>
 <span class="sd">            TypeError: if the predicate is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">()</span> <span class="ow">or</span> <span class="n">predicate</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">))</span> <span class="k">else</span> <span class="n">JOptional</span><span class="o">.</span><span class="n">empty</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">peek</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">consumer</span><span class="p">:</span> <span class="n">Consumer</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">JOptional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
@@ -704,8 +734,9 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">             JOptional[T]: The current JOptional (self)</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            TypeError: if the consumer is None and the value is present</span>
+<span class="sd">            TypeError: if the consumer is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">consumer</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">if_present</span><span class="p">(</span><span class="n">consumer</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span>
 
@@ -730,6 +761,17 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">            JOptional: A JOptional with synchronized value (i.e. not an Awaitable value)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">JOptional</span><span class="o">.</span><span class="n">of_noneable</span><span class="p">(</span><span class="k">await</span> <span class="n">cast</span><span class="p">(</span><span class="n">Awaitable</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">))</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_awaitable</span><span class="p">()</span> <span class="k">else</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">to_async_joptional</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">utils</span><span class="o">.</span><span class="n">AsyncJOptional</span><span class="p">[</span><span class="n">SyncOrAsync</span><span class="p">[</span><span class="n">T</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert the current JOptional to an AsyncJOptional</span>
+
+<span class="sd">        Note: It can be useful in order to use async mapper</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            AsyncJOptional[T]: The corresponding AsyncJOptional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">utils</span><span class="o">.</span><span class="n">AsyncJOptional</span><span class="o">.</span><span class="n">of_noneable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -835,7 +877,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            JOptional[T]: A JOptional of value T type with the value present if the specified value is non-None,</span>
-<span class="sd">            otherwise an empty Optional</span>
+<span class="sd">            otherwise an empty JOptional</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">empty</span><span class="p">()</span> <span class="k">if</span> <span class="n">objects</span><span class="o">.</span><span class="n">is_none</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">else</span> <span class="bp">cls</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
 </pre></div>
@@ -854,7 +896,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 
 <blockquote>
   <p>JOptional[T]: A JOptional of value T type with the value present if the specified value is non-None,
-  otherwise an empty Optional</p>
+  otherwise an empty JOptional</p>
 </blockquote>
 </div>
 
@@ -968,7 +1010,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">            value: The non-None value described by this JOptional</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            ValueError: Raises a ValueError no value is present</span>
+<span class="sd">            ValueError: Raises a ValueError if no value is present</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">or_else_raise</span><span class="p">()</span>
 </pre></div>
@@ -986,7 +1028,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <h6 id="raises">Raises</h6>
 
 <ul>
-<li><strong>ValueError:</strong>  Raises a ValueError no value is present</li>
+<li><strong>ValueError:</strong>  Raises a ValueError if no value is present</li>
 </ul>
 </div>
 
@@ -997,12 +1039,12 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 
         
             <span class="def">def</span>
-            <span class="name">or_else</span><span class="signature">(self, other: Optional[~T]) -&gt; Optional[~T]</span>:
+            <span class="name">or_else</span><span class="signature">(self, other: Optional[~T] = None) -&gt; Optional[~T]</span>:
     </div>
 
             <details>
             <summary>View Source</summary>
-            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">or_else</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">or_else</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        If a value is present, returns the value, otherwise returns other</span>
 <span class="sd">        Args:</span>
@@ -1038,12 +1080,15 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 
         
             <span class="def">def</span>
-            <span class="name">or_else_get</span><span class="signature">(self, supplier: Callable[[], Optional[~T]]) -&gt; Optional[~T]</span>:
+            <span class="name">or_else_get</span><span class="signature">(
+    self,
+    supplier: Callable[[], Optional[~T]] = &lt;function JOptional.&lt;lambda&gt;&gt;
+) -&gt; Optional[~T]</span>:
     </div>
 
             <details>
             <summary>View Source</summary>
-            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">or_else_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">supplier</span><span class="p">:</span> <span class="n">Supplier</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">or_else_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">supplier</span><span class="p">:</span> <span class="n">Supplier</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]]</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        If a value is present, returns the value, otherwise returns the result produced by the supplying function</span>
 
@@ -1054,8 +1099,9 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">            value: The value, if present, otherwise the result produced by the supplying function</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            TypeError: if no value is present and the supplying function is None</span>
+<span class="sd">            TypeError: if the supplying function is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">supplier</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_present</span><span class="p">()</span> <span class="k">else</span> <span class="n">supplier</span><span class="p">()</span>
 </pre></div>
 
@@ -1078,7 +1124,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <h6 id="raises">Raises</h6>
 
 <ul>
-<li><strong>TypeError:</strong>  if no value is present and the supplying function is None</li>
+<li><strong>TypeError:</strong>  if the supplying function is None</li>
 </ul>
 </div>
 
@@ -1111,9 +1157,10 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
 <span class="sd">            value: The value, if present</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            Exception: If no value is present</span>
-<span class="sd">            TypeError: if no value is present and the exception supplying function is None</span>
+<span class="sd">            Exception: if the supplying function is None</span>
+<span class="sd">            TypeError: if supplier is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">supplier</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
             <span class="k">raise</span> <span class="n">supplier</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">)</span>
@@ -1139,8 +1186,8 @@ function</p>
 <h6 id="raises">Raises</h6>
 
 <ul>
-<li><strong>Exception:</strong>  If no value is present</li>
-<li><strong>TypeError:</strong>  if no value is present and the exception supplying function is None</li>
+<li><strong>Exception:</strong>  if the supplying function is None</li>
+<li><strong>TypeError:</strong>  if supplier is None</li>
 </ul>
 </div>
 
@@ -1174,7 +1221,7 @@ function</p>
 <span class="sd">            a JOptional produced by the supplying function</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            TypeError: if the supplying function is None or value is not present and produces a None result</span>
+<span class="sd">            TypeError: if the supplying function is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">supplier</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_present</span><span class="p">()</span> <span class="k">else</span> <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">supplier</span><span class="p">())</span>
@@ -1203,7 +1250,7 @@ supplying function</p>
 <h6 id="raises">Raises</h6>
 
 <ul>
-<li><strong>TypeError:</strong>  if the supplying function is None or value is not present and produces a None result</li>
+<li><strong>TypeError:</strong>  if the supplying function is None</li>
 </ul>
 </div>
 
@@ -1239,7 +1286,8 @@ supplying function</p>
 <span class="sd">        Raises:</span>
 <span class="sd">            TypeError: If the mapping function is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">flat_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">JOptional</span><span class="o">.</span><span class="n">of_noneable</span><span class="p">(</span><span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">mapper</span><span class="p">)(</span><span class="n">v</span><span class="p">)))</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">mapper</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">flat_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">JOptional</span><span class="o">.</span><span class="n">of_noneable</span><span class="p">(</span><span class="n">mapper</span><span class="p">(</span><span class="n">v</span><span class="p">)))</span>
 </pre></div>
 
         </details>
@@ -1300,7 +1348,7 @@ mapping function to the value, otherwise returns an empty JOptional</p>
 <span class="sd">            if a value is present, otherwise an empty JOptional</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            TypeError: if the mapping function is None or returns a None result</span>
+<span class="sd">            TypeError: if the mapping function is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">mapper</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">JOptional</span><span class="o">.</span><span class="n">empty</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">()</span> <span class="k">else</span> <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">mapper</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">)))</span>
@@ -1330,7 +1378,7 @@ and if invoked, flatMap does not wrap it within an additional JOptional</p>
 <h6 id="raises">Raises</h6>
 
 <ul>
-<li><strong>TypeError:</strong>  if the mapping function is None or returns a None result</li>
+<li><strong>TypeError:</strong>  if the mapping function is None</li>
 </ul>
 </div>
 
@@ -1357,8 +1405,9 @@ and if invoked, flatMap does not wrap it within an additional JOptional</p>
 <span class="sd">            Nothing</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            TypeError: if the consumer is None and the value is present</span>
+<span class="sd">            TypeError: if the consumer is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">consumer</span><span class="p">)</span>
         <span class="c1"># pylint: disable=W0106</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_present</span><span class="p">()</span> <span class="ow">and</span> <span class="n">consumer</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">))</span>
 </pre></div>
@@ -1382,7 +1431,7 @@ and if invoked, flatMap does not wrap it within an additional JOptional</p>
 <h6 id="raises">Raises</h6>
 
 <ul>
-<li><strong>TypeError:</strong>  if the consumer is None and the value is present</li>
+<li><strong>TypeError:</strong>  if the consumer is None</li>
 </ul>
 </div>
 
@@ -1409,8 +1458,9 @@ and if invoked, flatMap does not wrap it within an additional JOptional</p>
 <span class="sd">            Nothing</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            TypeError: if the runnable is None and the value is not present</span>
+<span class="sd">            TypeError: if the runnable is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">empty_action</span><span class="p">)</span>
         <span class="c1"># pylint: disable=W0106</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">()</span> <span class="ow">and</span> <span class="n">empty_action</span><span class="p">()</span>
 </pre></div>
@@ -1434,7 +1484,7 @@ and if invoked, flatMap does not wrap it within an additional JOptional</p>
 <h6 id="raises">Raises</h6>
 
 <ul>
-<li><strong>TypeError:</strong>  if the runnable is None and the value is not present</li>
+<li><strong>TypeError:</strong>  if the runnable is None</li>
 </ul>
 </div>
 
@@ -1466,9 +1516,10 @@ and if invoked, flatMap does not wrap it within an additional JOptional</p>
 <span class="sd">            Nothing</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            TypeError: if the consumer is None and the value is present or if the runnable is None and the value is not</span>
-<span class="sd">            present</span>
+<span class="sd">            TypeError: if the consumer is None or if the runnable is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">consumer</span><span class="p">)</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">empty_action</span><span class="p">)</span>
         <span class="c1"># pylint: disable=W0106</span>
         <span class="n">consumer</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">))</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_present</span><span class="p">()</span> <span class="k">else</span> <span class="n">empty_action</span><span class="p">()</span>
 </pre></div>
@@ -1493,8 +1544,7 @@ and if invoked, flatMap does not wrap it within an additional JOptional</p>
 <h6 id="raises">Raises</h6>
 
 <ul>
-<li><strong>TypeError:</strong>  if the consumer is None and the value is present or if the runnable is None and the value is not</li>
-<li>present</li>
+<li><strong>TypeError:</strong>  if the consumer is None or if the runnable is None</li>
 </ul>
 </div>
 
@@ -1528,6 +1578,7 @@ and if invoked, flatMap does not wrap it within an additional JOptional</p>
 <span class="sd">        Raises:</span>
 <span class="sd">            TypeError: if the predicate is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">()</span> <span class="ow">or</span> <span class="n">predicate</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">))</span> <span class="k">else</span> <span class="n">JOptional</span><span class="o">.</span><span class="n">empty</span><span class="p">()</span>
 </pre></div>
 
@@ -1583,8 +1634,9 @@ otherwise returns an empty JOptional</p>
 <span class="sd">             JOptional[T]: The current JOptional (self)</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            TypeError: if the consumer is None and the value is present</span>
+<span class="sd">            TypeError: if the consumer is None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">consumer</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">if_present</span><span class="p">(</span><span class="n">consumer</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span>
 </pre></div>
@@ -1609,7 +1661,7 @@ current JOptional</p>
 <h6 id="raises">Raises</h6>
 
 <ul>
-<li><strong>TypeError:</strong>  if the consumer is None and the value is present</li>
+<li><strong>TypeError:</strong>  if the consumer is None</li>
 </ul>
 </div>
 
@@ -1684,6 +1736,45 @@ value result (otherwise, for example, is_present is always True with an 'Awaitab
 
 <blockquote>
   <p>JOptional: A JOptional with synchronized value (i.e. not an Awaitable value)</p>
+</blockquote>
+</div>
+
+
+                            </div>
+                            <div id="JOptional.to_async_joptional" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#JOptional.to_async_joptional">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">to_async_joptional</span><span class="signature">(
+    self
+) -&gt; <a href="AsyncJOptional.html#AsyncJOptional">dev4py.utils.AsyncJOptional.AsyncJOptional</a>[typing.Union[typing.Awaitable[~T], ~T]]</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">to_async_joptional</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">utils</span><span class="o">.</span><span class="n">AsyncJOptional</span><span class="p">[</span><span class="n">SyncOrAsync</span><span class="p">[</span><span class="n">T</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert the current JOptional to an AsyncJOptional</span>
+
+<span class="sd">        Note: It can be useful in order to use async mapper</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            AsyncJOptional[T]: The corresponding AsyncJOptional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">utils</span><span class="o">.</span><span class="n">AsyncJOptional</span><span class="o">.</span><span class="n">of_noneable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">)</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Convert the current JOptional to an AsyncJOptional</p>
+
+<p>Note: It can be useful in order to use async mapper</p>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>AsyncJOptional[T]: The corresponding AsyncJOptional</p>
 </blockquote>
 </div>
 
