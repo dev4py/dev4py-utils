@@ -170,7 +170,8 @@ class JOptional(Generic[T]):
         Raises:
             TypeError: If the mapping function is None
         """
-        return self.flat_map(lambda v: JOptional.of_noneable(objects.require_non_none(mapper)(v)))
+        objects.require_non_none(mapper)
+        return self.flat_map(lambda v: JOptional.of_noneable(mapper(v)))
 
     def flat_map(self, mapper: Function[T, JOptional[R]]) -> JOptional[R]:
         """
@@ -258,6 +259,7 @@ class JOptional(Generic[T]):
         Raises:
             TypeError: if the predicate is None
         """
+        objects.require_non_none(predicate)
         return self if self.is_empty() or predicate(cast(T, self._value)) else JOptional.empty()
 
     def peek(self, consumer: Consumer[T]) -> JOptional[T]:
@@ -274,6 +276,7 @@ class JOptional(Generic[T]):
         Raises:
             TypeError: if the consumer is None and the value is present
         """
+        objects.require_non_none(consumer)
         self.if_present(consumer)
         return self
 

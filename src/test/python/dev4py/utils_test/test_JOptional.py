@@ -425,7 +425,7 @@ class TestJOptional:
                 result: JOptional[str] = optional.map(mapper)
 
                 # THEN
-                assert result.is_empty
+                assert result.is_empty()
 
             def test_none_value__should__return_empty(self) -> None:
                 """When value is not provided, should return an empty JOptional"""
@@ -437,18 +437,7 @@ class TestJOptional:
                 result: JOptional[str] = optional.map(mapper)
 
                 # THEN
-                assert result.is_empty
-
-            def test_none_value_and_none_mapper__should__return_empty(self) -> None:
-                """When value and mapper are not provided, should return an empty JOptional"""
-                # GIVEN
-                optional: JOptional[int] = JOptional.empty()
-
-                # WHEN
-                result: JOptional[str] = optional.map(None)
-
-                # THEN
-                assert result.is_empty
+                assert result.is_empty()
 
         class TestErrorCase:
             def test_value_exists_and_none_mapper__should__raise_type_error(self) -> None:
@@ -457,6 +446,15 @@ class TestJOptional:
                 optional: JOptional[int] = JOptional.of(1)
 
                 # WHEN / THEN
+                with raises(TypeError):
+                    optional.map(None)
+
+            def test_none_value_and_none_mapper__should__raise_type_error(self) -> None:
+                """When value and mapper are not provided, should raise a TypeError exception"""
+                # GIVEN
+                optional: JOptional[int] = JOptional.empty()
+
+                # WHEN
                 with raises(TypeError):
                     optional.map(None)
 
@@ -489,7 +487,7 @@ class TestJOptional:
                 result: JOptional[str] = optional.flat_map(mapper)
 
                 # THEN
-                assert result.is_empty
+                assert result.is_empty()
 
         class TestErrorCase:
             def test_value_exists_and_none_mapper__should__raise_type_error(self) -> None:
@@ -774,22 +772,20 @@ class TestJOptional:
                 # THEN
                 assert result.is_empty()
 
-            def test_empty_value_and_none_predicate__should__return_empty(self):
-                """When value is empty and predicate is None, should return empty JOptional"""
-                # GIVEN
-                optional: JOptional[int] = JOptional.empty()
-
-                # WHEN
-                result: JOptional[int] = optional.filter(None)
-
-                # THEN
-                assert result.is_empty()
-
         class TestErrorCase:
             def test_value_exists_and_predicate_is_none__should__raise_type_error(self) -> None:
                 """When value is provided but predicate is None, should raise a TypeError exception"""
                 # GIVEN
                 optional: JOptional[int] = JOptional.of(1)
+
+                # WHEN / THEN
+                with raises(TypeError):
+                    optional.filter(None)
+
+            def test_empty_value_and_none_predicate__should__raise_type_erro(self):
+                """When value is empty and predicate is None, should raise a TypeError exception"""
+                # GIVEN
+                optional: JOptional[int] = JOptional.empty()
 
                 # WHEN / THEN
                 with raises(TypeError):
@@ -829,19 +825,6 @@ class TestJOptional:
                 print_mock.assert_not_called()
                 assert result == optional
 
-            @patch('builtins.print')
-            def test_none_value_and_none_consumer__should__do_nothing(self, print_mock: MagicMock) -> None:
-                """When no value and no consumer are provided, should do nothing"""
-                # GIVEN
-                optional: JOptional[int] = JOptional.empty()
-
-                # WHEN
-                result: JOptional[int] = optional.peek(None)
-
-                # THEN
-                print_mock.assert_not_called()
-                assert result == optional
-
         class TestErrorCase:
             def test_value_exists_and_none_consumer__should__raise_type_error(self) -> None:
                 """When value is provided but consumer is not, should raise a TypeError exception"""
@@ -850,7 +833,16 @@ class TestJOptional:
 
                 # WHEN / THEN
                 with raises(TypeError):
-                    optional.if_present(None)
+                    optional.peek(None)
+
+            def test_none_value_and_none_consumer__should__raise_type_error(self) -> None:
+                """When no value and no consumer are provided, should raise a TypeError exception"""
+                # GIVEN
+                optional: JOptional[int] = JOptional.empty()
+
+                # WHEN / THEN
+                with raises(TypeError):
+                    optional.peek(None)
 
     class TestIsAwaitable:
         """is_awaitable method tests"""
