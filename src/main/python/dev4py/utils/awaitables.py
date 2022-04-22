@@ -65,7 +65,19 @@ def to_awaitable(value: SyncOrAsync[T]) -> Awaitable[T]:
     Returns:
         Awaitable[T]: a value to await
     """
+
     async def _sync_to_awaitable(param: T) -> T:
         return param
 
     return cast(Awaitable[T], value) if is_awaitable(value) else _sync_to_awaitable(cast(T, value))
+
+
+async def async_none() -> None:
+    """
+    This function provides an Awaitable[None]
+
+    Returns:
+        Awaitable[None]: An awaitable of None
+
+    """
+    return None

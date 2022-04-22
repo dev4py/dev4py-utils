@@ -252,3 +252,17 @@ class TestToAwaitable:
 
             # THEN
             assert await result == value
+
+
+@mark.asyncio
+class TestAsyncNone:
+    """async_none function tests"""
+
+    class TestNominalCase:
+        async def test_should__return_awaitable_of_none(self) -> None:
+            """Should return Awaitable[None]"""
+            # GIVEN / WHEN
+            result: Awaitable[None] = awaitables.async_none()
+
+            # THEN
+            assert await result is None
