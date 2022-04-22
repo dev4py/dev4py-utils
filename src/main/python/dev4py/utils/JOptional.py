@@ -41,7 +41,7 @@ class JOptional(Generic[T]):
 
         Returns:
             JOptional[T]: A JOptional of value T type with the value present if the specified value is non-None,
-            otherwise an empty Optional
+            otherwise an empty JOptional
         """
         return cls.empty() if objects.is_none(value) else cls.of(cast(T, value))
 
@@ -82,7 +82,7 @@ class JOptional(Generic[T]):
             value: The non-None value described by this JOptional
 
         Raises:
-            ValueError: Raises a ValueError no value is present
+            ValueError: Raises a ValueError if no value is present
         """
         return self.or_else_raise()
 
@@ -148,7 +148,7 @@ class JOptional(Generic[T]):
             a JOptional produced by the supplying function
 
         Raises:
-            TypeError: if the supplying function is None or value is not present and produces a None result
+            TypeError: if the supplying function is None
         """
         objects.require_non_none(supplier)
         return self if self.is_present() else objects.require_non_none(supplier())
@@ -189,7 +189,7 @@ class JOptional(Generic[T]):
             if a value is present, otherwise an empty JOptional
 
         Raises:
-            TypeError: if the mapping function is None or returns a None result
+            TypeError: if the mapping function is None
         """
         objects.require_non_none(mapper)
         return JOptional.empty() if self.is_empty() else objects.require_non_none(mapper(cast(T, self._value)))
@@ -274,7 +274,7 @@ class JOptional(Generic[T]):
              JOptional[T]: The current JOptional (self)
 
         Raises:
-            TypeError: if the consumer is None and the value is present
+            TypeError: if the consumer is None
         """
         objects.require_non_none(consumer)
         self.if_present(consumer)
