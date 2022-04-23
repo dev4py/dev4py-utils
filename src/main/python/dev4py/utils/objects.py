@@ -116,8 +116,47 @@ async def async_require_non_none(obj: SyncOrAsync[T], message: str = "None async
     Raises:
         TypeError: Raises a TypeError if obj is None or if obj is an awaitable with None result
     """
-    return cast(
-        T,
-        require_non_none(await cast(Awaitable[T], obj), message) if is_awaitable(
-            require_non_none(obj, message)) else obj
+    return require_non_none(await cast(Awaitable[T], obj) if is_awaitable(obj) else cast(T, obj), message)
+
+
+async def async_require_non_none_else(obj: SyncOrAsync[Optional[T]], default: T) -> T:
+    """
+    Checks if the given object or awaitable object result is not None and returns it or returns the default one
+
+    Args:
+        obj: The object or awaitable object to check
+        default: The default object to return if obj is None
+
+    Returns:
+        object:obj if obj is not None and not an Awaitable or Awaitable result if obj is an awaitable and the result is
+        not None, default_obj otherwise
+
+    Raises:
+        TypeError: Raises a TypeError if obj (or await obj) and default_obj are None
+    """
+    return require_non_none_else(
+        await cast(Awaitable[Optional[T]], obj) if is_awaitable(obj) else cast(Optional[T], obj),
+        default
+    )
+
+
+async def async_require_non_none_else_get(obj: SyncOrAsync[Optional[T]], supplier: Supplier[T]) -> T:
+    """
+    Checks if the given object or awaitable object result is not None and returns it or returns the object from the
+    given supplier
+
+    Args:
+        obj: The object or awaitable object to check
+        supplier: The supplier to call if obj or awaitable obj result is None
+
+    Returns:
+        object: obj if not None and not an Awaitable or Awaitable result if obj is an awaitable and the result is
+        not None, the supplier call result otherwise
+
+    Raises:
+        TypeError: Raises a TypeError if obj (or await obj)  and supplier or supplied object are None
+    """
+    return require_non_none_else_get(
+        await cast(Awaitable[Optional[T]], obj) if is_awaitable(obj) else cast(Optional[T], obj),
+        supplier
     )

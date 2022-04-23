@@ -47,6 +47,37 @@ def to_sync_or_async_param_function(
 
     async def sync_or_async_param_function(param: SyncOrAsync[T]) -> R:
         result: SyncOrAsync[R] = function((await cast(Awaitable[T], param)) if is_awaitable(param) else cast(T, param))
-        return (await cast(Awaitable[R], result)) if is_awaitable(result) else cast(R, result)
+        return await cast(Awaitable[R], result) if is_awaitable(result) else cast(R, result)
 
     return sync_or_async_param_function
+
+
+def to_awaitable(value: SyncOrAsync[T]) -> Awaitable[T]:
+    """
+    This function map a SyncOrAsync[T] to an Awaitable[T]
+
+    Note: This can be useful to work with SyncOrAsync values in order to always works with `await`. Without this
+    function, you always have to call is_awaitable in order to know if you have to use `await` or not.
+
+    Args:
+        value: the value to map
+
+    Returns:
+        Awaitable[T]: a value to await
+    """
+
+    async def _sync_to_awaitable(param: T) -> T:
+        return param
+
+    return cast(Awaitable[T], value) if is_awaitable(value) else _sync_to_awaitable(cast(T, value))
+
+
+async def async_none() -> None:
+    """
+    This function provides an Awaitable[None]
+
+    Returns:
+        Awaitable[None]: An awaitable of None
+
+    """
+    return None

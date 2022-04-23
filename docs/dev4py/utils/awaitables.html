@@ -36,6 +36,12 @@
             <li>
                     <a class="function" href="#to_sync_or_async_param_function">to_sync_or_async_param_function</a>
             </li>
+            <li>
+                    <a class="function" href="#to_awaitable">to_awaitable</a>
+            </li>
+            <li>
+                    <a class="function" href="#async_none">async_none</a>
+            </li>
     </ul>
 
 
@@ -106,9 +112,40 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.awaitables    </h1>
 
     <span class="k">async</span> <span class="k">def</span> <span class="nf">sync_or_async_param_function</span><span class="p">(</span><span class="n">param</span><span class="p">:</span> <span class="n">SyncOrAsync</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">R</span><span class="p">:</span>
         <span class="n">result</span><span class="p">:</span> <span class="n">SyncOrAsync</span><span class="p">[</span><span class="n">R</span><span class="p">]</span> <span class="o">=</span> <span class="n">function</span><span class="p">((</span><span class="k">await</span> <span class="n">cast</span><span class="p">(</span><span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">param</span><span class="p">))</span> <span class="k">if</span> <span class="n">is_awaitable</span><span class="p">(</span><span class="n">param</span><span class="p">)</span> <span class="k">else</span> <span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">param</span><span class="p">))</span>
-        <span class="k">return</span> <span class="p">(</span><span class="k">await</span> <span class="n">cast</span><span class="p">(</span><span class="n">Awaitable</span><span class="p">[</span><span class="n">R</span><span class="p">],</span> <span class="n">result</span><span class="p">))</span> <span class="k">if</span> <span class="n">is_awaitable</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="k">else</span> <span class="n">cast</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">cast</span><span class="p">(</span><span class="n">Awaitable</span><span class="p">[</span><span class="n">R</span><span class="p">],</span> <span class="n">result</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_awaitable</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="k">else</span> <span class="n">cast</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">sync_or_async_param_function</span>
+
+
+<span class="k">def</span> <span class="nf">to_awaitable</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">SyncOrAsync</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function map a SyncOrAsync[T] to an Awaitable[T]</span>
+
+<span class="sd">    Note: This can be useful to work with SyncOrAsync values in order to always works with `await`. Without this</span>
+<span class="sd">    function, you always have to call is_awaitable in order to know if you have to use `await` or not.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        value: the value to map</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Awaitable[T]: a value to await</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">_sync_to_awaitable</span><span class="p">(</span><span class="n">param</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">param</span>
+
+    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">value</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_awaitable</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">else</span> <span class="n">_sync_to_awaitable</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">async_none</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function provides an Awaitable[None]</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Awaitable[None]: An awaitable of None</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="kc">None</span>
 </pre></div>
 
         </details>
@@ -189,7 +226,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.awaitables    </h1>
 
     <span class="k">async</span> <span class="k">def</span> <span class="nf">sync_or_async_param_function</span><span class="p">(</span><span class="n">param</span><span class="p">:</span> <span class="n">SyncOrAsync</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">R</span><span class="p">:</span>
         <span class="n">result</span><span class="p">:</span> <span class="n">SyncOrAsync</span><span class="p">[</span><span class="n">R</span><span class="p">]</span> <span class="o">=</span> <span class="n">function</span><span class="p">((</span><span class="k">await</span> <span class="n">cast</span><span class="p">(</span><span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">param</span><span class="p">))</span> <span class="k">if</span> <span class="n">is_awaitable</span><span class="p">(</span><span class="n">param</span><span class="p">)</span> <span class="k">else</span> <span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">param</span><span class="p">))</span>
-        <span class="k">return</span> <span class="p">(</span><span class="k">await</span> <span class="n">cast</span><span class="p">(</span><span class="n">Awaitable</span><span class="p">[</span><span class="n">R</span><span class="p">],</span> <span class="n">result</span><span class="p">))</span> <span class="k">if</span> <span class="n">is_awaitable</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="k">else</span> <span class="n">cast</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">cast</span><span class="p">(</span><span class="n">Awaitable</span><span class="p">[</span><span class="n">R</span><span class="p">],</span> <span class="n">result</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_awaitable</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="k">else</span> <span class="n">cast</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">sync_or_async_param_function</span>
 </pre></div>
@@ -231,6 +268,92 @@ parameter</p>
 <li><strong>Exception:</strong>  If the given function expected parameter is an Awaitable, it will be awaited by the wrapper before</li>
 <li>being passed as function parameter, and, it will probably raise an error depending on function your code</li>
 </ul>
+</div>
+
+
+                </section>
+                <section id="to_awaitable">
+                            <div class="attr function"><a class="headerlink" href="#to_awaitable">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">to_awaitable</span><span class="signature">(value: Union[Awaitable[~T], ~T]) -&gt; Awaitable[~T]</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span><span class="k">def</span> <span class="nf">to_awaitable</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">SyncOrAsync</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function map a SyncOrAsync[T] to an Awaitable[T]</span>
+
+<span class="sd">    Note: This can be useful to work with SyncOrAsync values in order to always works with `await`. Without this</span>
+<span class="sd">    function, you always have to call is_awaitable in order to know if you have to use `await` or not.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        value: the value to map</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Awaitable[T]: a value to await</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">_sync_to_awaitable</span><span class="p">(</span><span class="n">param</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">param</span>
+
+    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">value</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_awaitable</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">else</span> <span class="n">_sync_to_awaitable</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>This function map a SyncOrAsync[T] to an Awaitable[T]</p>
+
+<p>Note: This can be useful to work with SyncOrAsync values in order to always works with <code>await</code>. Without this
+function, you always have to call is_awaitable in order to know if you have to use <code>await</code> or not.</p>
+
+<h6 id="args">Args</h6>
+
+<ul>
+<li><strong>value:</strong>  the value to map</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>Awaitable[T]: a value to await</p>
+</blockquote>
+</div>
+
+
+                </section>
+                <section id="async_none">
+                            <div class="attr function"><a class="headerlink" href="#async_none">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">async def</span>
+            <span class="name">async_none</span><span class="signature">() -&gt; None</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span><span class="k">async</span> <span class="k">def</span> <span class="nf">async_none</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function provides an Awaitable[None]</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Awaitable[None]: An awaitable of None</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="kc">None</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>This function provides an Awaitable[None]</p>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>Awaitable[None]: An awaitable of None</p>
+</blockquote>
 </div>
 
 

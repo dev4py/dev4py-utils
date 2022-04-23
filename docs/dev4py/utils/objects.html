@@ -51,6 +51,12 @@
             <li>
                     <a class="function" href="#async_require_non_none">async_require_non_none</a>
             </li>
+            <li>
+                    <a class="function" href="#async_require_non_none_else">async_require_non_none_else</a>
+            </li>
+            <li>
+                    <a class="function" href="#async_require_non_none_else_get">async_require_non_none_else_get</a>
+            </li>
     </ul>
 
 
@@ -190,10 +196,49 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
 <span class="sd">    Raises:</span>
 <span class="sd">        TypeError: Raises a TypeError if obj is None or if obj is an awaitable with None result</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
-        <span class="n">T</span><span class="p">,</span>
-        <span class="n">require_non_none</span><span class="p">(</span><span class="k">await</span> <span class="n">cast</span><span class="p">(</span><span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">obj</span><span class="p">),</span> <span class="n">message</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_awaitable</span><span class="p">(</span>
-            <span class="n">require_non_none</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">message</span><span class="p">))</span> <span class="k">else</span> <span class="n">obj</span>
+    <span class="k">return</span> <span class="n">require_non_none</span><span class="p">(</span><span class="k">await</span> <span class="n">cast</span><span class="p">(</span><span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">obj</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_awaitable</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="k">else</span> <span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">obj</span><span class="p">),</span> <span class="n">message</span><span class="p">)</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">async_require_non_none_else</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">SyncOrAsync</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]],</span> <span class="n">default</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Checks if the given object or awaitable object result is not None and returns it or returns the default one</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        obj: The object or awaitable object to check</span>
+<span class="sd">        default: The default object to return if obj is None</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        object:obj if obj is not None and not an Awaitable or Awaitable result if obj is an awaitable and the result is</span>
+<span class="sd">        not None, default_obj otherwise</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        TypeError: Raises a TypeError if obj (or await obj) and default_obj are None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">require_non_none_else</span><span class="p">(</span>
+        <span class="k">await</span> <span class="n">cast</span><span class="p">(</span><span class="n">Awaitable</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]],</span> <span class="n">obj</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_awaitable</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="k">else</span> <span class="n">cast</span><span class="p">(</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">obj</span><span class="p">),</span>
+        <span class="n">default</span>
+    <span class="p">)</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">async_require_non_none_else_get</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">SyncOrAsync</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]],</span> <span class="n">supplier</span><span class="p">:</span> <span class="n">Supplier</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Checks if the given object or awaitable object result is not None and returns it or returns the object from the</span>
+<span class="sd">    given supplier</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        obj: The object or awaitable object to check</span>
+<span class="sd">        supplier: The supplier to call if obj or awaitable obj result is None</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        object: obj if not None and not an Awaitable or Awaitable result if obj is an awaitable and the result is</span>
+<span class="sd">        not None, the supplier call result otherwise</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        TypeError: Raises a TypeError if obj (or await obj)  and supplier or supplied object are None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">require_non_none_else_get</span><span class="p">(</span>
+        <span class="k">await</span> <span class="n">cast</span><span class="p">(</span><span class="n">Awaitable</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]],</span> <span class="n">obj</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_awaitable</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="k">else</span> <span class="n">cast</span><span class="p">(</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">obj</span><span class="p">),</span>
+        <span class="n">supplier</span>
     <span class="p">)</span>
 </pre></div>
 
@@ -517,11 +562,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
 <span class="sd">    Raises:</span>
 <span class="sd">        TypeError: Raises a TypeError if obj is None or if obj is an awaitable with None result</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
-        <span class="n">T</span><span class="p">,</span>
-        <span class="n">require_non_none</span><span class="p">(</span><span class="k">await</span> <span class="n">cast</span><span class="p">(</span><span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">obj</span><span class="p">),</span> <span class="n">message</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_awaitable</span><span class="p">(</span>
-            <span class="n">require_non_none</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">message</span><span class="p">))</span> <span class="k">else</span> <span class="n">obj</span>
-    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">require_non_none</span><span class="p">(</span><span class="k">await</span> <span class="n">cast</span><span class="p">(</span><span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">obj</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_awaitable</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="k">else</span> <span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">obj</span><span class="p">),</span> <span class="n">message</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -546,6 +587,127 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
 
 <ul>
 <li><strong>TypeError:</strong>  Raises a TypeError if obj is None or if obj is an awaitable with None result</li>
+</ul>
+</div>
+
+
+                </section>
+                <section id="async_require_non_none_else">
+                            <div class="attr function"><a class="headerlink" href="#async_require_non_none_else">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">async def</span>
+            <span class="name">async_require_non_none_else</span><span class="signature">(obj: Union[Awaitable[Optional[~T]], ~T, NoneType], default: ~T) -&gt; ~T</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span><span class="k">async</span> <span class="k">def</span> <span class="nf">async_require_non_none_else</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">SyncOrAsync</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]],</span> <span class="n">default</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Checks if the given object or awaitable object result is not None and returns it or returns the default one</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        obj: The object or awaitable object to check</span>
+<span class="sd">        default: The default object to return if obj is None</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        object:obj if obj is not None and not an Awaitable or Awaitable result if obj is an awaitable and the result is</span>
+<span class="sd">        not None, default_obj otherwise</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        TypeError: Raises a TypeError if obj (or await obj) and default_obj are None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">require_non_none_else</span><span class="p">(</span>
+        <span class="k">await</span> <span class="n">cast</span><span class="p">(</span><span class="n">Awaitable</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]],</span> <span class="n">obj</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_awaitable</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="k">else</span> <span class="n">cast</span><span class="p">(</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">obj</span><span class="p">),</span>
+        <span class="n">default</span>
+    <span class="p">)</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Checks if the given object or awaitable object result is not None and returns it or returns the default one</p>
+
+<h6 id="args">Args</h6>
+
+<ul>
+<li><strong>obj:</strong>  The object or awaitable object to check</li>
+<li><strong>default:</strong>  The default object to return if obj is None</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>object:obj if obj is not None and not an Awaitable or Awaitable result if obj is an awaitable and the result is
+  not None, default_obj otherwise</p>
+</blockquote>
+
+<h6 id="raises">Raises</h6>
+
+<ul>
+<li><strong>TypeError:</strong>  Raises a TypeError if obj (or await obj) and default_obj are None</li>
+</ul>
+</div>
+
+
+                </section>
+                <section id="async_require_non_none_else_get">
+                            <div class="attr function"><a class="headerlink" href="#async_require_non_none_else_get">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">async def</span>
+            <span class="name">async_require_non_none_else_get</span><span class="signature">(
+    obj: Union[Awaitable[Optional[~T]], ~T, NoneType],
+    supplier: Callable[[], ~T]
+) -&gt; ~T</span>:
+    </div>
+
+            <details>
+            <summary>View Source</summary>
+            <div class="pdoc-code codehilite"><pre><span></span><span class="k">async</span> <span class="k">def</span> <span class="nf">async_require_non_none_else_get</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">SyncOrAsync</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]],</span> <span class="n">supplier</span><span class="p">:</span> <span class="n">Supplier</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Checks if the given object or awaitable object result is not None and returns it or returns the object from the</span>
+<span class="sd">    given supplier</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        obj: The object or awaitable object to check</span>
+<span class="sd">        supplier: The supplier to call if obj or awaitable obj result is None</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        object: obj if not None and not an Awaitable or Awaitable result if obj is an awaitable and the result is</span>
+<span class="sd">        not None, the supplier call result otherwise</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        TypeError: Raises a TypeError if obj (or await obj)  and supplier or supplied object are None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">require_non_none_else_get</span><span class="p">(</span>
+        <span class="k">await</span> <span class="n">cast</span><span class="p">(</span><span class="n">Awaitable</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]],</span> <span class="n">obj</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_awaitable</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="k">else</span> <span class="n">cast</span><span class="p">(</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">obj</span><span class="p">),</span>
+        <span class="n">supplier</span>
+    <span class="p">)</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Checks if the given object or awaitable object result is not None and returns it or returns the object from the
+given supplier</p>
+
+<h6 id="args">Args</h6>
+
+<ul>
+<li><strong>obj:</strong>  The object or awaitable object to check</li>
+<li><strong>supplier:</strong>  The supplier to call if obj or awaitable obj result is None</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>object: obj if not None and not an Awaitable or Awaitable result if obj is an awaitable and the result is
+  not None, the supplier call result otherwise</p>
+</blockquote>
+
+<h6 id="raises">Raises</h6>
+
+<ul>
+<li><strong>TypeError:</strong>  Raises a TypeError if obj (or await obj)  and supplier or supplied object are None</li>
 </ul>
 </div>
 

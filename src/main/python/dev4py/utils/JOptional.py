@@ -3,9 +3,10 @@ from __future__ import annotations
 
 from typing import Generic, Optional, Final, Any, cast, Awaitable
 
+from dev4py import utils
 from dev4py.utils import objects
 from dev4py.utils.awaitables import is_awaitable
-from dev4py.utils.types import T, Supplier, Function, R, Consumer, Runnable, Predicate
+from dev4py.utils.types import T, Supplier, Function, R, Consumer, Runnable, Predicate, SyncOrAsync
 
 
 class JOptional(Generic[T]):
@@ -41,7 +42,7 @@ class JOptional(Generic[T]):
 
         Returns:
             JOptional[T]: A JOptional of value T type with the value present if the specified value is non-None,
-            otherwise an empty Optional
+            otherwise an empty JOptional
         """
         return cls.empty() if objects.is_none(value) else cls.of(cast(T, value))
 
@@ -82,11 +83,11 @@ class JOptional(Generic[T]):
             value: The non-None value described by this JOptional
 
         Raises:
-            ValueError: Raises a ValueError no value is present
+            ValueError: Raises a ValueError if no value is present
         """
         return self.or_else_raise()
 
-    def or_else(self, other: Optional[T]) -> Optional[T]:
+    def or_else(self, other: Optional[T] = None) -> Optional[T]:
         """
         If a value is present, returns the value, otherwise returns other
         Args:
@@ -97,7 +98,7 @@ class JOptional(Generic[T]):
         """
         return self.or_else_get(lambda: other)
 
-    def or_else_get(self, supplier: Supplier[Optional[T]]) -> Optional[T]:
+    def or_else_get(self, supplier: Supplier[Optional[T]] = lambda: None) -> Optional[T]:
         """
         If a value is present, returns the value, otherwise returns the result produced by the supplying function
 
@@ -108,8 +109,9 @@ class JOptional(Generic[T]):
             value: The value, if present, otherwise the result produced by the supplying function
 
         Raises:
-            TypeError: if no value is present and the supplying function is None
+            TypeError: if the supplying function is None
         """
+        objects.require_non_none(supplier)
         return self._value if self.is_present() else supplier()
 
     def or_else_raise(
@@ -126,9 +128,10 @@ class JOptional(Generic[T]):
             value: The value, if present
 
         Raises:
-            Exception: If no value is present
-            TypeError: if no value is present and the exception supplying function is None
+            Exception: if the supplying function is None
+            TypeError: if supplier is None
         """
+        objects.require_non_none(supplier)
         if self.is_empty():
             raise supplier()
         return cast(T, self._value)
@@ -148,7 +151,7 @@ class JOptional(Generic[T]):
             a JOptional produced by the supplying function
 
         Raises:
-            TypeError: if the supplying function is None or value is not present and produces a None result
+            TypeError: if the supplying function is None
         """
         objects.require_non_none(supplier)
         return self if self.is_present() else objects.require_non_none(supplier())
@@ -170,7 +173,8 @@ class JOptional(Generic[T]):
         Raises:
             TypeError: If the mapping function is None
         """
-        return self.flat_map(lambda v: JOptional.of_noneable(objects.require_non_none(mapper)(v)))
+        objects.require_non_none(mapper)
+        return self.flat_map(lambda v: JOptional.of_noneable(mapper(v)))
 
     def flat_map(self, mapper: Function[T, JOptional[R]]) -> JOptional[R]:
         """
@@ -188,7 +192,7 @@ class JOptional(Generic[T]):
             if a value is present, otherwise an empty JOptional
 
         Raises:
-            TypeError: if the mapping function is None or returns a None result
+            TypeError: if the mapping function is None
         """
         objects.require_non_none(mapper)
         return JOptional.empty() if self.is_empty() else objects.require_non_none(mapper(cast(T, self._value)))
@@ -204,8 +208,9 @@ class JOptional(Generic[T]):
             Nothing
 
         Raises:
-            TypeError: if the consumer is None and the value is present
+            TypeError: if the consumer is None
         """
+        objects.require_non_none(consumer)
         # pylint: disable=W0106
         self.is_present() and consumer(cast(T, self._value))
 
@@ -220,8 +225,9 @@ class JOptional(Generic[T]):
             Nothing
 
         Raises:
-            TypeError: if the runnable is None and the value is not present
+            TypeError: if the runnable is None
         """
+        objects.require_non_none(empty_action)
         # pylint: disable=W0106
         self.is_empty() and empty_action()
 
@@ -237,9 +243,10 @@ class JOptional(Generic[T]):
             Nothing
 
         Raises:
-            TypeError: if the consumer is None and the value is present or if the runnable is None and the value is not
-            present
+            TypeError: if the consumer is None or if the runnable is None
         """
+        objects.require_non_none(consumer)
+        objects.require_non_none(empty_action)
         # pylint: disable=W0106
         consumer(cast(T, self._value)) if self.is_present() else empty_action()
 
@@ -258,6 +265,7 @@ class JOptional(Generic[T]):
         Raises:
             TypeError: if the predicate is None
         """
+        objects.require_non_none(predicate)
         return self if self.is_empty() or predicate(cast(T, self._value)) else JOptional.empty()
 
     def peek(self, consumer: Consumer[T]) -> JOptional[T]:
@@ -272,8 +280,9 @@ class JOptional(Generic[T]):
              JOptional[T]: The current JOptional (self)
 
         Raises:
-            TypeError: if the consumer is None and the value is present
+            TypeError: if the consumer is None
         """
+        objects.require_non_none(consumer)
         self.if_present(consumer)
         return self
 
@@ -298,6 +307,17 @@ class JOptional(Generic[T]):
             JOptional: A JOptional with synchronized value (i.e. not an Awaitable value)
         """
         return JOptional.of_noneable(await cast(Awaitable[Any], self._value)) if self.is_awaitable() else self
+
+    def to_async_joptional(self) -> utils.AsyncJOptional[SyncOrAsync[T]]:
+        """
+        Convert the current JOptional to an AsyncJOptional
+
+        Note: It can be useful in order to use async mapper
+
+        Returns:
+            AsyncJOptional[T]: The corresponding AsyncJOptional
+        """
+        return utils.AsyncJOptional.of_noneable(self._value)
 
 
 # INIT STATIC VARIABLES
