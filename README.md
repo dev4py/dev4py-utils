@@ -39,7 +39,7 @@ This project is based on [pymsdl_template](https://github.com/dev4py/pymsdl_temp
 > ***Note:** [AsyncJOptional](src/main/python/dev4py/utils/AsyncJOptional.py) class is designed in order to simplify
 > JOptional with async mapper*
 
-> **Note:** AsyncJOptional support T or Awaitable[T] values. That's why some checks are done when terminal operation is
+> ***Note:** AsyncJOptional support T or Awaitable[T] values. That's why some checks are done when terminal operation is
 > called with `await`*
 
 Examples:
