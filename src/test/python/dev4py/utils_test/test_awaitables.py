@@ -152,9 +152,12 @@ class TestToSyncOrAsyncParamFunction:
                 awaitables.to_sync_or_async_param_function(async_param_function)
 
             # THEN
-            assert async_param_function(async_param_supplier()) == "A result string"
+            async_value: Awaitable[str] = async_param_supplier()
+            assert async_param_function(async_value) == "A result string"
             with raises(TypeError):
                 await result_function(async_param_supplier())
+
+            await async_value  # Remove warning
 
         @mark.asyncio
         async def test_async_param_async_function__should__probably_raise_an_error(self) -> None:
