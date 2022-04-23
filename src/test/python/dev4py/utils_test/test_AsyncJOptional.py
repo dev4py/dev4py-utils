@@ -1200,7 +1200,7 @@ class TestAsyncJOptional:
                 await optional.or_else_get()  # Remove warning
 
             async def test_value_exists_and_none_runnable__should__raise_type_error(self) -> None:
-                """When value is provided but runnable is not, should draise TypeError exception"""
+                """When value is provided but runnable is not, should raise TypeError exception"""
                 # GIVEN
                 optional: AsyncJOptional[int] = AsyncJOptional.of(1)
 
