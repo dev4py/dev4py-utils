@@ -1,7 +1,7 @@
 """objects module tests"""
 from typing import Optional, Final
 
-from pytest import raises, mark
+from pytest import raises
 
 from dev4py.utils import objects
 from dev4py.utils.types import Supplier
@@ -293,7 +293,7 @@ class TestToString:
             assert result == str(None)
 
 
-@mark.asyncio
+
 class TestAsyncRequireNonNone:
     """async_require_non_none function tests"""
     DEFAULT_ERROR_MESSAGE: Final[str] = "None async object error"
@@ -358,7 +358,7 @@ class TestAsyncRequireNonNone:
             assert str(error.value) == message
 
 
-@mark.asyncio
+
 class TestAsyncRequireNonNoneElse:
     """async_require_non_none_else function tests"""
 
@@ -468,7 +468,7 @@ class TestAsyncRequireNonNoneElse:
             assert str(error.value) == TestRequireNonNone.DEFAULT_ERROR_MESSAGE
 
 
-@mark.asyncio
+
 class TestRequireNonNoneElseGet:
     """async_require_non_none_else_get function tests"""
 

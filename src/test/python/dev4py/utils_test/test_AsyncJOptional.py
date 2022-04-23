@@ -2,14 +2,13 @@
 from typing import Final, Optional, cast, Awaitable
 from unittest.mock import patch, MagicMock
 
-from pytest import raises, mark
+from pytest import raises
 
 from dev4py.utils import AsyncJOptional, JOptional
 from dev4py.utils.awaitables import to_awaitable, async_none
 from dev4py.utils.types import Supplier, Function, Consumer, Runnable, Predicate
 
 
-@mark.asyncio
 class TestAsyncJOptional:
     """AsyncJOptional class tests"""
     NO_VALUE_ERROR_MSG: Final[str] = "No value present"
@@ -482,7 +481,7 @@ class TestAsyncJOptional:
                 with raises(TypeError):
                     await optional.or_else_get(None)
 
-                await async_value  # Remove warning
+                await optional.or_else_get()  # Remove warning
 
             async def test_value_exists_and_none_supplier__should__raise_type_error(self) -> None:
                 """When value is provided but supplier is none, should raise a TypeError exception"""
@@ -584,7 +583,7 @@ class TestAsyncJOptional:
                 with raises(TypeError):
                     await optional.or_else_raise(None)
 
-                await async_value  # Remove warning
+                await optional.or_else_get()  # Remove warning
 
             async def test_value_exists_and_none_supplier__should__raise_type_error(self) -> None:
                 """When value is provided but supplier is none, should raise a TypeError exception"""
@@ -686,7 +685,7 @@ class TestAsyncJOptional:
                 with raises(TypeError):
                     optional.or_get(None)
 
-                await async_value  # Remove warning
+                await optional.or_else_get()  # Remove warning
 
             def test_none_value_and_none_supplier__should__raise_type_error(self) -> None:
                 """When no value and no supplier are provided, should raise a TypeError exception"""
@@ -707,7 +706,7 @@ class TestAsyncJOptional:
                 with raises(TypeError):
                     optional.or_get(None)
 
-                await async_value  # Remove warning
+                await optional.or_else_get()  # Remove warning
 
     class TestMap:
         """map method tests"""
@@ -851,6 +850,8 @@ class TestAsyncJOptional:
                 with raises(TypeError):
                     optional.map(None)
 
+                await optional.or_else_get()  # Remove warning
+
             async def test_async_value_exists_and_none_mapper__should__raise_type_error(self) -> None:
                 """When async value is provided but mapper is not, should raise a TypeError exception"""
                 # GIVEN
@@ -861,7 +862,7 @@ class TestAsyncJOptional:
                 with raises(TypeError):
                     optional.map(None)
 
-                await async_value  # Remove warning
+                await optional.or_else_get()  # Remove warning
 
             async def test_none_value_and_none_mapper__should__raise_type_error(self) -> None:
                 """When value and mapper are not provided, should raise a TypeError exception"""
@@ -882,7 +883,7 @@ class TestAsyncJOptional:
                 with raises(TypeError):
                     optional.map(None)
 
-                await async_value  # Remove warning
+                await optional.or_else_get()  # Remove warning
 
     class TestFlatMap:
         """flat_map method tests"""
@@ -952,6 +953,8 @@ class TestAsyncJOptional:
                 with raises(TypeError):
                     optional.flat_map(None)
 
+                await optional.or_else_get()  # Remove warning
+
             async def test_async_value_exists_and_none_mapper__should__raise_type_error(self) -> None:
                 """When async value is provided but mapper is not, should raise a TypeError exception"""
                 # GIVEN
@@ -962,7 +965,7 @@ class TestAsyncJOptional:
                 with raises(TypeError):
                     optional.flat_map(None)
 
-                await async_value  # Remove warning
+                await optional.or_else_get()  # Remove warning
 
             async def test_none_value_and_none_mapper__should__raise_type_error(self) -> None:
                 """When value and mapper are not provided, should raise a TypeError exception"""
@@ -983,7 +986,7 @@ class TestAsyncJOptional:
                 with raises(TypeError):
                     optional.flat_map(None)
 
-                await async_value  # Remove warning
+                await optional.or_else_get()  # Remove warning
 
             async def test_value_exists_and_none_mapper_result__should__raise_type_error_on_terminal_operation(
                     self) -> None:
@@ -1092,7 +1095,7 @@ class TestAsyncJOptional:
                 with raises(TypeError):
                     await optional.if_present(None)
 
-                await async_value  # Remove warning
+                await optional.or_else_get()  # Remove warning
 
             async def test_none_value_and_none_consumer__should__raise_type_error(self) -> None:
                 """When no value and no consumer are provided, should raise a TypeError exception"""
@@ -1113,7 +1116,7 @@ class TestAsyncJOptional:
                 with raises(TypeError):
                     await optional.if_present(None)
 
-                await async_value  # Remove warning
+                await optional.or_else_get()  # Remove warning
 
     class TestIfEmpty:
         """if_empty method tests"""
@@ -1194,7 +1197,7 @@ class TestAsyncJOptional:
                 with raises(TypeError):
                     await optional.if_empty(cast(Runnable, None))
 
-                await async_value  # Remove warning
+                await optional.or_else_get()  # Remove warning
 
             async def test_value_exists_and_none_runnable__should__raise_type_error(self) -> None:
                 """When value is provided but runnable is not, should draise TypeError exception"""
@@ -1204,6 +1207,8 @@ class TestAsyncJOptional:
                 # WHEN / THEN
                 with raises(TypeError):
                     await optional.if_empty(cast(Runnable, None))
+
+                await optional.or_else_get()  # Remove warning
 
             async def test_async_value_exists_and_none_runnable__should__raise_type_error(self) -> None:
                 """When async value is provided but runnable is not, should do nothing"""
@@ -1215,7 +1220,7 @@ class TestAsyncJOptional:
                 with raises(TypeError):
                     await optional.if_empty(cast(Runnable, None))
 
-                await async_value  # Remove warning
+                await optional.or_else_get()  # Remove warning
 
     class TestIfPresentOrElse:
         """if_present_or_else method tests"""
@@ -1306,7 +1311,7 @@ class TestAsyncJOptional:
                 with raises(TypeError):
                     await optional.if_present_or_else(None, runnable)
 
-                await async_value  # Remove warning
+                await optional.or_else_get()  # Remove warning
 
             async def test_value_exists_and_none_consumer_and_runnable__should__raise_type_error(self) -> None:
                 """When value is provided but consumer and runnable are None, should raise a TypeError exception"""
@@ -1317,6 +1322,8 @@ class TestAsyncJOptional:
                 # WHEN / THEN
                 with raises(TypeError):
                     await optional.if_present_or_else(None, cast(Runnable, None))
+
+                await optional.or_else_get()  # Remove warning
 
             async def test_async_value_exists_and_none_consumer_and_runnable__should__raise_type_error(self) -> None:
                 """
@@ -1330,7 +1337,7 @@ class TestAsyncJOptional:
                 with raises(TypeError):
                     await optional.if_present_or_else(None, cast(Runnable, None))
 
-                await async_value  # Remove warning
+                await optional.or_else_get()  # Remove warning
 
             async def test_none_value_and_consumer_and_runnable__should__raise_type_error(self) -> None:
                 """When value is not provided but consumer and runnable are None, should raise a TypeError exception"""
@@ -1353,7 +1360,7 @@ class TestAsyncJOptional:
                 with raises(TypeError):
                     await optional.if_present_or_else(None, cast(Runnable, None))
 
-                await async_value  # Remove warning
+                await optional.or_else_get()  # Remove warning
 
             async def test_none_value_runnable__should__raise_type_error(self) -> None:
                 """When value is not provided and runnable is None, should raise a TypeError exception"""
@@ -1376,7 +1383,7 @@ class TestAsyncJOptional:
                 with raises(TypeError):
                     await optional.if_present_or_else(consumer, cast(Runnable, None))
 
-                await async_value  # Remove warning
+                await optional.or_else_get()  # Remove warning
 
             async def test_value_exists_and_none_runnable__should__raise_type_error(self) -> None:
                 """When value is provided but not the runnable, should raise a TypeError exception"""
@@ -1389,6 +1396,8 @@ class TestAsyncJOptional:
                 with raises(TypeError):
                     await optional.if_present_or_else(consumer, cast(Runnable, None))
 
+                await optional.or_else_get()  # Remove warning
+
             async def test_async_value_exists_and_none_runnable__should__raise_type_error(self) -> None:
                 """When async value is provided but not the runnable, should raise a TypeError exception"""
                 # GIVEN
@@ -1400,7 +1409,7 @@ class TestAsyncJOptional:
                 with raises(TypeError):
                     await optional.if_present_or_else(consumer, cast(Runnable, None))
 
-                await async_value  # Remove warning
+                await optional.or_else_get()  # Remove warning
 
             async def test_none_value_and_none_consumer__should__raise_type_error(self) -> None:
                 """When value is not provided and consumer is None, should raise a TypeError exception"""
@@ -1423,7 +1432,7 @@ class TestAsyncJOptional:
                 with raises(TypeError):
                     await optional.if_present_or_else(None, runnable)
 
-                await async_value  # Remove warning
+                await optional.or_else_get()  # Remove warning
 
     class TestFilter:
         """filter method tests"""
@@ -1529,7 +1538,7 @@ class TestAsyncJOptional:
                 with raises(TypeError):
                     optional.filter(None)
 
-                await async_value  # Remove warning
+                await optional.or_else_get()  # Remove warning
 
             async def test_empty_value_and_none_predicate__should__raise_type_error(self):
                 """When value is empty and predicate is None, should raise a TypeError exception"""
@@ -1550,7 +1559,7 @@ class TestAsyncJOptional:
                 with raises(TypeError):
                     optional.filter(None)
 
-                await async_value  # Remove warning
+                await optional.or_else_get()  # Remove warning
 
     class TestPeek:
         """peek method tests"""
@@ -1622,7 +1631,7 @@ class TestAsyncJOptional:
                 print_mock.assert_not_called()
 
         class TestErrorCase:
-            def test_value_exists_and_none_consumer__should__raise_type_error(self) -> None:
+            async def test_value_exists_and_none_consumer__should__raise_type_error(self) -> None:
                 """When value is provided but consumer is not, should raise a TypeError exception"""
                 # GIVEN
                 optional: AsyncJOptional[int] = AsyncJOptional.of(1)
@@ -1630,6 +1639,8 @@ class TestAsyncJOptional:
                 # WHEN / THEN
                 with raises(TypeError):
                     optional.peek(None)
+
+                await optional.or_else_get()  # Remove warning
 
             async def test_async_value_exists_and_none_consumer__should__raise_type_error(self) -> None:
                 """When async value is provided but consumer is not, should raise a TypeError exception"""
@@ -1641,7 +1652,7 @@ class TestAsyncJOptional:
                 with raises(TypeError):
                     optional.peek(None)
 
-                await async_value  # Remove warning
+                await optional.or_else_get()  # Remove warning
 
             def test_none_value_and_none_consumer__should__raise_type_error(self) -> None:
                 """When no value and no consumer are provided, should raise a TypeError exception"""
@@ -1656,13 +1667,13 @@ class TestAsyncJOptional:
                 """When async None value and no consumer are provided, should raise a TypeError exception"""
                 # GIVEN
                 async_value: Awaitable[None] = async_none()
-                optional: AsyncJOptional[int] = AsyncJOptional.of(async_value)
+                optional: AsyncJOptional[int] = AsyncJOptional.of_noneable(async_value)
 
                 # WHEN / THEN
                 with raises(TypeError):
                     optional.peek(None)
 
-                await async_value  # Remove warning
+                await optional.or_else_get()  # Remove warning
 
     class TestToJOptional:
         """to_joptional method tests"""

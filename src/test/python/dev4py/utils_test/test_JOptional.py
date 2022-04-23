@@ -4,7 +4,7 @@ from asyncio import Task, Future
 from typing import Final, Optional, cast, Awaitable
 from unittest.mock import patch, MagicMock
 
-from pytest import raises, mark
+from pytest import raises
 
 from dev4py.utils import JOptional, AsyncJOptional
 from dev4py.utils.awaitables import to_awaitable
@@ -842,7 +842,6 @@ class TestJOptional:
                 # THEN
                 assert not result
 
-            @mark.asyncio
             async def test_coroutine_value__should__return_true(self) -> None:
                 """When value is a Coroutine should return True"""
 
@@ -858,7 +857,6 @@ class TestJOptional:
                 assert result
                 await optional.get()  # Remove warning
 
-            @mark.asyncio
             async def test_task_value__should__return_true(self) -> None:
                 """When value is a Task should return True"""
 
@@ -874,7 +872,6 @@ class TestJOptional:
                 assert result
                 await optional.get()  # Remove warning
 
-            @mark.asyncio
             async def test_future_value__should__return_true(self) -> None:
                 """When value is a Future should return True"""
 
@@ -901,7 +898,6 @@ class TestJOptional:
                 # THEN
                 assert not result
 
-    @mark.asyncio
     class TestToSyncValue:
         """to_sync_value method tests"""
 
@@ -976,7 +972,6 @@ class TestJOptional:
                 # THEN
                 assert result.get() == value
 
-    @mark.asyncio
     class TestToAsyncJOptional:
         """to_async_joptional method tests"""
 

@@ -3,7 +3,7 @@ import asyncio
 from asyncio import Task, Future
 from typing import Awaitable
 
-from pytest import raises, mark
+from pytest import raises
 
 from dev4py.utils import awaitables
 from dev4py.utils.types import Function, SyncOrAsync
@@ -21,7 +21,6 @@ class TestIsAwaitable:
             # THEN
             assert not result
 
-        @mark.asyncio
         async def test_coroutine_value__should__return_true(self) -> None:
             """When value is a Coroutine should return True"""
 
@@ -37,7 +36,6 @@ class TestIsAwaitable:
             assert result
             await value  # Remove warning
 
-        @mark.asyncio
         async def test_task_value__should__return_true(self) -> None:
             """When value is a Task should return True"""
 
@@ -53,7 +51,6 @@ class TestIsAwaitable:
             assert result
             await value  # Remove warning
 
-        @mark.asyncio
         async def test_future_value__should__return_true(self) -> None:
             """When value is a Future should return True"""
 
@@ -82,7 +79,7 @@ class TestToSyncOrAsyncParamFunction:
     """to_sync_or_async_param_function function tests"""
 
     class TestNominalCase:
-        @mark.asyncio
+
         async def test_sync_param_function__should__return_sync_or_async_param_async_function(self) -> None:
             """When given Function uses sync parameter, should return an async function with SyncOrAsync parameter"""
             # GIVEN
@@ -102,7 +99,6 @@ class TestToSyncOrAsyncParamFunction:
 
             assert await result_function(async_param_supplier()) == sync_param_function(param_value)
 
-        @mark.asyncio
         async def test_sync_param_async_function__should__return_sync_or_async_param_async_function(self) -> None:
             """When the given Function uses sync parameter and is async (i.e. returns an Awaitable[R]), should return an
             async function with SyncOrAsync parameter with Awaitable[R] result (not an Awaitable[Awaitable[R]])"""
@@ -133,7 +129,6 @@ class TestToSyncOrAsyncParamFunction:
             with raises(TypeError):
                 awaitables.to_sync_or_async_param_function(None)
 
-        @mark.asyncio
         async def test_async_param_function__should__probably_raise_an_error(self) -> None:
             """When the given Function uses async parameter (i.e. Awaitable[T]), should probably raise an error because
             the wrapper will await the parameter before calling the given function"""
@@ -159,7 +154,6 @@ class TestToSyncOrAsyncParamFunction:
 
             await async_value  # Remove warning
 
-        @mark.asyncio
         async def test_async_param_async_function__should__probably_raise_an_error(self) -> None:
             """When the given Function uses async parameter (i.e. Awaitable[T]) and is async, should probably raise an
             error because the wrapper will await the parameter before calling the given function"""
@@ -180,7 +174,6 @@ class TestToSyncOrAsyncParamFunction:
                 await result_function(async_param_supplier())
 
 
-@mark.asyncio
 class TestToAwaitable:
     """to_awaitable function tests"""
 
@@ -227,7 +220,6 @@ class TestToAwaitable:
             # THEN
             assert await result == expected_result
 
-        @mark.asyncio
         async def test_t_future_value__should__return_t_awaitable(self) -> None:
             """When value is a Future of T should return Awaitable[T]"""
 
@@ -257,7 +249,6 @@ class TestToAwaitable:
             assert await result == value
 
 
-@mark.asyncio
 class TestAsyncNone:
     """async_none function tests"""
 

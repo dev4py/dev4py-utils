@@ -40,7 +40,7 @@ pytest-asyncio = "^0.18.3"
 [tool.pytest.ini_options]
 addopts = "-rA"
 testpaths = ['src/test/python']
-
+asyncio_mode = "auto"
 
 ##################
 #####  TOX  ######
