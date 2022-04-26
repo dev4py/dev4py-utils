@@ -69,7 +69,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.dicts    </h1>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span>
 
 <span class="kn">from</span> <span class="nn">dev4py.utils</span> <span class="kn">import</span> <span class="n">JOptional</span>
-<span class="kn">from</span> <span class="nn">dev4py.utils.objects</span> <span class="kn">import</span> <span class="n">is_none</span>
+<span class="kn">from</span> <span class="nn">dev4py.utils.objects</span> <span class="kn">import</span> <span class="n">non_none</span>
 <span class="kn">from</span> <span class="nn">dev4py.utils.types</span> <span class="kn">import</span> <span class="n">K</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">Supplier</span>
 
 
@@ -95,7 +95,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.dicts    </h1>
 <span class="sd">        JOptional[V]: An empty JOptional if dictionary is None or the searched key result is None, otherwise a JOptional</span>
 <span class="sd">        with a present value</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">is_none</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)</span> <span class="ow">or</span> <span class="n">is_dict</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">non_none</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_dict</span><span class="p">(</span><span class="n">dictionary</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Optional[dict[K, V]] parameter is required&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">JOptional</span> \
@@ -139,7 +139,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.dicts    </h1>
 <span class="sd">        Optional[V]: The value, if present, otherwise the result produced by the supplying function (even if dictionary</span>
 <span class="sd">        is None)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">is_none</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)</span> <span class="ow">or</span> <span class="n">is_dict</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">non_none</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_dict</span><span class="p">(</span><span class="n">dictionary</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Optional[dict[K, V]] parameter is required&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="p">:</span>
@@ -217,7 +217,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.dicts    </h1>
 <span class="sd">        JOptional[V]: An empty JOptional if dictionary is None or the searched key result is None, otherwise a JOptional</span>
 <span class="sd">        with a present value</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">is_none</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)</span> <span class="ow">or</span> <span class="n">is_dict</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">non_none</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_dict</span><span class="p">(</span><span class="n">dictionary</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Optional[dict[K, V]] parameter is required&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">JOptional</span> \
@@ -333,7 +333,7 @@ function</p>
 <span class="sd">        Optional[V]: The value, if present, otherwise the result produced by the supplying function (even if dictionary</span>
 <span class="sd">        is None)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">is_none</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)</span> <span class="ow">or</span> <span class="n">is_dict</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">non_none</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_dict</span><span class="p">(</span><span class="n">dictionary</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Optional[dict[K, V]] parameter is required&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="p">:</span>
