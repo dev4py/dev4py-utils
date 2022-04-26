@@ -2,14 +2,13 @@
 
 from __future__ import annotations
 
-from typing import Generic, Final, Optional, TypeAlias, cast, Any, Awaitable, TypeVar
+from typing import Generic, Final, Optional, TypeAlias, cast, Any, Awaitable
 
 from dev4py.utils.JOptional import JOptional
 from dev4py.utils.awaitables import is_awaitable
 from dev4py.utils.objects import async_require_non_none, non_none, is_none, require_non_none
-from dev4py.utils.types import T, SyncOrAsync, Supplier, Function, R, Consumer, Runnable, Predicate
+from dev4py.utils.types import T, V, SyncOrAsync, Supplier, Function, R, Consumer, Runnable, Predicate
 
-V = TypeVar('V')  # pragma: no mutate
 _VType: TypeAlias = SyncOrAsync[Optional[V]]  # pragma: no mutate
 
 

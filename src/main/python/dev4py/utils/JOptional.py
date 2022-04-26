@@ -156,7 +156,7 @@ class JOptional(Generic[T]):
         objects.require_non_none(supplier)
         return self if self.is_present() else objects.require_non_none(supplier())
 
-    def map(self, mapper: Function[T, R]) -> JOptional[R]:
+    def map(self, mapper: Function[T, Optional[R]]) -> JOptional[R]:
         """
         If a value is present, returns a JOptional describing (as if by of_noneable) the result of applying the given
         mapping function to the value, otherwise returns an empty JOptional

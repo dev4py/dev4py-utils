@@ -17,6 +17,7 @@ A set of Python regularly used classes/functions
 - [Dev4py-utils modules](#dev4py-utils-modules)
     * [dev4py.utils.AsyncJOptional](#dev4pyutilsasyncjoptional)
     * [dev4py.utils.awaitables](#dev4pyutilsawaitables)
+    * [dev4py.utils.dicts](#dev4pyutilsdicts)
     * [dev4py.utils.JOptional](#dev4pyutilsjoptional)
     * [dev4py.utils.objects](#dev4pyutilsobjects)
     * [dev4py.utils.types](#dev4pyutilstypes)
@@ -76,16 +77,16 @@ from dev4py.utils import awaitables, JOptional
 
 # is_awaitable sample
 awaitables.is_awaitable(asyncio.sleep(2))  # True
-awaitables.is_awaitable(print("Hello"))  # False
+awaitables.is_awaitable(print('Hello'))  # False
 
 
 # to_sync_or_async_param_function sample
 def mapper(s: str) -> str:
-    return s + "_suffix"
+    return s + '_suffix'
 
 async def async_mapper(s: str) -> str:
     await asyncio.sleep(1)
-    return s + "_async_suffix"
+    return s + '_async_suffix'
 
 async def async_test():
     # Note: mapper parameter is str and async_mapper returns an Awaitable[str] so we have to manage it
@@ -97,6 +98,43 @@ async def async_test():
     print(result)  # A value_async_suffix_suffix
 
 asyncio.run(async_test())
+````
+
+### dev4py.utils.dicts
+
+[Dicts documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/dicts.html)
+
+Examples:
+
+```python
+from dev4py.utils import dicts
+from dev4py.utils.types import Supplier
+
+# is_dict sample
+dicts.is_dict("A str")  # False
+dicts.is_dict({'key': 'A dict value'})  # True
+
+
+# get_value sample
+int_supplier: Supplier[int] = lambda: 3
+dictionary: dict[str, int] = {'key_1': 1, 'key_2': 2}
+
+dicts.get_value(dictionary, 'key_1')  # 1
+dicts.get_value(dictionary, 'key_3')  # None
+dicts.get_value(dictionary, 'key_3', int_supplier)  # 3
+
+
+# get_value_from_path sample
+str_supplier: Supplier[str] = lambda: "a3"
+deep_dictionary: dict[str, dict[int, str]] = { \
+  'a': {1: 'a1', 2: 'a2'}, \
+  'b': {1: 'b1', 2: 'b2'} \
+}
+
+dicts.get_value_from_path(deep_dictionary, ["a", 1])  # 'a1'
+dicts.get_value_from_path(deep_dictionary, ["c", 1])  # None
+dicts.get_value_from_path(deep_dictionary, ["a", 3])  # None
+dicts.get_value_from_path(deep_dictionary, ["a", 3], str_supplier)  # 'a3'
 ````
 
 ### dev4py.utils.JOptional

@@ -278,7 +278,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
         <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">supplier</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_present</span><span class="p">()</span> <span class="k">else</span> <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">supplier</span><span class="p">())</span>
 
-    <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapper</span><span class="p">:</span> <span class="n">Function</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="n">R</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">JOptional</span><span class="p">[</span><span class="n">R</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapper</span><span class="p">:</span> <span class="n">Function</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">R</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">JOptional</span><span class="p">[</span><span class="n">R</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        If a value is present, returns a JOptional describing (as if by of_noneable) the result of applying the given</span>
 <span class="sd">        mapping function to the value, otherwise returns an empty JOptional</span>
@@ -610,7 +610,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.JOptional    </h1>
         <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">supplier</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_present</span><span class="p">()</span> <span class="k">else</span> <span class="n">objects</span><span class="o">.</span><span class="n">require_non_none</span><span class="p">(</span><span class="n">supplier</span><span class="p">())</span>
 
-    <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapper</span><span class="p">:</span> <span class="n">Function</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="n">R</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">JOptional</span><span class="p">[</span><span class="n">R</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapper</span><span class="p">:</span> <span class="n">Function</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">R</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">JOptional</span><span class="p">[</span><span class="n">R</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        If a value is present, returns a JOptional describing (as if by of_noneable) the result of applying the given</span>
 <span class="sd">        mapping function to the value, otherwise returns an empty JOptional</span>
@@ -1263,13 +1263,13 @@ supplying function</p>
             <span class="def">def</span>
             <span class="name">map</span><span class="signature">(
     self,
-    mapper: Callable[[~T], ~R]
+    mapper: Callable[[~T], Optional[~R]]
 ) -&gt; <a href="#JOptional">dev4py.utils.JOptional.JOptional</a>[~R]</span>:
     </div>
 
             <details>
             <summary>View Source</summary>
-            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapper</span><span class="p">:</span> <span class="n">Function</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="n">R</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">JOptional</span><span class="p">[</span><span class="n">R</span><span class="p">]:</span>
+            <div class="pdoc-code codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapper</span><span class="p">:</span> <span class="n">Function</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">R</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">JOptional</span><span class="p">[</span><span class="n">R</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        If a value is present, returns a JOptional describing (as if by of_noneable) the result of applying the given</span>
 <span class="sd">        mapping function to the value, otherwise returns an empty JOptional</span>

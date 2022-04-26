@@ -4,9 +4,11 @@ The `types` module provides a set commonly used types useful for static type che
 
 from typing import TypeVar, TypeAlias, Callable, Union, Awaitable
 
+K = TypeVar('K')  # pragma: no mutate
+R = TypeVar('R')  # pragma: no mutate
 T = TypeVar('T')  # pragma: no mutate
 U = TypeVar('U')  # pragma: no mutate
-R = TypeVar('R')  # pragma: no mutate
+V = TypeVar('V')  # pragma: no mutate
 
 # See: https://peps.python.org/pep-0484/#type-aliases
 #   Examples:
