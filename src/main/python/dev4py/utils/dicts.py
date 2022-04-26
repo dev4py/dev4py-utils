@@ -4,7 +4,7 @@ The `dicts` module provides a set of utility functions to simplify dict operatio
 from typing import Optional, Any
 
 from dev4py.utils import JOptional
-from dev4py.utils.objects import is_none
+from dev4py.utils.objects import non_none
 from dev4py.utils.types import K, V, Supplier
 
 
@@ -30,7 +30,7 @@ def get_joptional_value(dictionary: Optional[dict[K, V]], key: K) -> JOptional[V
         JOptional[V]: An empty JOptional if dictionary is None or the searched key result is None, otherwise a JOptional
         with a present value
     """
-    if not (is_none(dictionary) or is_dict(dictionary)):
+    if non_none(dictionary) and not is_dict(dictionary):
         raise TypeError("Optional[dict[K, V]] parameter is required")
 
     return JOptional \
@@ -74,7 +74,7 @@ def get_value_from_path(
         Optional[V]: The value, if present, otherwise the result produced by the supplying function (even if dictionary
         is None)
     """
-    if not (is_none(dictionary) or is_dict(dictionary)):
+    if non_none(dictionary) and not is_dict(dictionary):
         raise TypeError("Optional[dict[K, V]] parameter is required")
 
     if not path:
