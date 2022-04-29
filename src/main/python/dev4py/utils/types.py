@@ -2,13 +2,20 @@
 The `types` module provides a set commonly used types useful for static type checking
 """
 
-from typing import TypeVar, TypeAlias, Callable, Union, Awaitable
+from typing import TypeVar, TypeAlias, Callable, Union, Awaitable, ParamSpec
 
+IN = TypeVar('IN')  # pragma: no mutate
 K = TypeVar('K')  # pragma: no mutate
+OUT = TypeVar('OUT')  # pragma: no mutate
 R = TypeVar('R')  # pragma: no mutate
 T = TypeVar('T')  # pragma: no mutate
 U = TypeVar('U')  # pragma: no mutate
 V = TypeVar('V')  # pragma: no mutate
+
+P = ParamSpec('P')  # pragma: no mutate
+# Fix Pycharm false positive warning
+P: ParamSpec = P  # pragma: no mutate
+
 
 # See: https://peps.python.org/pep-0484/#type-aliases
 #   Examples:
@@ -47,3 +54,8 @@ SyncOrAsync: TypeAlias = Union[Awaitable[T], T]
 """SyncOrAsync[T]: is used to specify that a value can be sync or async"""
 SyncOrAsync.__doc__ = \
     "SyncOrAsync[T]: is used to specify that a value can be sync or async"  # pragma: no mutate
+
+BiConsumer: TypeAlias = Callable[[T, U], None]
+"""BiConsumer[T, U]: An operation that accepts two arguments and produces no result"""  # pragma: no mutate
+Consumer.__doc__ = \
+    "BiConsumer[T, U]: An operation that accepts two arguments and produces no result"  # pragma: no mutate

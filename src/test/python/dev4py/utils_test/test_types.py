@@ -2,7 +2,8 @@
 
 from typing import Callable, Union, Awaitable
 
-from dev4py.utils.types import Function, T, R, Predicate, Consumer, Supplier, Runnable, BiFunction, U, SyncOrAsync
+from dev4py.utils.types import Function, T, R, Predicate, Consumer, Supplier, Runnable, BiFunction, U, SyncOrAsync, \
+    BiConsumer
 
 
 class TestFunction:
@@ -224,3 +225,33 @@ class TestSyncOrAsync:
 
             # WHEN / THEN
             assert current_type != Union[Awaitable[str], str]
+
+
+class TestBiConsumer:
+    """BiConsumer type tests"""
+
+    class TestNominalCase:
+
+        def test_empty_biconsumer__should__be_equivalent_to_callable_t_u_r(self):
+            """Empty BiConsumer should be equivalent to Callable[[T, U], None]"""
+            # GIVEN
+            current_type = BiConsumer
+
+            # WHEN / THEN
+            assert current_type == Callable[[T, U], None]
+
+        def test_int_bool_biconsumer__should__be_equivalent_to_callable_int_bool_none(self):
+            """BiConsumer[int, bool] should be equivalent to Callable[[int, bool], None]"""
+            # GIVEN
+            current_type = BiConsumer[int, bool]
+
+            # WHEN / THEN
+            assert current_type == Callable[[int, bool], None]
+
+        def test_int_bool_biconsumer__should__not_be_equivalent_to_callable_str_bool_none(self):
+            """BiConsumer[int, str] should NOT be equivalent to Callable[[str, bool], none]"""
+            # GIVEN
+            current_type = BiConsumer[int, bool]
+
+            # WHEN / THEN
+            assert current_type != Callable[[str, bool], None]
