@@ -6,6 +6,7 @@ from typing import TypeVar, TypeAlias, Callable, Union, Awaitable, ParamSpec
 
 IN = TypeVar('IN')  # pragma: no mutate
 K = TypeVar('K')  # pragma: no mutate
+N = TypeVar('N')  # pragma: no mutate
 OUT = TypeVar('OUT')  # pragma: no mutate
 R = TypeVar('R')  # pragma: no mutate
 T = TypeVar('T')  # pragma: no mutate
@@ -15,7 +16,6 @@ V = TypeVar('V')  # pragma: no mutate
 P = ParamSpec('P')  # pragma: no mutate
 # Fix Pycharm false positive warning
 P: ParamSpec = P  # pragma: no mutate
-
 
 # See: https://peps.python.org/pep-0484/#type-aliases
 #   Examples:

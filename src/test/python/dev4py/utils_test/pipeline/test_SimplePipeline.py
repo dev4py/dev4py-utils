@@ -34,7 +34,7 @@ class TestSimplePipeline:
                 assert str(error.value) == TestSimplePipeline.CONSTRUCTOR_ERROR_MSG
 
             def test_valid_create_key__should__create_a_new_simple_pipeline(self):
-                """When create key is valid, should create a new JOptional"""
+                """When create key is valid, should create a new pipeline"""
                 # GIVEN
                 value: int = 1
 
