@@ -3,8 +3,8 @@ The `dicts` module provides a set of utility functions to simplify dict operatio
 """
 from typing import Optional, Any
 
-from dev4py.utils import JOptional
-from dev4py.utils.objects import non_none
+from dev4py.utils.JOptional import JOptional
+from dev4py.utils.objects import non_none, require_non_none
 from dev4py.utils.types import K, V, Supplier
 
 
@@ -73,9 +73,12 @@ def get_value_from_path(
     Returns:
         Optional[V]: The value, if present, otherwise the result produced by the supplying function (even if dictionary
         is None)
+
+    Raises:
+        TypeError: if dictionary is not None and not a dict
     """
     if non_none(dictionary) and not is_dict(dictionary):
-        raise TypeError("Optional[dict[K, V]] parameter is required")
+        raise TypeError("Optional[dict[K, V]] dictionary parameter must be a dict or None value")
 
     if not path:
         return default_supplier()
@@ -89,3 +92,54 @@ def get_value_from_path(
         path[1:],
         default_supplier
     ) if is_dict(current_path_value) else default_supplier()
+
+
+def put_value(dictionary: dict[K, V], key: K, value: V) -> Optional[V]:
+    """
+    Associates the specified value with the specified key in the given map. If the map previously contained a mapping
+    for the key, the old value is returned and replaced by the specified value
+
+    Args:
+        dictionary: The dict
+        key: The key with which the specified value is to be associated
+        value: The value to be associated with the specified key
+
+    Returns:
+        Optional[V]: The previous value associated with key, or None if there was no mapping for key.
+
+    Raises:
+        TypeError: if dictionary is not a dict
+    """
+    if not is_dict(dictionary):
+        raise TypeError("dictionary must be a dict value")
+
+    result: Optional[V] = dictionary.get(key)
+    dictionary[key] = value
+    return result
+
+
+def empty_dict() -> dict[Any, Any]:
+    """
+    Returns an empty dict
+    Returns:
+        dict[Any, Any]: an empty dict
+    """
+    return {}
+
+
+def update(dict_1: dict[K, V], dict_2: dict[K, V]) -> dict[K, V]:
+    """
+    Adds all elements of the second dict to the first one and returns it
+
+    Args:
+        dict_1: The dict where add elements
+        dict_2: The dict with elements to add
+
+    Returns:
+        dict_1 (dict[K, V]): The first dict with added elements from dict_2
+
+    Raises:
+        TypeError: if dict_1 or dict_2 is None
+    """
+    require_non_none(dict_1).update(require_non_none(dict_2))
+    return dict_1
