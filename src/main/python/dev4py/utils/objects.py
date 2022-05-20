@@ -160,3 +160,31 @@ async def async_require_non_none_else_get(obj: SyncOrAsync[Optional[T]], supplie
         await cast(Awaitable[Optional[T]], obj) if is_awaitable(obj) else cast(Optional[T], obj),
         supplier
     )
+
+
+def to_none(*args: Any, **kwargs: Any) -> None:  # pylint: disable=W0613
+    """
+    Returns None whatever the parameters
+
+    Args:
+        *args: positional parameters
+        **kwargs: named parameters
+
+    Returns:
+        None: None whatever the parameters
+    """
+    return None
+
+
+def to_self(obj: T) -> T:
+    """
+    Returns the given parameter
+    Note: can be useful with multiprocessing where lambda cannot be used (lambda are not serializable)
+
+    Args:
+        obj: The object to return
+
+    Returns:
+        obj (T): The given parameter
+    """
+    return obj

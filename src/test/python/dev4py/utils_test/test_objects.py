@@ -293,7 +293,6 @@ class TestToString:
             assert result == str(None)
 
 
-
 class TestAsyncRequireNonNone:
     """async_require_non_none function tests"""
     DEFAULT_ERROR_MESSAGE: Final[str] = "None async object error"
@@ -356,7 +355,6 @@ class TestAsyncRequireNonNone:
                 await objects.async_require_non_none(None, message=message)
 
             assert str(error.value) == message
-
 
 
 class TestAsyncRequireNonNoneElse:
@@ -468,8 +466,7 @@ class TestAsyncRequireNonNoneElse:
             assert str(error.value) == TestRequireNonNone.DEFAULT_ERROR_MESSAGE
 
 
-
-class TestRequireNonNoneElseGet:
+class TestAsyncRequireNonNoneElseGet:
     """async_require_non_none_else_get function tests"""
 
     class TestNominalCase:
@@ -623,3 +620,38 @@ class TestRequireNonNoneElseGet:
                 await objects.async_require_non_none_else_get(coroutine(), None)
 
             assert str(error.value) == "Supplier cannot be None"
+
+
+class TestToNone:
+    """to_none function tests"""
+
+    class TestNominalCase:
+
+        def test__should__return_none(self) -> None:
+            """Should return None whatever the parameters"""
+            # GIVEN / WHEN / THEN
+            assert objects.to_none(1, 'a', named_param=True) is None
+
+class TestToSelf:
+    """to_self function tests"""
+
+    class TestNominalCase:
+
+        def test_existing_parameter__should__return_given_parameter(self) -> None:
+            """Should return the given parameter"""
+            # GIVEN
+            obj : str = "A test str"
+
+            # WHEN
+            result: str = objects.to_self(obj)
+
+            # THEN
+            assert result == obj
+
+        def test_none_parameter__should__return_none(self) -> None:
+            """Should return the given parameter"""
+            # GIVEN / WHEN
+            result: None = objects.to_self(None)
+
+            # THEN
+            assert result is None
