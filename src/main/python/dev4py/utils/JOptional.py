@@ -12,7 +12,7 @@ from dev4py.utils.types import T, Supplier, Function, R, Consumer, Runnable, Pre
 
 
 class JOptional(Generic[T]):
-    """A class inspired from the java.util.Optional class"""
+    """A class inspired by the java.util.Optional class"""
 
     __EMPTY: JOptional[Any]
     __CREATE_KEY: Final[object] = object()

@@ -1,4 +1,4 @@
-"""Stream module inspired from `java.util.stream`"""  # pylint: disable=C0302
+"""Stream module inspired by `java.util.stream`"""  # pylint: disable=C0302
 
 from __future__ import annotations
 
@@ -364,7 +364,7 @@ class Stream(Generic[T]):  # pylint: disable=R0904
             ordered_execution: bool,
             create_key: object,
     ):
-        """Stream private constructor: Constructs a Stream[T] inspired from java `java.util.stream.Stream<T>`"""
+        """Stream private constructor: Constructs a Stream[T] inspired by java `java.util.stream.Stream<T>`"""
         assert create_key == self.__CREATE_KEY, "Stream private constructor! Please use Stream.of"
         self._values_function: BiFunction[Optional[ParallelConfiguration], bool, Iterable[V]] = \
             require_non_none(values_function)

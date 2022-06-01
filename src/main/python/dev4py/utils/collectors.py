@@ -1,4 +1,4 @@
-"""The `collectors` module provides a set of collectors inspired from java (java.util.stream.Collectors)"""
+"""The `collectors` module provides a set of collectors inspired by java (java.util.stream.Collectors)"""
 
 from dataclasses import dataclass
 from functools import partial
