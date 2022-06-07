@@ -60,54 +60,68 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.tuples    </h1>
 
                         <label class="view-source-button" for="tuples-view-source"><span>View Source</span></label>
 
-                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
-</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a>
-</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="kn">from</span> <span class="nn">dev4py.utils.objects</span> <span class="kn">import</span> <span class="n">require_non_none</span>
-</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="kn">from</span> <span class="nn">dev4py.utils.types</span> <span class="kn">import</span> <span class="n">T</span>
-</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a>
-</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a>
-</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="k">def</span> <span class="nf">empty_tuple</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>    <span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="sd">    Returns an empty tuple</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="sd">    Returns:</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="sd">        tuple[Any, ...]: An empty tuple</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>    <span class="k">return</span> <span class="nb">tuple</span><span class="p">()</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>
+                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="c1"># Copyright 2022 the original author or authors (i.e.: St4rG00se for Dev4py).</span>
+</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="c1">#</span>
+</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="c1"># you may not use this file except in compliance with the License.</span>
+</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="c1"># You may obtain a copy of the License at</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="c1">#</span>
+</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="c1">#      https://www.apache.org/licenses/LICENSE-2.0</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="c1">#</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="c1"># See the License for the specific language governing permissions and</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="c1"># limitations under the License.</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
 </span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="n">tpl</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>    <span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a><span class="sd">    Adds the given value to the given tuple and returns the new tuple with added value</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="kn">from</span> <span class="nn">dev4py.utils.objects</span> <span class="kn">import</span> <span class="n">require_non_none</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a><span class="kn">from</span> <span class="nn">dev4py.utils.types</span> <span class="kn">import</span> <span class="n">T</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>
 </span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a><span class="sd">    Args:</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a><span class="sd">        tpl: the tuple</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a><span class="sd">        value: the value to add</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a><span class="k">def</span> <span class="nf">empty_tuple</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a><span class="sd">    Returns an empty tuple</span>
 </span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>
 </span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a><span class="sd">    Returns:</span>
-</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a><span class="sd">        tuple[T, ...]: A new tuple with all elements from tpl and the added value</span>
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>
-</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a><span class="sd">    Raises:</span>
-</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a><span class="sd">        TypeError: if the tuple is None</span>
-</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>    <span class="k">return</span> <span class="n">extend</span><span class="p">(</span><span class="n">tpl</span><span class="p">,</span> <span class="p">(</span><span class="n">value</span><span class="p">,))</span>
-</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>
-</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>
-</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a><span class="k">def</span> <span class="nf">extend</span><span class="p">(</span><span class="n">tpl_1</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">tpl_2</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>    <span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="sd">    Adds all values from the second tuple to the first one and returns the new created tuple</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="sd">    Args:</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a><span class="sd">        tpl_1: The tuple where to add elements</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a><span class="sd">        tpl_2: The tuple with the elements to add</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a><span class="sd">        tuple[Any, ...]: An empty tuple</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>    <span class="k">return</span> <span class="nb">tuple</span><span class="p">()</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>
+</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>
+</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a><span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="n">tpl</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a><span class="sd">    Adds the given value to the given tuple and returns the new tuple with added value</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a><span class="sd">    Args:</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="sd">        tpl: the tuple</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a><span class="sd">        value: the value to add</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a><span class="sd">    Returns:</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a><span class="sd">        tuple[T, ...]: A new tuple with all elements from tpl and the added value</span>
 </span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>
-</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a><span class="sd">    Returns:</span>
-</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a><span class="sd">        tuple[T, ...]: A new tuple with all elements from tpl_1 and tpl_2</span>
-</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>
-</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="sd">    Raises:</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="sd">        TypeError: if tpl_1 or tpl_2 is None</span>
-</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>    <span class="k">return</span> <span class="n">require_non_none</span><span class="p">(</span><span class="n">tpl_1</span><span class="p">)</span> <span class="o">+</span> <span class="n">require_non_none</span><span class="p">(</span><span class="n">tpl_2</span><span class="p">)</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a><span class="sd">    Raises:</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a><span class="sd">        TypeError: if the tuple is None</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>    <span class="k">return</span> <span class="n">extend</span><span class="p">(</span><span class="n">tpl</span><span class="p">,</span> <span class="p">(</span><span class="n">value</span><span class="p">,))</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>
+</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="k">def</span> <span class="nf">extend</span><span class="p">(</span><span class="n">tpl_1</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">tpl_2</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a><span class="sd">    Adds all values from the second tuple to the first one and returns the new created tuple</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a>
+</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a><span class="sd">    Args:</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a><span class="sd">        tpl_1: The tuple where to add elements</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a><span class="sd">        tpl_2: The tuple with the elements to add</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a>
+</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a><span class="sd">    Returns:</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a><span class="sd">        tuple[T, ...]: A new tuple with all elements from tpl_1 and tpl_2</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>
+</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a><span class="sd">    Raises:</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a><span class="sd">        TypeError: if tpl_1 or tpl_2 is None</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a>    <span class="k">return</span> <span class="n">require_non_none</span><span class="p">(</span><span class="n">tpl_1</span><span class="p">)</span> <span class="o">+</span> <span class="n">require_non_none</span><span class="p">(</span><span class="n">tpl_2</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -123,14 +137,14 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.tuples    </h1>
 
     </div>
     <a class="headerlink" href="#empty_tuple"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="empty_tuple-8"><a href="#empty_tuple-8"><span class="linenos"> 8</span></a><span class="k">def</span> <span class="nf">empty_tuple</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-</span><span id="empty_tuple-9"><a href="#empty_tuple-9"><span class="linenos"> 9</span></a>    <span class="sd">&quot;&quot;&quot;</span>
-</span><span id="empty_tuple-10"><a href="#empty_tuple-10"><span class="linenos">10</span></a><span class="sd">    Returns an empty tuple</span>
-</span><span id="empty_tuple-11"><a href="#empty_tuple-11"><span class="linenos">11</span></a>
-</span><span id="empty_tuple-12"><a href="#empty_tuple-12"><span class="linenos">12</span></a><span class="sd">    Returns:</span>
-</span><span id="empty_tuple-13"><a href="#empty_tuple-13"><span class="linenos">13</span></a><span class="sd">        tuple[Any, ...]: An empty tuple</span>
-</span><span id="empty_tuple-14"><a href="#empty_tuple-14"><span class="linenos">14</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="empty_tuple-15"><a href="#empty_tuple-15"><span class="linenos">15</span></a>    <span class="k">return</span> <span class="nb">tuple</span><span class="p">()</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="empty_tuple-22"><a href="#empty_tuple-22"><span class="linenos">22</span></a><span class="k">def</span> <span class="nf">empty_tuple</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+</span><span id="empty_tuple-23"><a href="#empty_tuple-23"><span class="linenos">23</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="empty_tuple-24"><a href="#empty_tuple-24"><span class="linenos">24</span></a><span class="sd">    Returns an empty tuple</span>
+</span><span id="empty_tuple-25"><a href="#empty_tuple-25"><span class="linenos">25</span></a>
+</span><span id="empty_tuple-26"><a href="#empty_tuple-26"><span class="linenos">26</span></a><span class="sd">    Returns:</span>
+</span><span id="empty_tuple-27"><a href="#empty_tuple-27"><span class="linenos">27</span></a><span class="sd">        tuple[Any, ...]: An empty tuple</span>
+</span><span id="empty_tuple-28"><a href="#empty_tuple-28"><span class="linenos">28</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="empty_tuple-29"><a href="#empty_tuple-29"><span class="linenos">29</span></a>    <span class="k">return</span> <span class="nb">tuple</span><span class="p">()</span>
 </span></pre></div>
 
 
@@ -156,21 +170,21 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.tuples    </h1>
 
     </div>
     <a class="headerlink" href="#append"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="append-18"><a href="#append-18"><span class="linenos">18</span></a><span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="n">tpl</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-</span><span id="append-19"><a href="#append-19"><span class="linenos">19</span></a>    <span class="sd">&quot;&quot;&quot;</span>
-</span><span id="append-20"><a href="#append-20"><span class="linenos">20</span></a><span class="sd">    Adds the given value to the given tuple and returns the new tuple with added value</span>
-</span><span id="append-21"><a href="#append-21"><span class="linenos">21</span></a>
-</span><span id="append-22"><a href="#append-22"><span class="linenos">22</span></a><span class="sd">    Args:</span>
-</span><span id="append-23"><a href="#append-23"><span class="linenos">23</span></a><span class="sd">        tpl: the tuple</span>
-</span><span id="append-24"><a href="#append-24"><span class="linenos">24</span></a><span class="sd">        value: the value to add</span>
-</span><span id="append-25"><a href="#append-25"><span class="linenos">25</span></a>
-</span><span id="append-26"><a href="#append-26"><span class="linenos">26</span></a><span class="sd">    Returns:</span>
-</span><span id="append-27"><a href="#append-27"><span class="linenos">27</span></a><span class="sd">        tuple[T, ...]: A new tuple with all elements from tpl and the added value</span>
-</span><span id="append-28"><a href="#append-28"><span class="linenos">28</span></a>
-</span><span id="append-29"><a href="#append-29"><span class="linenos">29</span></a><span class="sd">    Raises:</span>
-</span><span id="append-30"><a href="#append-30"><span class="linenos">30</span></a><span class="sd">        TypeError: if the tuple is None</span>
-</span><span id="append-31"><a href="#append-31"><span class="linenos">31</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="append-32"><a href="#append-32"><span class="linenos">32</span></a>    <span class="k">return</span> <span class="n">extend</span><span class="p">(</span><span class="n">tpl</span><span class="p">,</span> <span class="p">(</span><span class="n">value</span><span class="p">,))</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="append-32"><a href="#append-32"><span class="linenos">32</span></a><span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="n">tpl</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+</span><span id="append-33"><a href="#append-33"><span class="linenos">33</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="append-34"><a href="#append-34"><span class="linenos">34</span></a><span class="sd">    Adds the given value to the given tuple and returns the new tuple with added value</span>
+</span><span id="append-35"><a href="#append-35"><span class="linenos">35</span></a>
+</span><span id="append-36"><a href="#append-36"><span class="linenos">36</span></a><span class="sd">    Args:</span>
+</span><span id="append-37"><a href="#append-37"><span class="linenos">37</span></a><span class="sd">        tpl: the tuple</span>
+</span><span id="append-38"><a href="#append-38"><span class="linenos">38</span></a><span class="sd">        value: the value to add</span>
+</span><span id="append-39"><a href="#append-39"><span class="linenos">39</span></a>
+</span><span id="append-40"><a href="#append-40"><span class="linenos">40</span></a><span class="sd">    Returns:</span>
+</span><span id="append-41"><a href="#append-41"><span class="linenos">41</span></a><span class="sd">        tuple[T, ...]: A new tuple with all elements from tpl and the added value</span>
+</span><span id="append-42"><a href="#append-42"><span class="linenos">42</span></a>
+</span><span id="append-43"><a href="#append-43"><span class="linenos">43</span></a><span class="sd">    Raises:</span>
+</span><span id="append-44"><a href="#append-44"><span class="linenos">44</span></a><span class="sd">        TypeError: if the tuple is None</span>
+</span><span id="append-45"><a href="#append-45"><span class="linenos">45</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="append-46"><a href="#append-46"><span class="linenos">46</span></a>    <span class="k">return</span> <span class="n">extend</span><span class="p">(</span><span class="n">tpl</span><span class="p">,</span> <span class="p">(</span><span class="n">value</span><span class="p">,))</span>
 </span></pre></div>
 
 
@@ -209,21 +223,21 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.tuples    </h1>
 
     </div>
     <a class="headerlink" href="#extend"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="extend-35"><a href="#extend-35"><span class="linenos">35</span></a><span class="k">def</span> <span class="nf">extend</span><span class="p">(</span><span class="n">tpl_1</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">tpl_2</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-</span><span id="extend-36"><a href="#extend-36"><span class="linenos">36</span></a>    <span class="sd">&quot;&quot;&quot;</span>
-</span><span id="extend-37"><a href="#extend-37"><span class="linenos">37</span></a><span class="sd">    Adds all values from the second tuple to the first one and returns the new created tuple</span>
-</span><span id="extend-38"><a href="#extend-38"><span class="linenos">38</span></a>
-</span><span id="extend-39"><a href="#extend-39"><span class="linenos">39</span></a><span class="sd">    Args:</span>
-</span><span id="extend-40"><a href="#extend-40"><span class="linenos">40</span></a><span class="sd">        tpl_1: The tuple where to add elements</span>
-</span><span id="extend-41"><a href="#extend-41"><span class="linenos">41</span></a><span class="sd">        tpl_2: The tuple with the elements to add</span>
-</span><span id="extend-42"><a href="#extend-42"><span class="linenos">42</span></a>
-</span><span id="extend-43"><a href="#extend-43"><span class="linenos">43</span></a><span class="sd">    Returns:</span>
-</span><span id="extend-44"><a href="#extend-44"><span class="linenos">44</span></a><span class="sd">        tuple[T, ...]: A new tuple with all elements from tpl_1 and tpl_2</span>
-</span><span id="extend-45"><a href="#extend-45"><span class="linenos">45</span></a>
-</span><span id="extend-46"><a href="#extend-46"><span class="linenos">46</span></a><span class="sd">    Raises:</span>
-</span><span id="extend-47"><a href="#extend-47"><span class="linenos">47</span></a><span class="sd">        TypeError: if tpl_1 or tpl_2 is None</span>
-</span><span id="extend-48"><a href="#extend-48"><span class="linenos">48</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="extend-49"><a href="#extend-49"><span class="linenos">49</span></a>    <span class="k">return</span> <span class="n">require_non_none</span><span class="p">(</span><span class="n">tpl_1</span><span class="p">)</span> <span class="o">+</span> <span class="n">require_non_none</span><span class="p">(</span><span class="n">tpl_2</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="extend-49"><a href="#extend-49"><span class="linenos">49</span></a><span class="k">def</span> <span class="nf">extend</span><span class="p">(</span><span class="n">tpl_1</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">tpl_2</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+</span><span id="extend-50"><a href="#extend-50"><span class="linenos">50</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="extend-51"><a href="#extend-51"><span class="linenos">51</span></a><span class="sd">    Adds all values from the second tuple to the first one and returns the new created tuple</span>
+</span><span id="extend-52"><a href="#extend-52"><span class="linenos">52</span></a>
+</span><span id="extend-53"><a href="#extend-53"><span class="linenos">53</span></a><span class="sd">    Args:</span>
+</span><span id="extend-54"><a href="#extend-54"><span class="linenos">54</span></a><span class="sd">        tpl_1: The tuple where to add elements</span>
+</span><span id="extend-55"><a href="#extend-55"><span class="linenos">55</span></a><span class="sd">        tpl_2: The tuple with the elements to add</span>
+</span><span id="extend-56"><a href="#extend-56"><span class="linenos">56</span></a>
+</span><span id="extend-57"><a href="#extend-57"><span class="linenos">57</span></a><span class="sd">    Returns:</span>
+</span><span id="extend-58"><a href="#extend-58"><span class="linenos">58</span></a><span class="sd">        tuple[T, ...]: A new tuple with all elements from tpl_1 and tpl_2</span>
+</span><span id="extend-59"><a href="#extend-59"><span class="linenos">59</span></a>
+</span><span id="extend-60"><a href="#extend-60"><span class="linenos">60</span></a><span class="sd">    Raises:</span>
+</span><span id="extend-61"><a href="#extend-61"><span class="linenos">61</span></a><span class="sd">        TypeError: if tpl_1 or tpl_2 is None</span>
+</span><span id="extend-62"><a href="#extend-62"><span class="linenos">62</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="extend-63"><a href="#extend-63"><span class="linenos">63</span></a>    <span class="k">return</span> <span class="n">require_non_none</span><span class="p">(</span><span class="n">tpl_1</span><span class="p">)</span> <span class="o">+</span> <span class="n">require_non_none</span><span class="p">(</span><span class="n">tpl_2</span><span class="p">)</span>
 </span></pre></div>
 
 
