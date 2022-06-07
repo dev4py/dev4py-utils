@@ -2,6 +2,20 @@
 The `objects` module provides a set of utility functions to simplify objects/variables operations or checks
 """
 
+# Copyright 2022 the original author or authors (i.e.: St4rG00se for Dev4py).
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 from typing import Any, Optional, cast, Awaitable
 
 from dev4py.utils.awaitables import is_awaitable
@@ -160,3 +174,31 @@ async def async_require_non_none_else_get(obj: SyncOrAsync[Optional[T]], supplie
         await cast(Awaitable[Optional[T]], obj) if is_awaitable(obj) else cast(Optional[T], obj),
         supplier
     )
+
+
+def to_none(*args: Any, **kwargs: Any) -> None:  # pylint: disable=W0613
+    """
+    Returns None whatever the parameters
+
+    Args:
+        *args: positional parameters
+        **kwargs: named parameters
+
+    Returns:
+        None: None whatever the parameters
+    """
+    return None
+
+
+def to_self(obj: T) -> T:
+    """
+    Returns the given parameter
+    Note: can be useful with multiprocessing where lambda cannot be used (lambda are not serializable)
+
+    Args:
+        obj: The object to return
+
+    Returns:
+        obj (T): The given parameter
+    """
+    return obj

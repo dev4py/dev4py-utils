@@ -1,9 +1,25 @@
 """dicts module tests"""
+
+# Copyright 2022 the original author or authors (i.e.: St4rG00se for Dev4py).
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 from typing import Optional, Any
 
 from pytest import raises
 
 from dev4py.utils import dicts, JOptional
+from dev4py.utils.objects import is_none
 from dev4py.utils.types import Supplier
 
 
@@ -354,7 +370,7 @@ class TestGetValueFromPath:
 
     class TestErrorCase:
         def test_not_dict__should__raise_type_error(self) -> None:
-            """When value is None should return False"""
+            """When dictionary is not a dict should raise TypeError exception"""
             # GIVEN
             key: str = 'a key'
             dictionary: str = "Not a dict"
@@ -364,4 +380,138 @@ class TestGetValueFromPath:
                 # noinspection PyTypeChecker
                 dicts.get_value_from_path(dictionary, key)
 
-            assert str(error.value) == "Optional[dict[K, V]] parameter is required"
+            assert str(error.value) == "Optional[dict[K, V]] dictionary parameter must be a dict or None value"
+
+
+class TestPutValue:
+    """put_value function tests"""
+
+    class TestNominalCase:
+        def test_new_key__should__add_value_and_return_none(self):
+            """When key doesn't exist, should add value to the key and return None"""
+            # GIVEN
+            key: str = 'a key'
+            value: int = 1
+            dictionary: dict[str, int] = {'key_1': 10}
+
+            # WHEN
+            result: Optional[int] = dicts.put_value(dictionary, key, value)
+
+            # THEN
+            assert len(dictionary) == 2
+            assert dictionary[key] == value
+            assert is_none(result)
+
+        def test_key_exists__should__add_value_and_return_old_value(self):
+            """When key exists, should add value to the key and return the old value"""
+            # GIVEN
+            key: str = 'a key'
+            value: int = 1
+            old_value: int = 666
+            dictionary: dict[str, int] = {'key_1': 10, key: old_value}
+
+            # WHEN
+            result: Optional[int] = dicts.put_value(dictionary, key, value)
+
+            # THEN
+            assert len(dictionary) == 2
+            assert dictionary[key] == value
+            assert old_value == result
+
+    class TestErrorCase:
+        def test_none_dict__should__raise_type_error(self) -> None:
+            """When dictionary is none should raise TypeError exception"""
+            # GIVEN
+            key: str = 'a key'
+            value: int = 1
+            dictionary: None = None
+
+            # WHEN / THEN
+            with raises(TypeError) as error:
+                # noinspection PyTypeChecker
+                dicts.put_value(dictionary, key, value)
+
+            assert str(error.value) == "dictionary must be a dict value"
+
+        def test_not_dict__should__raise_type_error(self) -> None:
+            """When dictionary is not a dict should raise TypeError exception"""
+            # GIVEN
+            key: str = 'a key'
+            value: int = 1
+            dictionary: str = "Not a dict"
+
+            # WHEN / THEN
+            with raises(TypeError) as error:
+                # noinspection PyTypeChecker
+                dicts.put_value(dictionary, key, value)
+
+            assert str(error.value) == "dictionary must be a dict value"
+
+
+class TestEmptyDict:
+    """empty_dict function tests"""
+
+    class TestNominalCase:
+        def test_should__return_an_empty_dict(self) -> None:
+            """Should return an empty dict"""
+            # GIVEN / WHEN
+            dictionary: dict[str, int] = dicts.empty_dict()
+
+            # THEN
+            assert dictionary == {}
+
+
+class TestUpdate:
+    """update function tests"""
+
+    class TestNominalCase:
+        def test_existing_parameters__should__return_first_dict_with_added_elements(self) -> None:
+            """When all parameters are set, should update and return the first dict with the second one"""
+            # GIVEN
+            dict_1: dict[str, int] = {'k1_1': 11, 'k1_2': 12}
+            dict_2: dict[str, int] = {'k2_1': 21, 'k2_2': 22}
+
+            # WHEN
+            result: dict[str, int] = dicts.update(dict_1, dict_2)
+
+            # THEN
+            expected_result: dict[str, int] = {'k1_1': 11, 'k1_2': 12, 'k2_1': 21, 'k2_2': 22}
+            assert result == expected_result
+            assert dict_1 == expected_result
+            assert dict_2 == {'k2_1': 21, 'k2_2': 22}
+
+        def test_empty_second_dict__should__return_first_dict_without_update(self) -> None:
+            """When the second dict is empty, should return the first dict without update"""
+            # GIVEN
+            dict_1: dict[str, int] = {'k1_1': 11, 'k1_2': 12}
+            dict_2: dict[str, int] = dicts.empty_dict()
+
+            # WHEN
+            result: dict[str, int] = dicts.update(dict_1, dict_2)
+
+            # THEN
+            expected_result: dict[str, int] = {'k1_1': 11, 'k1_2': 12}
+            assert result == expected_result
+            assert dict_1 == expected_result
+            assert dict_2 == {}
+
+    class TestErrorCase:
+        def test_none_first_dict__should__raise_type_error(self) -> None:
+            """When the first dict is None should raise TypeError exception"""
+            # GIVEN
+            dictionary: dict[str, int] = dicts.empty_dict()
+
+            # WHEN / THEN
+            with raises(TypeError):
+                # noinspection PyTypeChecker
+                dicts.update(None, dictionary)
+
+        def test_none_second_dict__should__raise_type_error(self) -> None:
+            """When the second dict is None should raise TypeError exception"""
+            # GIVEN
+            dictionary: dict[str, int] = dicts.empty_dict()
+
+            # WHEN / THEN
+            with raises(TypeError):
+                # noinspection PyTypeChecker
+                dicts.update(dictionary, None)

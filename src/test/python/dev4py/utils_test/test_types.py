@@ -1,8 +1,23 @@
 """types module tests"""
 
+# Copyright 2022 the original author or authors (i.e.: St4rG00se for Dev4py).
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 from typing import Callable, Union, Awaitable
 
-from dev4py.utils.types import Function, T, R, Predicate, Consumer, Supplier, Runnable, BiFunction, U, SyncOrAsync
+from dev4py.utils.types import Function, T, R, Predicate, Consumer, Supplier, Runnable, BiFunction, U, SyncOrAsync, \
+    BiConsumer
 
 
 class TestFunction:
@@ -224,3 +239,33 @@ class TestSyncOrAsync:
 
             # WHEN / THEN
             assert current_type != Union[Awaitable[str], str]
+
+
+class TestBiConsumer:
+    """BiConsumer type tests"""
+
+    class TestNominalCase:
+
+        def test_empty_biconsumer__should__be_equivalent_to_callable_t_u_r(self):
+            """Empty BiConsumer should be equivalent to Callable[[T, U], None]"""
+            # GIVEN
+            current_type = BiConsumer
+
+            # WHEN / THEN
+            assert current_type == Callable[[T, U], None]
+
+        def test_int_bool_biconsumer__should__be_equivalent_to_callable_int_bool_none(self):
+            """BiConsumer[int, bool] should be equivalent to Callable[[int, bool], None]"""
+            # GIVEN
+            current_type = BiConsumer[int, bool]
+
+            # WHEN / THEN
+            assert current_type == Callable[[int, bool], None]
+
+        def test_int_bool_biconsumer__should__not_be_equivalent_to_callable_str_bool_none(self):
+            """BiConsumer[int, str] should NOT be equivalent to Callable[[str, bool], none]"""
+            # GIVEN
+            current_type = BiConsumer[int, bool]
+
+            # WHEN / THEN
+            assert current_type != Callable[[str, bool], None]

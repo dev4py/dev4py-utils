@@ -1,4 +1,19 @@
 """AsyncJOptional module tests"""
+
+# Copyright 2022 the original author or authors (i.e.: St4rG00se for Dev4py).
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 from typing import Final, Optional, cast, Awaitable
 from unittest.mock import patch, MagicMock
 
@@ -989,7 +1004,8 @@ class TestAsyncJOptional:
                 await optional.or_else_get()  # Remove warning
 
             async def test_value_exists_and_none_mapper_result__should__raise_type_error_on_terminal_operation(
-                    self) -> None:
+                    self
+            ) -> None:
                 """
                 When value exists and mapper returns None, should raise a TypeError exception on terminal operation
                 """
@@ -1001,7 +1017,8 @@ class TestAsyncJOptional:
                     await optional.flat_map(lambda v: None).or_else_get()
 
             async def test_async_value_exists_and_none_mapper_result__should__raise_type_error_on_terminal_operation(
-                    self) -> None:
+                    self
+            ) -> None:
                 """
                 When async value exists and mapper returns None, should raise a TypeError exception on terminal
                 operation
