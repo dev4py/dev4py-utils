@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Generic, Final
+from functools import partial
+from typing import Generic, Final, cast
 
 from dev4py.utils.objects import require_non_none
 from dev4py.utils.types import OUT, IN, Function, R
@@ -32,6 +33,14 @@ class SimplePipeline(Generic[IN, OUT]):
         assert create_key == self.__CREATE_KEY, "SimplePipeline private constructor! Please use SimplePipeline.of"
         self._handler: Function[IN, OUT] = require_non_none(handler)
 
+    def _add_handler_lambda(self, value: IN, handler: Function[OUT, R]) -> R:
+        """
+        private method to describe add_handler method new handler
+        Note: lambda are not used in order to be compatible with multiprocessing (lambda are not serializable)
+        """
+        # lambda value: handler(self._handler(value))
+        return handler(self._handler(value))
+
     def add_handler(self, handler: Function[OUT, R]) -> SimplePipeline[IN, R]:
         """
         Adds an operation/operation/step to the pipeline
@@ -44,7 +53,7 @@ class SimplePipeline(Generic[IN, OUT]):
 
         """
         require_non_none(handler)
-        return SimplePipeline.of(lambda value: handler(self._handler(value)))
+        return SimplePipeline.of(cast(Function[IN, R], partial(self._add_handler_lambda, handler=handler)))
 
     def execute(self, value: IN) -> OUT:
         """

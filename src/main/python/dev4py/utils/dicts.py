@@ -1,10 +1,11 @@
 """
 The `dicts` module provides a set of utility functions to simplify dict operations
 """
+from functools import partial
 from typing import Optional, Any
 
 from dev4py.utils.JOptional import JOptional
-from dev4py.utils.objects import non_none, require_non_none
+from dev4py.utils.objects import non_none, require_non_none, to_none
 from dev4py.utils.types import K, V, Supplier
 
 
@@ -16,6 +17,15 @@ def is_dict(value: Any) -> bool:
         bool: true if the given value is a dict, otherwise false
     """
     return isinstance(value, dict)
+
+
+def _get_value(dictionary: dict[K, V], key: K) -> Optional[V]:
+    """
+    private function to replace get_joptional_value lambda
+    Note: lambda are not used in order to be compatible with multiprocessing (lambda are not serializable)
+    """
+    # lambda d: d.get(key)
+    return dictionary.get(key)
 
 
 def get_joptional_value(dictionary: Optional[dict[K, V]], key: K) -> JOptional[V]:
@@ -35,11 +45,11 @@ def get_joptional_value(dictionary: Optional[dict[K, V]], key: K) -> JOptional[V
 
     return JOptional \
         .of_noneable(dictionary) \
-        .map(lambda d: d.get(key))
+        .map(partial(_get_value, key=key))
 
 
 def get_value(
-        dictionary: Optional[dict[K, V]], key: K, default_supplier: Supplier[Optional[V]] = lambda: None
+        dictionary: Optional[dict[K, V]], key: K, default_supplier: Supplier[Optional[V]] = to_none
 ) -> Optional[V]:
     """
     Returns the value from a dict with the given key if presents, otherwise returns the result produced by the supplying
@@ -59,7 +69,7 @@ def get_value(
 
 
 def get_value_from_path(
-        dictionary: Optional[dict[K, Any]], path: list[Any], default_supplier: Supplier[Optional[V]] = lambda: None
+        dictionary: Optional[dict[K, Any]], path: list[Any], default_supplier: Supplier[Optional[V]] = to_none
 ) -> Optional[V]:
     """
     Returns the value from a deep dict (dict of dicts) with the given key path if present, otherwise returns the result

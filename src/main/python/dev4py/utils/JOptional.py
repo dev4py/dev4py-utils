@@ -1,11 +1,13 @@
 """The `JOptional` class provides a java like Optional class"""
 from __future__ import annotations
 
+from functools import partial
 from typing import Generic, Optional, Final, Any, cast, Awaitable
 
 from dev4py import utils
 from dev4py.utils import objects
 from dev4py.utils.awaitables import is_awaitable
+from dev4py.utils.objects import to_self, to_none
 from dev4py.utils.types import T, Supplier, Function, R, Consumer, Runnable, Predicate, SyncOrAsync
 
 
@@ -96,9 +98,9 @@ class JOptional(Generic[T]):
         Returns:
             value: The value, if present, otherwise other
         """
-        return self.or_else_get(lambda: other)
+        return self.or_else_get(cast(Supplier[Optional[T]], partial(to_self, obj=other)))
 
-    def or_else_get(self, supplier: Supplier[Optional[T]] = lambda: None) -> Optional[T]:
+    def or_else_get(self, supplier: Supplier[Optional[T]] = to_none) -> Optional[T]:
         """
         If a value is present, returns the value, otherwise returns the result produced by the supplying function
 
@@ -114,8 +116,17 @@ class JOptional(Generic[T]):
         objects.require_non_none(supplier)
         return self._value if self.is_present() else supplier()
 
+    @staticmethod  # pragma: no mutate
+    def __or_else_raise_supplier_lambda() -> Exception:
+        """
+        private static method to replace or_else_raise lambda supplier by a function
+        Note: lambda are not used in order to be compatible with multiprocessing (lambda are not serializable)
+        """
+        # lambda: cast(Exception, ValueError(JOptional.__NO_VALUE_ERROR_MSG))
+        return cast(Exception, ValueError(JOptional.__NO_VALUE_ERROR_MSG))
+
     def or_else_raise(
-            self, supplier: Supplier[Exception] = lambda: cast(Exception, ValueError(JOptional.__NO_VALUE_ERROR_MSG))
+            self, supplier: Supplier[Exception] = __or_else_raise_supplier_lambda
     ) -> T:
         """
         If a value is present, returns the value, otherwise raises an exception produced by the exception supplying
@@ -156,6 +167,15 @@ class JOptional(Generic[T]):
         objects.require_non_none(supplier)
         return self if self.is_present() else objects.require_non_none(supplier())
 
+    @staticmethod  # pragma: no mutate
+    def __map_lambda(v: T, mapper: Function[T, Optional[R]]) -> JOptional[R]:
+        """
+        private static method to replace inner map lambda supplier by a function
+        Note: lambda are not used in order to be compatible with multiprocessing (lambda are not serializable)
+        """
+        # lambda v: JOptional.of_noneable(mapper(v))
+        return JOptional.of_noneable(mapper(v))
+
     def map(self, mapper: Function[T, Optional[R]]) -> JOptional[R]:
         """
         If a value is present, returns a JOptional describing (as if by of_noneable) the result of applying the given
@@ -174,7 +194,7 @@ class JOptional(Generic[T]):
             TypeError: If the mapping function is None
         """
         objects.require_non_none(mapper)
-        return self.flat_map(lambda v: JOptional.of_noneable(mapper(v)))
+        return self.flat_map(partial(JOptional.__map_lambda, mapper=mapper))
 
     def flat_map(self, mapper: Function[T, JOptional[R]]) -> JOptional[R]:
         """

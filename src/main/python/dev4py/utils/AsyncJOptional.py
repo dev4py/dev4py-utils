@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
+from functools import partial
 from typing import Generic, Final, Optional, TypeAlias, cast, Any, Awaitable
 
 from dev4py.utils.JOptional import JOptional
 from dev4py.utils.awaitables import is_awaitable
-from dev4py.utils.objects import async_require_non_none, non_none, is_none, require_non_none
+from dev4py.utils.objects import async_require_non_none, non_none, is_none, require_non_none, to_self, to_none
 from dev4py.utils.types import T, V, SyncOrAsync, Supplier, Function, R, Consumer, Runnable, Predicate
 
 _VType: TypeAlias = SyncOrAsync[Optional[V]]  # pragma: no mutate
@@ -116,9 +117,9 @@ class AsyncJOptional(Generic[T]):
         Returns:
             value: The value, if present, otherwise other
         """
-        return self.or_else_get(lambda: other)
+        return self.or_else_get(cast(Supplier[Optional[T]], partial(to_self, obj=other)))
 
-    async def or_else_get(self, supplier: Supplier[Optional[T]] = lambda: None) -> Optional[T]:
+    async def or_else_get(self, supplier: Supplier[Optional[T]] = to_none) -> Optional[T]:
         """
         If a value is present, returns the value, otherwise returns the result produced by the supplying function
 
@@ -134,9 +135,18 @@ class AsyncJOptional(Generic[T]):
         require_non_none(supplier)
         return cast(Optional[T], self._value if await self.is_present() else supplier())
 
+    @staticmethod  # pragma: no mutate
+    def __or_else_raise_supplier_lambda() -> Exception:
+        """
+        private static method to replace or_else_raise lambda supplier by a function
+        Note: lambda are not used in order to be compatible with multiprocessing (lambda are not serializable)
+        """
+        # lambda: cast(Exception, ValueError(AsyncJOptional.__NO_VALUE_ERROR_MSG))
+        return cast(Exception, ValueError(AsyncJOptional.__NO_VALUE_ERROR_MSG))
+
     async def or_else_raise(
             self,
-            supplier: Supplier[Exception] = lambda: cast(Exception, ValueError(AsyncJOptional.__NO_VALUE_ERROR_MSG))
+            supplier: Supplier[Exception] = __or_else_raise_supplier_lambda
     ) -> T:
         """
         If a value is present, returns the value, otherwise raises an exception produced by the exception supplying
@@ -181,6 +191,15 @@ class AsyncJOptional(Generic[T]):
 
         return AsyncJOptional.of_noneable(_async_or_get(self, supplier))
 
+    @staticmethod  # pragma: no mutate
+    def __map_lambda(v: T, mapper: Function[T, _VType[R]]) -> AsyncJOptional[R]:
+        """
+        private static method to replace inner map lambda supplier by a function
+        Note: lambda are not used in order to be compatible with multiprocessing (lambda are not serializable)
+        """
+        # lambda v: AsyncJOptional.of_noneable(mapper(v))
+        return AsyncJOptional.of_noneable(mapper(v))
+
     def map(self, mapper: Function[T, _VType[R]]) -> AsyncJOptional[R]:
         """
         If a value is present, returns an AsyncJOptional describing (as if by of_noneable) the result of applying the
@@ -201,7 +220,7 @@ class AsyncJOptional(Generic[T]):
             TypeError: If the mapping function is None
         """
         require_non_none(mapper)
-        return self.flat_map(lambda v: AsyncJOptional.of_noneable(mapper(v)))
+        return self.flat_map(partial(AsyncJOptional.__map_lambda, mapper=mapper))
 
     def flat_map(self, mapper: Function[T, AsyncJOptional[R]]) -> AsyncJOptional[R]:
         """
