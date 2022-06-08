@@ -299,7 +299,7 @@ pipeline.execute(15)  # StepResult(value='225', go_next=False)
 
 [Stream documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/Stream.html)
 
-> ***Note:** [Stream](src/main/python/dev4py/utils/JOptional.py) class is inspired by
+> ***Note:** [Stream](src/main/python/dev4py/utils/Stream.py) class is inspired by
 > [java.util.stream.Stream](https://docs.oracle.com/en/java/javase/17/docs/api//java.base/java/util/stream/Stream.html).*
 
 Examples:
