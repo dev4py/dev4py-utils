@@ -25,6 +25,7 @@ A set of Python regularly used classes/functions
   - [dev4py.utils.lists](#dev4pyutilslists)
   - [dev4py.utils.objects](#dev4pyutilsobjects)
   - [dev4py.utils.pipeline](#dev4pyutilspipeline)
+  - [dev4py.utils.retry](#dev4pyutilsretry)
   - [dev4py.utils.Stream](#dev4pyutilsstream)
   - [dev4py.utils.tuples](#dev4pyutilstuples)
   - [dev4py.utils.types](#dev4pyutilstypes)
@@ -293,6 +294,87 @@ pipeline.execute(10)  # StepResult(value="Result: 100 | Type: <class 'str'>", go
 # - Note: When the pipeline is fully completed, `go_next` is True
 pipeline.execute(15)  # StepResult(value='225', go_next=False)
 # - Note: Even if the pipeline is not fully completed, the last StepResult is returned with `go_next=False`
+```
+
+### dev4py.utils.retry
+
+[Retry documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/retry.html)
+
+> ***Note:** The [retry](src/main/python/dev4py/utils/retry.py) module provides provides function to create retryable
+> callable from simple sync or async callables using exponential backoff*
+>
+> *Usage idea: network requests (HTTP, AMQP, MQTT, etc.) with retry on error*
+
+Examples:
+
+```python
+import asyncio
+from time import time
+from typing import Awaitable
+
+from dev4py.utils.retry import RetryConfiguration, to_retryable, to_async_retryable
+from dev4py.utils.types import BiFunction
+
+# RetryConfiguration:
+# Note: exponential backoff used formula is 'delay * (exponent^retry_number)'
+#
+#   => Example: For the following RetryConfiguration, waiting times in case of error are:
+#       * first try:                    0 sec (always 0 for the first try)
+#       * second try (/first retry):    1 sec ('0.5 * (2^1)')
+#       * third try (/second retry):    2 sec ('0.5 * (2^2)')
+#       * max_tries=3 => no fourth try (/third retry)
+retry_config: RetryConfiguration = RetryConfiguration(
+    delay=0.5,  # the exponential backoff delay in second (default: 0.1)
+    exponent=2,  # the exponential backoff exponent to determine delay between each try (default: 2)
+    max_tries=3  # max try number (first try included) (default: 3, i.e.: first try and 2 retry)
+)
+
+
+# to_retryable sample:
+# -> SUCCESSFUL CALL SAMPLE
+def callable_sample(j: int, start_time: float) -> int:
+    print("callable_sample - call time: '%.2f'" % (time() - start_time))
+    return j ** 2
+
+retryable_sample: BiFunction[int, float, int] = to_retryable(sync_callable=callable_sample, retry_config=retry_config)
+result: int = retryable_sample(3, time())  # result = 9
+# outputs:
+#  callable_sample - call time: '0.00'
+
+
+# -> IN ERROR CALL SAMPLE
+def in_error_callable_sample(j: int, start_time: float) -> int:
+    print("in_error_callable_sample - call time: '%.2f'" % (time() - start_time))
+    raise ValueError(j)
+
+in_error_retryable_sample: BiFunction[int, float, int] = \
+    to_retryable(sync_callable=in_error_callable_sample, retry_config=retry_config)
+# Note: By default the last raised exception is raised if max_tries is reach. You can change this behavior by setting
+#       the `on_failure` parameter
+result: int = in_error_retryable_sample(3, time())
+# outputs:
+#  in_error_callable_sample - call time: '0.00'
+#  in_error_callable_sample - call time: '1.00'
+#  in_error_callable_sample - call time: '3.00'
+#  ValueError: 3
+
+
+# to_async_retryable sample:
+async def in_error_async_callable_sample(j: int, start_time: float) -> int:
+    print("in_error_async_callable_sample - call time: '%.2f'" % (time() - start_time))
+    raise ValueError(j)
+
+async def async_retryable_sample() -> None:
+    in_error_async_retryable_sample: BiFunction[int, float, Awaitable[int]] = \
+        to_async_retryable(async_callable=in_error_async_callable_sample, retry_config=retry_config)
+    result: int = await in_error_async_retryable_sample(2, time())
+
+asyncio.run(async_retryable_sample())
+# outputs:
+#  in_error_async_callable_sample - call time: '0.00'
+#  in_error_async_callable_sample - call time: '1.00'
+#  in_error_async_callable_sample - call time: '3.00'
+#  ValueError: 2
 ```
 
 ### dev4py.utils.Stream
