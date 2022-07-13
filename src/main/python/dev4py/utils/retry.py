@@ -13,15 +13,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-
 from asyncio import sleep as async_sleep
 from dataclasses import dataclass
-from functools import partial
+from functools import partial, wraps
 from time import sleep
-from typing import Callable, Awaitable
+from typing import Callable, Awaitable, Union, Optional, cast
 
-from dev4py.utils.objects import require_non_none
+from dev4py.utils.objects import require_non_none, is_none
 from dev4py.utils.types import T, P, Function
 
 
@@ -158,6 +156,52 @@ async def _with_async_retry(
 ##############################
 #      PUBLIC FUNCTIONS      #
 ##############################
+
+def retryable(
+        sync_callable: Optional[Callable[P, T]] = None,
+        retry_config: RetryConfiguration = RetryConfiguration(),
+        on_failure: Function[BaseException, T] = _default_retry_on_failure
+) -> Union[Callable[P, T], Function[Callable[P, T], Callable[P, T]]]:
+    """
+    SINCE: 3.5.0: a `to_retryable` equivalent that can also be used as decorator
+
+    Transforms a callable to a retryable one by using the given RetryConfiguration
+
+    If an error occurs when executing the returned callable the call is retried by using the given RetryConfiguration.
+    An exponential backoff is used in order to determinate the waiting time between each call. If max_tries is reached
+    then the on_failure function is called in order to return a default value or raise an exception. By default, it
+    raises the last raised exception
+
+    Args:
+        sync_callable: The callable to transform
+        retry_config: The given RetryConfiguration
+        on_failure: The action to perform if max_tries is reached (Note: can return a default value)
+
+    Returns:
+        Function[Callable[P, T], Callable[P, T]]: Corresponding to a partial `to_retryable` function filled with
+            `retry_config` and `on_failure` parameters if sync_callable is None
+
+        Callable[P, Awaitable[T]]: The retryable callable (is equivalent to `to_retryable` call) if sync_callable is not
+            None
+
+    Raises:
+        TypeError: if retry_config or on_failure is None
+    """
+    require_non_none(retry_config)
+    require_non_none(on_failure)
+
+    def _retryable_decorator(func: Callable[P, T]) -> Callable[P, T]:
+        require_non_none(func)
+
+        @wraps(func)
+        def _retryable_wrapper(*args: P.args, **kwargs: P.kwargs) -> T:
+            return _with_retry(func, retry_config, on_failure, 0, *args, **kwargs)
+
+        return _retryable_wrapper
+
+    return _retryable_decorator if is_none(sync_callable) else _retryable_decorator(cast(Callable[P, T], sync_callable))
+
+
 def to_retryable(
         sync_callable: Callable[P, T],
         retry_config: RetryConfiguration = RetryConfiguration(),
@@ -186,6 +230,52 @@ def to_retryable(
     require_non_none(retry_config)
     require_non_none(on_failure)
     return partial(_with_retry, *[sync_callable, retry_config, on_failure, 0])
+
+
+def async_retryable(
+        async_callable: Optional[Callable[P, Awaitable[T]]] = None,
+        retry_config: RetryConfiguration = RetryConfiguration(),
+        on_failure: Function[BaseException, T] = _default_retry_on_failure
+) -> Union[Function[Callable[P, Awaitable[T]], Callable[P, Awaitable[T]]], Callable[P, Awaitable[T]]]:
+    """
+    SINCE: 3.5.0: a `to_async_retryable` equivalent that can also be used as decorator
+
+    Transforms an async callable to an async retryable one by using the given RetryConfiguration
+
+    If an error occurs when executing the returned callable the call is retried by using the given RetryConfiguration.
+    An exponential backoff is used in order to determinate the waiting time between each call. If max_tries is reached
+    then the on_failure function is called in order to return a default value or raise an exception. By default, it
+    raises the last raised exception
+
+    Args:
+        async_callable: The async callable to transform
+        retry_config: The given RetryConfiguration
+        on_failure: The action to perform if max_tries is reached (Note: can return a default value)
+
+    Returns:
+        Function[Callable[P, Awaitable[T]], Callable[P, Awaitable[T]]]: Corresponding to a partial `to_async_retryable`
+            function filled with `retry_config` and `on_failure` parameters if async_callable is None
+
+        Callable[P, Awaitable[T]]: The async retryable callable (is equivalent to `to_async_retryable` call) if
+            async_callable is not None
+
+    Raises:
+        TypeError: if retry_config or on_failure is None
+    """
+    require_non_none(retry_config)
+    require_non_none(on_failure)
+
+    def _async_retryable_decorator(func: Callable[P, Awaitable[T]]) -> Callable[P, Awaitable[T]]:
+        require_non_none(func)
+
+        @wraps(func)
+        def _async_retryable_wrapper(*args: P.args, **kwargs: P.kwargs) -> Awaitable[T]:
+            return _with_async_retry(func, retry_config, on_failure, 0, *args, **kwargs)
+
+        return _async_retryable_wrapper
+
+    return _async_retryable_decorator if is_none(async_callable) else \
+        _async_retryable_decorator(cast(Callable[P, Awaitable[T]], async_callable))
 
 
 def to_async_retryable(
