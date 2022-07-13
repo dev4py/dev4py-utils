@@ -312,7 +312,7 @@ import asyncio
 from time import time
 from typing import Awaitable
 
-from dev4py.utils.retry import RetryConfiguration, to_retryable, to_async_retryable
+from dev4py.utils.retry import RetryConfiguration, to_retryable, to_async_retryable, retryable, async_retryable
 from dev4py.utils.types import BiFunction
 
 # RetryConfiguration:
@@ -337,6 +337,8 @@ def callable_sample(j: int, start_time: float) -> int:
     return j ** 2
 
 retryable_sample: BiFunction[int, float, int] = to_retryable(sync_callable=callable_sample, retry_config=retry_config)
+# Note: Since 3.5.0 you can also use `retryable(sync_callable=callable_sample, retry_config=retry_config)`
+
 result: int = retryable_sample(3, time())  # result = 9
 # outputs:
 #  callable_sample - call time: '0.00'
@@ -349,6 +351,7 @@ def in_error_callable_sample(j: int, start_time: float) -> int:
 
 in_error_retryable_sample: BiFunction[int, float, int] = \
     to_retryable(sync_callable=in_error_callable_sample, retry_config=retry_config)
+# Note: Since 3.5.0 you can also use `retryable(sync_callable=in_error_callable_sample, retry_config=retry_config)`
 # Note: By default the last raised exception is raised if max_tries is reach. You can change this behavior by setting
 #       the `on_failure` parameter
 result: int = in_error_retryable_sample(3, time())
@@ -357,9 +360,29 @@ result: int = in_error_retryable_sample(3, time())
 #  in_error_callable_sample - call time: '1.00'
 #  in_error_callable_sample - call time: '3.00'
 #  ValueError: 3
+#
+# Note: By default the last raised exception is raised if max_tries is reached. You can change this behavior by setting
+#       the `on_failure` parameter
+
+# -> DECORATOR SAMPLE
+@retryable(retry_config=retry_config)
+def decorated_in_error_callable_sample(j: int, start_time: float) -> int:
+    print("decorated_in_error_callable_sample - call time: '%.2f'" % (time() - start_time))
+    raise ValueError(j)
+
+result: int = decorated_in_error_callable_sample(3, time())
+# outputs:
+#  decorated_in_error_callable_sample - call time: '0.00'
+#  decorated_in_error_callable_sample - call time: '1.00'
+#  decorated_in_error_callable_sample - call time: '3.00'
+#  ValueError: 3
+#
+# Note: By default the last raised exception is raised if max_tries is reached. You can change this behavior by setting
+#       the `on_failure` parameter
 
 
 # to_async_retryable sample:
+# -> IN ERROR CALL ASYNC SAMPLE
 async def in_error_async_callable_sample(j: int, start_time: float) -> int:
     print("in_error_async_callable_sample - call time: '%.2f'" % (time() - start_time))
     raise ValueError(j)
@@ -367,6 +390,8 @@ async def in_error_async_callable_sample(j: int, start_time: float) -> int:
 async def async_retryable_sample() -> None:
     in_error_async_retryable_sample: BiFunction[int, float, Awaitable[int]] = \
         to_async_retryable(async_callable=in_error_async_callable_sample, retry_config=retry_config)
+    # Note: Since 3.5.0 you can also use 
+    # `async_retryable(async_callable=in_error_async_callable_sample, retry_config=retry_config)`
     result: int = await in_error_async_retryable_sample(2, time())
 
 asyncio.run(async_retryable_sample())
@@ -375,6 +400,28 @@ asyncio.run(async_retryable_sample())
 #  in_error_async_callable_sample - call time: '1.00'
 #  in_error_async_callable_sample - call time: '3.00'
 #  ValueError: 2
+#
+# Note: By default the last raised exception is raised if max_tries is reached. You can change this behavior by setting
+#       the `on_failure` parameter
+
+# -> DECORATOR ASYNC SAMPLE
+@async_retryable(retry_config=retry_config)
+async def decorated_in_error_async_callable_sample(j: int, start_time: float) -> int:
+    print("decorated_in_error_async_callable_sample - call time: '%.2f'" % (time() - start_time))
+    raise ValueError(j)
+
+async def async_decorated_retryable_sample() -> None:
+    result: int = await decorated_in_error_async_callable_sample(2, time())
+
+asyncio.run(async_decorated_retryable_sample())
+# outputs:
+#  in_error_async_callable_sample - call time: '0.00'
+#  in_error_async_callable_sample - call time: '1.00'
+#  in_error_async_callable_sample - call time: '3.00'
+#  ValueError: 2
+#
+# Note: By default the last raised exception is raised if max_tries is reached. You can change this behavior by setting
+#       the `on_failure` parameter
 ```
 
 ### dev4py.utils.Stream
