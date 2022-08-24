@@ -1,4 +1,4 @@
-"""StepPipeline module tests"""
+"""step_pipeline module tests"""
 
 # Copyright 2022 the original author or authors (i.e.: St4rG00se for Dev4py).
 #
@@ -20,7 +20,7 @@ from pytest import raises
 
 from dev4py.utils.objects import non_none
 # noinspection PyProtectedMember
-from dev4py.utils.pipeline.StepPipeline import StepResult, StepPipeline, _Step
+from dev4py.utils.pipeline.step_pipeline import StepResult, StepPipeline, _Step
 from dev4py.utils.types import Function
 
 

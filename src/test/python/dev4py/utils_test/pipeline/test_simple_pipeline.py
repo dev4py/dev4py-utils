@@ -1,4 +1,4 @@
-"""SimplePipeline module tests"""
+"""simple_pipeline module tests"""
 
 # Copyright 2022 the original author or authors (i.e.: St4rG00se for Dev4py).
 #
@@ -18,7 +18,7 @@ from typing import Final, Optional
 
 from pytest import raises
 
-from dev4py.utils.pipeline.SimplePipeline import SimplePipeline
+from dev4py.utils.pipeline.simple_pipeline import SimplePipeline
 from dev4py.utils.types import Function
 
 

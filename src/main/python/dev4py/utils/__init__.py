@@ -15,7 +15,7 @@
 # limitations under the License.
 
 
-from .AsyncJOptional import AsyncJOptional
-from .JOptional import JOptional
-from .Stream import Stream, ParallelConfiguration
+from .async_joptional import AsyncJOptional
+from .joptional import JOptional
+from .stream import Stream, ParallelConfiguration
 from .collectors import Collector

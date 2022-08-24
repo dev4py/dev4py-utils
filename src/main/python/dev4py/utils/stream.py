@@ -22,7 +22,7 @@ from functools import partial, cmp_to_key
 from typing import Generic, Final, Optional, cast, Any, Collection, Iterable, Iterator
 
 from dev4py.utils import collectors
-from dev4py.utils.JOptional import JOptional
+from dev4py.utils.joptional import JOptional
 from dev4py.utils.collectors import Collector
 from dev4py.utils.iterables import get_chunks
 from dev4py.utils.objects import require_non_none, require_non_none_else_get, to_self
