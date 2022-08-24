@@ -16,7 +16,7 @@
 from dataclasses import FrozenInstanceError
 from time import time
 from typing import Awaitable, Callable
-from unittest.mock import patch, MagicMock
+from unittest.mock import Mock
 
 from pytest import raises
 
@@ -328,12 +328,10 @@ class TestToRetryable:
 
     @staticmethod
     def _successful_function(i: int) -> int:
-        print(i)
         return i * i
 
     @staticmethod
     def _failure_function(i: int) -> int:
-        print(i)
         raise ValueError(i)
 
     @staticmethod
@@ -345,13 +343,10 @@ class TestToRetryable:
 
     class TestNominalCase:
 
-        @patch('builtins.print')
-        def test_callable_in_success__should__return_retryable_callable_with_success_value(
-                self, counter_mock: MagicMock
-        ) -> None:
+        def test_callable_in_success__should__return_retryable_callable_with_success_value(self) -> None:
             """When the given callable always succeed, should return a retryable one and execution should succeed"""
             # GIVEN TestToRetryable.RETRY_CONFIG
-            test_callable: Function[int, int] = TestToRetryable._successful_function
+            test_callable: Function[int, int] = Mock(side_effect=TestToRetryable._successful_function)
 
             # WHEN
             retryable_callable: Function[int, int] = retry.to_retryable(test_callable)
@@ -359,16 +354,15 @@ class TestToRetryable:
             # THEN
             param: int = 2
             assert retryable_callable(param) == (param * param)
-            counter_mock.assert_called_once_with(param)
-            assert counter_mock.call_count == 1
+            test_callable.assert_called_once_with(param)
+            assert test_callable.call_count == 1
 
-        @patch('builtins.print')
         def test_failure_callable_with_default_on_failure__should__return_retryable_and_raise_error_after_retry(
-                self, counter_mock: MagicMock
+                self
         ) -> None:
             """When the given callable always failed, should return a retryable which raises an error on execution"""
             # GIVEN TestToRetryable.RETRY_CONFIG
-            test_callable: Function[int, int] = TestToRetryable._failure_function
+            test_callable: Function[int, int] = Mock(side_effect=TestToRetryable._failure_function)
 
             # WHEN
             retryable_callable: Function[int, int] = \
@@ -387,20 +381,17 @@ class TestToRetryable:
                 retryable_callable(param)
             exec_duration = time() - exec_duration
             assert exec_duration >= expected_min_duration
-            counter_mock.assert_called_with(param)
-            assert counter_mock.call_count == TestToRetryable._MAX_TRIES
+            test_callable.assert_called_with(param)
+            assert test_callable.call_count == TestToRetryable._MAX_TRIES
             assert str(error.value) == str(param)
 
-        @patch('builtins.print')
-        def test_failure_callable_with_on_failure__should__return_retryable_and_call_on_failure_parameter(
-                self, counter_mock: MagicMock
-        ) -> None:
+        def test_failure_callable_with_on_failure__should__return_retryable_and_call_on_failure_parameter(self) -> None:
             """
             When the given callable always failed and on_failure is provided, should return a retryable which calls the
             given on_failure function
             """
             # GIVEN TestToRetryable.RETRY_CONFIG
-            test_callable: Function[int, int] = TestToRetryable._failure_function
+            test_callable: Function[int, int] = Mock(side_effect=TestToRetryable._failure_function)
             default_value: int = 7
             on_failure: Function[BaseException, int] = lambda _: default_value
 
@@ -419,20 +410,17 @@ class TestToRetryable:
             exec_duration: float = time()
             assert retryable_callable(param) == default_value
             exec_duration = time() - exec_duration
-            counter_mock.assert_called_with(param)
-            assert counter_mock.call_count == TestToRetryable._MAX_TRIES
+            test_callable.assert_called_with(param)
+            assert test_callable.call_count == TestToRetryable._MAX_TRIES
             assert exec_duration >= expected_min_duration
 
-        @patch('builtins.print')
-        def test_semi_failure_callable__should__raise_callable_error_after_retry(
-                self, counter_mock: MagicMock
-        ) -> None:
+        def test_semi_failure_callable__should__raise_callable_error_after_retry(self) -> None:
             """
             When the given callable failed once, should return a retryable and execution should succeed after one retry
             """
             # GIVEN TestToRetryable.RETRY_CONFIG
             TestToRetryable._SEMI_FAILURE_CALL = 0
-            test_callable: Function[int, int] = TestToRetryable._semi_failure_function
+            test_callable: Function[int, int] = Mock(side_effect=TestToRetryable._semi_failure_function)
 
             # WHEN
             retryable_callable: Function[int, int] = \
@@ -445,8 +433,8 @@ class TestToRetryable:
             assert retryable_callable(param) == (param * param)
             exec_duration = time() - exec_duration
             assert exec_duration >= expected_min_duration
-            counter_mock.assert_called_with(param)
-            assert counter_mock.call_count == 2
+            test_callable.assert_called_with(param)
+            assert test_callable.call_count == 2
 
     class TestErrorCase:
         def test_none_sync_callable__should__raise_type_error(self) -> None:
@@ -487,12 +475,10 @@ class TestRetryable:
 
     @staticmethod
     def _successful_function(i: int) -> int:
-        print(i)
         return i * i
 
     @staticmethod
     def _failure_function(i: int) -> int:
-        print(i)
         raise ValueError(i)
 
     @staticmethod
@@ -504,13 +490,10 @@ class TestRetryable:
 
     class TestNominalCase:
 
-        @patch('builtins.print')
-        def test_callable_in_success__should__return_retryable_callable_with_success_value(
-                self, counter_mock: MagicMock
-        ) -> None:
+        def test_callable_in_success__should__return_retryable_callable_with_success_value(self) -> None:
             """When the given callable always succeed, should return a retryable one and execution should succeed"""
             # GIVEN TestRetryable.RETRY_CONFIG
-            test_callable: Function[int, int] = TestRetryable._successful_function
+            test_callable: Function[int, int] = Mock(side_effect=TestRetryable._successful_function)
 
             # WHEN
             retryable_callable: Function[int, int] = retry.retryable(test_callable)
@@ -518,16 +501,15 @@ class TestRetryable:
             # THEN
             param: int = 2
             assert retryable_callable(param) == (param * param)
-            counter_mock.assert_called_once_with(param)
-            assert counter_mock.call_count == 1
+            test_callable.assert_called_once_with(param)
+            assert test_callable.call_count == 1
 
-        @patch('builtins.print')
         def test_failure_callable_with_default_on_failure__should__return_retryable_and_raise_error_after_retry(
-                self, counter_mock: MagicMock
+                self
         ) -> None:
             """When the given callable always failed, should return a retryable which raises an error on execution"""
             # GIVEN TestRetryable.RETRY_CONFIG
-            test_callable: Function[int, int] = TestRetryable._failure_function
+            test_callable: Function[int, int] = Mock(side_effect=TestRetryable._failure_function)
 
             # WHEN
             retryable_callable: Function[int, int] = \
@@ -546,20 +528,19 @@ class TestRetryable:
                 retryable_callable(param)
             exec_duration = time() - exec_duration
             assert exec_duration >= expected_min_duration
-            counter_mock.assert_called_with(param)
-            assert counter_mock.call_count == TestRetryable._MAX_TRIES
+            test_callable.assert_called_with(param)
+            assert test_callable.call_count == TestRetryable._MAX_TRIES
             assert str(error.value) == str(param)
 
-        @patch('builtins.print')
         def test_failure_callable_with_on_failure__should__return_retryable_and_call_on_failure_parameter(
-                self, counter_mock: MagicMock
+                self
         ) -> None:
             """
             When the given callable always failed and on_failure is provided, should return a retryable which calls the
             given on_failure function
             """
             # GIVEN TestRetryable.RETRY_CONFIG
-            test_callable: Function[int, int] = TestRetryable._failure_function
+            test_callable: Function[int, int] = Mock(side_effect=TestRetryable._failure_function)
             default_value: int = 7
             on_failure: Function[BaseException, int] = lambda _: default_value
 
@@ -578,20 +559,19 @@ class TestRetryable:
             exec_duration: float = time()
             assert retryable_callable(param) == default_value
             exec_duration = time() - exec_duration
-            counter_mock.assert_called_with(param)
-            assert counter_mock.call_count == TestRetryable._MAX_TRIES
+            test_callable.assert_called_with(param)
+            assert test_callable.call_count == TestRetryable._MAX_TRIES
             assert exec_duration >= expected_min_duration
 
-        @patch('builtins.print')
         def test_semi_failure_callable__should__raise_callable_error_after_retry(
-                self, counter_mock: MagicMock
+                self
         ) -> None:
             """
             When the given callable failed once, should return a retryable and execution should succeed after one retry
             """
             # GIVEN TestRetryable.RETRY_CONFIG
             TestRetryable._SEMI_FAILURE_CALL = 0
-            test_callable: Function[int, int] = TestRetryable._semi_failure_function
+            test_callable: Function[int, int] = Mock(side_effect=TestRetryable._semi_failure_function)
 
             # WHEN
             retryable_callable: Function[int, int] = \
@@ -604,20 +584,17 @@ class TestRetryable:
             assert retryable_callable(param) == (param * param)
             exec_duration = time() - exec_duration
             assert exec_duration >= expected_min_duration
-            counter_mock.assert_called_with(param)
-            assert counter_mock.call_count == 2
+            test_callable.assert_called_with(param)
+            assert test_callable.call_count == 2
 
-        @patch('builtins.print')
-        def test_none_sync_callable__should__return_a_partial_to_retryable_function(
-                self, counter_mock: MagicMock
-        ) -> None:
+        def test_none_sync_callable__should__return_a_partial_to_retryable_function(self) -> None:
             """When sync_callable is None, should return a partial filled to_retryable function"""
             # GIVEN / WHEN
             to_retryable: Function[Callable[P, T], Callable[P, T]] = retry.retryable(sync_callable=None)
 
             # THEN
             TestRetryable._SEMI_FAILURE_CALL = 0
-            test_callable: Function[int, int] = TestRetryable._semi_failure_function
+            test_callable: Function[int, int] = Mock(side_effect=TestRetryable._semi_failure_function)
             retryable_callable: Function[int, int] = to_retryable(test_callable)
             param: int = 2
             expected_min_duration: float = TestRetryable._RETRY_CONFIG.get_waiting_interval(1)
@@ -625,29 +602,27 @@ class TestRetryable:
             assert retryable_callable(param) == (param * param)
             exec_duration = time() - exec_duration
             assert exec_duration >= expected_min_duration
-            counter_mock.assert_called_with(param)
-            assert counter_mock.call_count == 2
+            test_callable.assert_called_with(param)
+            assert test_callable.call_count == 2
 
-        @patch('builtins.print')
-        def test_used_as_decorator__should__transform_function_to_retryable(
-                self, counter_mock: MagicMock
-        ) -> None:
+        def test_used_as_decorator__should__transform_function_to_retryable(self) -> None:
             """When is used as decorator, should convert the decorated function as a retryable"""
             # GIVEN
             param: int = 2
             TestRetryable._SEMI_FAILURE_CALL = 0
+            test_callable: Function[int, int] = Mock(side_effect=TestRetryable._semi_failure_function)
 
             @retry.retryable
             def test_decorated_function(i: int) -> int:
-                return TestRetryable._semi_failure_function(i)
+                return test_callable(i)
 
             # WHEN
             result: int = test_decorated_function(param)
 
             # THEN
             assert result == (param * param)
-            counter_mock.assert_called_with(param)
-            assert counter_mock.call_count == 2
+            test_callable.assert_called_with(param)
+            assert test_callable.call_count == 2
 
         def test_used_as_decorator__should__wrap_target_function(self) -> None:
             """When is used as decorator, should wrap the target function"""
@@ -660,10 +635,7 @@ class TestRetryable:
             # THEN
             assert test_decorated_function.__name__ == 'test_decorated_function'
 
-        @patch('builtins.print')
-        def test_used_as_parametrized_decorator__should__transform_function_to_retryable(
-                self, counter_mock: MagicMock
-        ) -> None:
+        def test_used_as_parametrized_decorator__should__transform_function_to_retryable(self) -> None:
             """
             When is used as parametrized decorator, should convert the decorated function as a retryable configured with
             given parameters
@@ -672,10 +644,11 @@ class TestRetryable:
             param: int = 2
             default_value: int = 7
             on_failure: Function[BaseException, int] = lambda _: default_value
+            test_callable: Function[int, int] = Mock(side_effect=TestRetryable._failure_function)
 
             @retry.retryable(retry_config=TestRetryable._RETRY_CONFIG, on_failure=on_failure)
             def test_decorated_function(i: int) -> int:
-                return TestRetryable._failure_function(i)
+                return test_callable(i)
 
             # WHEN
             start_time: float = time()
@@ -691,8 +664,8 @@ class TestRetryable:
             )
             assert duration >= expected_min_duration
             assert result == default_value
-            counter_mock.assert_called_with(param)
-            assert counter_mock.call_count == 3
+            test_callable.assert_called_with(param)
+            assert test_callable.call_count == 3
 
     class TestErrorCase:
         def test_none_sync_callable_on_call_should__raise_type_error(self) -> None:
@@ -736,12 +709,10 @@ class TestToAsyncRetryable:
 
     @staticmethod
     async def _successful_function(i: int) -> int:
-        print(i)
         return i * i
 
     @staticmethod
     async def _failure_function(i: int) -> int:
-        print(i)
         raise ValueError(i)
 
     @staticmethod
@@ -753,13 +724,10 @@ class TestToAsyncRetryable:
 
     class TestNominalCase:
 
-        @patch('builtins.print')
-        async def test_callable_in_success__should__return_retryable_callable_with_success_value(
-                self, counter_mock: MagicMock
-        ) -> None:
+        async def test_callable_in_success__should__return_retryable_callable_with_success_value(self) -> None:
             """When the given callable always succeed, should return a retryable one and execution should succeed"""
             # GIVEN TestToAsyncRetryable.RETRY_CONFIG
-            test_callable: Function[int, Awaitable[int]] = TestToAsyncRetryable._successful_function
+            test_callable: Function[int, Awaitable[int]] = Mock(side_effect=TestToAsyncRetryable._successful_function)
 
             # WHEN
             retryable_callable: Function[int, Awaitable[int]] = retry.to_async_retryable(test_callable)
@@ -767,16 +735,15 @@ class TestToAsyncRetryable:
             # THEN
             param: int = 2
             assert await retryable_callable(param) == (param * param)
-            counter_mock.assert_called_once_with(param)
-            assert counter_mock.call_count == 1
+            test_callable.assert_called_once_with(param)
+            assert test_callable.call_count == 1
 
-        @patch('builtins.print')
         async def test_failure_callable_with_default_on_failure__should__return_retryable_and_raise_error_after_retry(
-                self, counter_mock: MagicMock
+                self
         ) -> None:
             """When the given callable always failed, should return a retryable which raises an error on execution"""
             # GIVEN TestToAsyncRetryable.RETRY_CONFIG
-            test_callable: Function[int, Awaitable[int]] = TestToAsyncRetryable._failure_function
+            test_callable: Function[int, Awaitable[int]] = Mock(side_effect=TestToAsyncRetryable._failure_function)
 
             # WHEN
             retryable_callable: Function[int, Awaitable[int]] = \
@@ -795,20 +762,19 @@ class TestToAsyncRetryable:
                 await retryable_callable(param)
             exec_duration = time() - exec_duration
             assert exec_duration >= expected_min_duration
-            counter_mock.assert_called_with(param)
-            assert counter_mock.call_count == TestToAsyncRetryable._MAX_TRIES
+            test_callable.assert_called_with(param)
+            assert test_callable.call_count == TestToAsyncRetryable._MAX_TRIES
             assert str(error.value) == str(param)
 
-        @patch('builtins.print')
         async def test_failure_callable_with_on_failure__should__return_retryable_and_call_on_failure_parameter(
-                self, counter_mock: MagicMock
+                self
         ) -> None:
             """
             When the given callable always failed and on_failure is provided, should return a retryable which calls the
             given on_failure function
             """
             # GIVEN TestToAsyncRetryable.RETRY_CONFIG
-            test_callable: Function[int, Awaitable[int]] = TestToAsyncRetryable._failure_function
+            test_callable: Function[int, Awaitable[int]] = Mock(side_effect=TestToAsyncRetryable._failure_function)
             default_value: int = 7
             on_failure: Function[BaseException, int] = lambda _: default_value
 
@@ -828,20 +794,17 @@ class TestToAsyncRetryable:
             exec_duration: float = time()
             assert await retryable_callable(param) == default_value
             exec_duration = time() - exec_duration
-            counter_mock.assert_called_with(param)
-            assert counter_mock.call_count == TestToAsyncRetryable._MAX_TRIES
+            test_callable.assert_called_with(param)
+            assert test_callable.call_count == TestToAsyncRetryable._MAX_TRIES
             assert exec_duration >= expected_min_duration
 
-        @patch('builtins.print')
-        async def test_semi_failure_callable__should__raise_callable_error_after_retry(
-                self, counter_mock: MagicMock
-        ) -> None:
+        async def test_semi_failure_callable__should__raise_callable_error_after_retry(self) -> None:
             """
             When the given callable failed once, should return a retryable and execution should succeed after one retry
             """
             # GIVEN TestToAsyncRetryable.RETRY_CONFIG
             TestToAsyncRetryable._SEMI_FAILURE_CALL = 0
-            test_callable: Function[int, Awaitable[int]] = TestToAsyncRetryable._semi_failure_function
+            test_callable: Function[int, Awaitable[int]] = Mock(side_effect=TestToAsyncRetryable._semi_failure_function)
 
             # WHEN
             retryable_callable: Function[int, Awaitable[int]] = \
@@ -854,8 +817,8 @@ class TestToAsyncRetryable:
             assert await retryable_callable(param) == (param * param)
             exec_duration = time() - exec_duration
             assert exec_duration >= expected_min_duration
-            counter_mock.assert_called_with(param)
-            assert counter_mock.call_count == 2
+            test_callable.assert_called_with(param)
+            assert test_callable.call_count == 2
 
     class TestErrorCase:
         def test_none_async_callable__should__raise_type_error(self) -> None:
@@ -896,12 +859,10 @@ class TestAsyncRetryable:
 
     @staticmethod
     async def _successful_function(i: int) -> int:
-        print(i)
         return i * i
 
     @staticmethod
     async def _failure_function(i: int) -> int:
-        print(i)
         raise ValueError(i)
 
     @staticmethod
@@ -913,13 +874,10 @@ class TestAsyncRetryable:
 
     class TestNominalCase:
 
-        @patch('builtins.print')
-        async def test_callable_in_success__should__return_retryable_callable_with_success_value(
-                self, counter_mock: MagicMock
-        ) -> None:
+        async def test_callable_in_success__should__return_retryable_callable_with_success_value(self) -> None:
             """When the given callable always succeed, should return a retryable one and execution should succeed"""
             # GIVEN TestAsyncRetryable.RETRY_CONFIG
-            test_callable: Function[int, Awaitable[int]] = TestAsyncRetryable._successful_function
+            test_callable: Function[int, Awaitable[int]] = Mock(side_effect=TestAsyncRetryable._successful_function)
 
             # WHEN
             retryable_callable: Function[int, Awaitable[int]] = retry.async_retryable(test_callable)
@@ -927,16 +885,15 @@ class TestAsyncRetryable:
             # THEN
             param: int = 2
             assert await retryable_callable(param) == (param * param)
-            counter_mock.assert_called_once_with(param)
-            assert counter_mock.call_count == 1
+            test_callable.assert_called_once_with(param)
+            assert test_callable.call_count == 1
 
-        @patch('builtins.print')
         async def test_failure_callable_with_default_on_failure__should__return_retryable_and_raise_error_after_retry(
-                self, counter_mock: MagicMock
+                self
         ) -> None:
             """When the given callable always failed, should return a retryable which raises an error on execution"""
             # GIVEN TestAsyncRetryable.RETRY_CONFIG
-            test_callable: Function[int, Awaitable[int]] = TestAsyncRetryable._failure_function
+            test_callable: Function[int, Awaitable[int]] = Mock(side_effect=TestAsyncRetryable._failure_function)
 
             # WHEN
             retryable_callable: Function[int, Awaitable[int]] = \
@@ -955,20 +912,19 @@ class TestAsyncRetryable:
                 await retryable_callable(param)
             exec_duration = time() - exec_duration
             assert exec_duration >= expected_min_duration
-            counter_mock.assert_called_with(param)
-            assert counter_mock.call_count == TestAsyncRetryable._MAX_TRIES
+            test_callable.assert_called_with(param)
+            assert test_callable.call_count == TestAsyncRetryable._MAX_TRIES
             assert str(error.value) == str(param)
 
-        @patch('builtins.print')
         async def test_failure_callable_with_on_failure__should__return_retryable_and_call_on_failure_parameter(
-                self, counter_mock: MagicMock
+                self
         ) -> None:
             """
             When the given callable always failed and on_failure is provided, should return a retryable which calls the
             given on_failure function
             """
             # GIVEN TestAsyncRetryable.RETRY_CONFIG
-            test_callable: Function[int, Awaitable[int]] = TestAsyncRetryable._failure_function
+            test_callable: Function[int, Awaitable[int]] = Mock(side_effect=TestAsyncRetryable._failure_function)
             default_value: int = 7
             on_failure: Function[BaseException, int] = lambda _: default_value
 
@@ -988,20 +944,17 @@ class TestAsyncRetryable:
             exec_duration: float = time()
             assert await retryable_callable(param) == default_value
             exec_duration = time() - exec_duration
-            counter_mock.assert_called_with(param)
-            assert counter_mock.call_count == TestAsyncRetryable._MAX_TRIES
+            test_callable.assert_called_with(param)
+            assert test_callable.call_count == TestAsyncRetryable._MAX_TRIES
             assert exec_duration >= expected_min_duration
 
-        @patch('builtins.print')
-        async def test_semi_failure_callable__should__raise_callable_error_after_retry(
-                self, counter_mock: MagicMock
-        ) -> None:
+        async def test_semi_failure_callable__should__raise_callable_error_after_retry(self) -> None:
             """
             When the given callable failed once, should return a retryable and execution should succeed after one retry
             """
             # GIVEN TestAsyncRetryable.RETRY_CONFIG
             TestAsyncRetryable._SEMI_FAILURE_CALL = 0
-            test_callable: Function[int, Awaitable[int]] = TestAsyncRetryable._semi_failure_function
+            test_callable: Function[int, Awaitable[int]] = Mock(side_effect=TestAsyncRetryable._semi_failure_function)
 
             # WHEN
             retryable_callable: Function[int, Awaitable[int]] = \
@@ -1014,21 +967,18 @@ class TestAsyncRetryable:
             assert await retryable_callable(param) == (param * param)
             exec_duration = time() - exec_duration
             assert exec_duration >= expected_min_duration
-            counter_mock.assert_called_with(param)
-            assert counter_mock.call_count == 2
+            test_callable.assert_called_with(param)
+            assert test_callable.call_count == 2
 
-        @patch('builtins.print')
-        async def test_none_async_callable__should__return_a_partial_to_async_retryable_function(
-                self, counter_mock: MagicMock
-        ) -> None:
+        async def test_none_async_callable__should__return_a_partial_to_async_retryable_function(self) -> None:
             """When async_callable is None, should return a partial filled to_async_retryable function"""
             # GIVEN / WHEN
-            async_retryable: Function[Callable[P, Awaitable[T]], Callable[P, Awaitable[T]]] =\
+            async_retryable: Function[Callable[P, Awaitable[T]], Callable[P, Awaitable[T]]] = \
                 retry.async_retryable(async_callable=None)
 
             # THEN
             TestAsyncRetryable._SEMI_FAILURE_CALL = 0
-            test_callable: Function[int, Awaitable[int]] = TestAsyncRetryable._semi_failure_function
+            test_callable: Function[int, Awaitable[int]] = Mock(side_effect=TestAsyncRetryable._semi_failure_function)
             retryable_callable: Function[int, Awaitable[int]] = async_retryable(test_callable)
             param: int = 2
             expected_min_duration: float = TestAsyncRetryable._RETRY_CONFIG.get_waiting_interval(1)
@@ -1036,29 +986,27 @@ class TestAsyncRetryable:
             assert await retryable_callable(param) == (param * param)
             exec_duration = time() - exec_duration
             assert exec_duration >= expected_min_duration
-            counter_mock.assert_called_with(param)
-            assert counter_mock.call_count == 2
+            test_callable.assert_called_with(param)
+            assert test_callable.call_count == 2
 
-        @patch('builtins.print')
-        async def test_used_as_decorator__should__transform_function_to_retryable(
-                self, counter_mock: MagicMock
-        ) -> None:
+        async def test_used_as_decorator__should__transform_function_to_retryable(self) -> None:
             """When is used as decorator, should convert the decorated function as a retryable"""
             # GIVEN
             param: int = 2
             TestAsyncRetryable._SEMI_FAILURE_CALL = 0
+            test_callable: Function[int, Awaitable[int]] = Mock(side_effect=TestAsyncRetryable._semi_failure_function)
 
             @retry.async_retryable
             async def test_decorated_function(i: int) -> int:
-                return await TestAsyncRetryable._semi_failure_function(i)
+                return await test_callable(i)
 
             # WHEN
             result: int = await test_decorated_function(param)
 
             # THEN
             assert result == (param * param)
-            counter_mock.assert_called_with(param)
-            assert counter_mock.call_count == 2
+            test_callable.assert_called_with(param)
+            assert test_callable.call_count == 2
 
         async def test_used_as_decorator__should__wrap_target_function(self) -> None:
             """When is used as decorator, should wrap the target function"""
@@ -1071,10 +1019,7 @@ class TestAsyncRetryable:
             # THEN
             assert test_decorated_function.__name__ == 'test_decorated_function'
 
-        @patch('builtins.print')
-        async def test_used_as_parametrized_decorator__should__transform_function_to_retryable(
-                self, counter_mock: MagicMock
-        ) -> None:
+        async def test_used_as_parametrized_decorator__should__transform_function_to_retryable(self) -> None:
             """
             When is used as parametrized decorator, should convert the decorated function as a retryable configured with
             given parameters
@@ -1083,10 +1028,11 @@ class TestAsyncRetryable:
             param: int = 2
             default_value: int = 7
             on_failure: Function[BaseException, int] = lambda _: default_value
+            test_callable: Function[int, Awaitable[int]] = Mock(side_effect=TestAsyncRetryable._failure_function)
 
             @retry.async_retryable(retry_config=TestAsyncRetryable._RETRY_CONFIG, on_failure=on_failure)
             async def test_decorated_function(i: int) -> int:
-                return await TestAsyncRetryable._failure_function(i)
+                return await test_callable(i)
 
             # WHEN
             start_time: float = time()
@@ -1102,8 +1048,8 @@ class TestAsyncRetryable:
             )
             assert duration >= expected_min_duration
             assert result == default_value
-            counter_mock.assert_called_with(param)
-            assert counter_mock.call_count == 3
+            test_callable.assert_called_with(param)
+            assert test_callable.call_count == 3
 
     class TestErrorCase:
         def test_none_async_callable_on_call_should__raise_type_error(self) -> None:
