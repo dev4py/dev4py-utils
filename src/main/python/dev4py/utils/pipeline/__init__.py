@@ -14,5 +14,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .SimplePipeline import SimplePipeline
-from .StepPipeline import StepPipeline, StepResult
+from .simple_pipeline import SimplePipeline
+from .step_pipeline import StepPipeline, StepResult

@@ -19,7 +19,7 @@ from __future__ import annotations
 from functools import partial
 from typing import Generic, Final, Optional, TypeAlias, cast, Any, Awaitable
 
-from dev4py.utils.JOptional import JOptional
+from dev4py.utils.joptional import JOptional
 from dev4py.utils.awaitables import is_awaitable
 from dev4py.utils.objects import async_require_non_none, non_none, is_none, require_non_none, to_self, to_none
 from dev4py.utils.types import T, V, SyncOrAsync, Supplier, Function, R, Consumer, Runnable, Predicate

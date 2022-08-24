@@ -19,7 +19,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Generic, Final, Any, Optional, Union
 
-from dev4py.utils.JOptional import JOptional
+from dev4py.utils.joptional import JOptional
 from dev4py.utils.objects import require_non_none, require_non_none_else
 from dev4py.utils.types import Function, T, N, IN, OUT
 

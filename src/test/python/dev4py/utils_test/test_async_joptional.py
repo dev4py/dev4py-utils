@@ -1,4 +1,4 @@
-"""AsyncJOptional module tests"""
+"""async_joptional module tests"""
 
 # Copyright 2022 the original author or authors (i.e.: St4rG00se for Dev4py).
 #

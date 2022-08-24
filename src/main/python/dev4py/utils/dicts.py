@@ -19,7 +19,7 @@ The `dicts` module provides a set of utility functions to simplify dict operatio
 from functools import partial
 from typing import Optional, Any
 
-from dev4py.utils.JOptional import JOptional
+from dev4py.utils.joptional import JOptional
 from dev4py.utils.objects import non_none, require_non_none, to_none
 from dev4py.utils.types import K, V, Supplier
 

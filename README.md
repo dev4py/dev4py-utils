@@ -51,7 +51,7 @@ This project is based on [pymsdl_template](https://github.com/dev4py/pymsdl_temp
 
 [AsyncJOptional documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/AsyncJOptional.html)
 
-> ***Note:** [AsyncJOptional](src/main/python/dev4py/utils/AsyncJOptional.py) class is designed in order to simplify
+> ***Note:** [AsyncJOptional](src/main/python/dev4py/utils/async_joptional.py) class is designed in order to simplify
 > JOptional with async mapper.*
 
 > ***Note:** AsyncJOptional support T or Awaitable[T] values. That's why some checks are done when terminal operation is
@@ -195,7 +195,7 @@ chunks: Iterator[list[int]] = iterables.get_chunks(values, 3)
 
 [JOptional documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/JOptional.html)
 
-> ***Note:** [JOptional](src/main/python/dev4py/utils/JOptional.py) class is inspired by
+> ***Note:** [JOptional](src/main/python/dev4py/utils/joptional.py) class is inspired by
 > [java.util.Optional](https://docs.oracle.com/en/java/javase/17/docs/api//java.base/java/util/Optional.html)
 > class with some adds (like `peek` method).*
 
@@ -428,7 +428,7 @@ asyncio.run(async_decorated_retryable_sample())
 
 [Stream documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/Stream.html)
 
-> ***Note:** [Stream](src/main/python/dev4py/utils/Stream.py) class is inspired by
+> ***Note:** [Stream](src/main/python/dev4py/utils/stream.py) class is inspired by
 > [java.util.stream.Stream](https://docs.oracle.com/en/java/javase/17/docs/api//java.base/java/util/stream/Stream.html).*
 
 Examples:
