@@ -49,7 +49,7 @@ This project is based on [pymsdl_template](https://github.com/dev4py/pymsdl_temp
 
 ### dev4py.utils.AsyncJOptional
 
-[AsyncJOptional documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/AsyncJOptional.html)
+[AsyncJOptional documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/async_joptional.html)
 
 > ***Note:** [AsyncJOptional](src/main/python/dev4py/utils/async_joptional.py) class is designed in order to simplify
 > JOptional with async mapper.*
@@ -193,7 +193,7 @@ chunks: Iterator[list[int]] = iterables.get_chunks(values, 3)
 
 ### dev4py.utils.JOptional
 
-[JOptional documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/JOptional.html)
+[JOptional documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/joptional.html)
 
 > ***Note:** [JOptional](src/main/python/dev4py/utils/joptional.py) class is inspired by
 > [java.util.Optional](https://docs.oracle.com/en/java/javase/17/docs/api//java.base/java/util/Optional.html)
@@ -426,7 +426,7 @@ asyncio.run(async_decorated_retryable_sample())
 
 ### dev4py.utils.Stream
 
-[Stream documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/Stream.html)
+[Stream documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/stream.html)
 
 > ***Note:** [Stream](src/main/python/dev4py/utils/stream.py) class is inspired by
 > [java.util.stream.Stream](https://docs.oracle.com/en/java/javase/17/docs/api//java.base/java/util/stream/Stream.html).*

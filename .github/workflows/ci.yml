@@ -64,7 +64,7 @@ jobs:
         id: mutmut-cache
         with:
           path: build/reports/mutation/.mutmut-cache
-          key: ${{ github.repository }}-${{ github.ref }}-mutmut-cache
+          key: ${{ github.repository }}-mutmut-cache
       - uses: ./.github/actions/mutation_test
       - uses: actions/upload-artifact@v3
         if: always()
