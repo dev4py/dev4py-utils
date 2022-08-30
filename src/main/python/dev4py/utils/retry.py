@@ -203,7 +203,8 @@ def retryable(
 
 
 def to_retryable(
-        sync_callable: Callable[P, T],
+        sync_callable: Callable[P, T] = None,
+        *,
         retry_config: RetryConfiguration = RetryConfiguration(),
         on_failure: Function[BaseException, T] = _default_retry_on_failure
 ) -> Callable[P, T]:
@@ -234,6 +235,7 @@ def to_retryable(
 
 def async_retryable(
         async_callable: Optional[Callable[P, Awaitable[T]]] = None,
+        *,
         retry_config: RetryConfiguration = RetryConfiguration(),
         on_failure: Function[BaseException, T] = _default_retry_on_failure
 ) -> Union[Function[Callable[P, Awaitable[T]], Callable[P, Awaitable[T]]], Callable[P, Awaitable[T]]]:
