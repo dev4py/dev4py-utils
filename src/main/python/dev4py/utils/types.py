@@ -14,7 +14,6 @@ The `types` module provides a set commonly used types useful for static type che
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 from typing import TypeVar, TypeAlias, Callable, Union, Awaitable, ParamSpec
 
 IN = TypeVar('IN')  # pragma: no mutate
