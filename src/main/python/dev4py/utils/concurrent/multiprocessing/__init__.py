@@ -1,4 +1,4 @@
-"""This package provides threading tools"""
+"""This package provides multiprocessing tools"""
 
 # Copyright 2022 the original author or authors (i.e.: St4rG00se for Dev4py).
 #
@@ -14,4 +14,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .threading_value import ThreadingValue
+from .remote_manager import RemoteManager
