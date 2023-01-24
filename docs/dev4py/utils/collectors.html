@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="pdoc 12.0.2"/>
+    <meta name="generator" content="pdoc 12.3.0"/>
     <title>dev4py.utils.collectors API documentation</title>
             <link rel="icon" href="https://www.python.org/static/favicon.ico"/>
 
@@ -79,9 +79,9 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.collectors    </h1>
                         <div class="docstring"><p>The <code>collectors</code> module provides a set of collectors inspired by java (java.util.stream.Collectors)</p>
 </div>
 
-                        <input id="collectors-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                        <input id="mod-collectors-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 
-                        <label class="view-source-button" for="collectors-view-source"><span>View Source</span></label>
+                        <label class="view-source-button" for="mod-collectors-view-source"><span>View Source</span></label>
 
                         <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos">  1</span></a><span class="sd">&quot;&quot;&quot;The `collectors` module provides a set of collectors inspired by java (java.util.stream.Collectors)&quot;&quot;&quot;</span>
 </span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a>
@@ -361,7 +361,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.collectors    </h1>
 
             <div class="docstring"><p>Collector class: A generic dataclass to describe a collector[T,R]</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>supplier (Supplier[R]):</strong>  A function that creates and returns a new result container</li>
@@ -420,7 +420,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.collectors    </h1>
 
             <div class="docstring"><p>Returns a Collector by using the given parameters</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>supplier (Supplier[R]):</strong>  A function that creates and returns a new result container</li>
@@ -428,13 +428,13 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.collectors    </h1>
 <li><strong>combiner (BiFunction[R, R, R]):</strong>  A function that accepts two partial results and merges them</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>collector: a collector[T,R] built with given parameters</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  Raises a TypeError at least one parameter is None</li>
@@ -479,7 +479,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.collectors    </h1>
 
             <div class="docstring"><p>Returns a Collector by using the given parameters (biconsumer instead of bifunction)</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>supplier (Supplier[R]):</strong>  A function that creates and returns a new result container</li>
@@ -487,13 +487,13 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.collectors    </h1>
 <li><strong>combiner (BiConsumer[R, R]):</strong>  A function that accepts two partial results and merges them</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>collector: a collector[T,R] built with given parameters</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  Raises a TypeError at least one parameter is None</li>
@@ -530,7 +530,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.collectors    </h1>
 
             <div class="docstring"><p>Returns a Collector that accumulates the input elements into a new list</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Collector[T, list[T]]: a Collector that accumulates the input elements into a new list</p>
@@ -576,14 +576,14 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.collectors    </h1>
             <div class="docstring"><p>Returns a Collector that accumulates elements into a dict whose keys and values are the result of applying the
 provided mapping functions to the input elements</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>key_mapper:</strong>  a mapping function to produce keys</li>
 <li><strong>value_mapper:</strong>  a mapping function to produce values</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Collector[T, dict[K, V]]: a Collector which collects elements into a dict whose keys and values are the result
@@ -621,7 +621,7 @@ provided mapping functions to the input elements</p>
 
             <div class="docstring"><p>Returns a Collector that always returns None</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Collector[T, None]: A collector that always returns None</p>
@@ -658,7 +658,7 @@ provided mapping functions to the input elements</p>
 
             <div class="docstring"><p>Returns a Collector that accumulates the input elements into a new tuple</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Collector[T, tuple[T, ...]]: a Collector that accumulates the input elements into a new tuple</p>
@@ -695,7 +695,7 @@ provided mapping functions to the input elements</p>
 
             <div class="docstring"><p>Returns a Collector accepting elements of type T that counts the number of input elements</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Collector[T, int]: a Collector accepting elements of type T that counts the number of input elements</p>

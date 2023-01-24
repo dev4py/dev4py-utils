@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="pdoc 12.0.2"/>
+    <meta name="generator" content="pdoc 12.3.0"/>
     <title>dev4py.utils.pipeline.step_pipeline API documentation</title>
             <link rel="icon" href="https://www.python.org/static/favicon.ico"/>
 
@@ -35,9 +35,6 @@
                             <ul class="memberlist">
                         <li>
                                 <a class="function" href="#StepResult.__init__">StepResult</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#StepResult.go_next">go_next</a>
                         </li>
                 </ul>
 
@@ -79,9 +76,9 @@ dev4py<wbr>.<a href="./../../utils.html">utils</a><wbr>.<a href="./../pipeline.h
                         <div class="docstring"><p>The <code><a href="#StepPipeline">StepPipeline</a></code> class is used in order to create a Pipeline where each step can stop the execution</p>
 </div>
 
-                        <input id="step_pipeline-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                        <input id="mod-step_pipeline-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 
-                        <label class="view-source-button" for="step_pipeline-view-source"><span>View Source</span></label>
+                        <label class="view-source-button" for="mod-step_pipeline-view-source"><span>View Source</span></label>
 
                         <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos">  1</span></a><span class="sd">&quot;&quot;&quot;The `StepPipeline` class is used in order to create a Pipeline where each step can stop the execution&quot;&quot;&quot;</span>
 </span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a>
@@ -275,7 +272,7 @@ dev4py<wbr>.<a href="./../../utils.html">utils</a><wbr>.<a href="./../pipeline.h
 
             <div class="docstring"><p>Represents a Step result</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>value:</strong>  the result value of T type</li>
@@ -292,17 +289,6 @@ dev4py<wbr>.<a href="./../../utils.html">utils</a><wbr>.<a href="./../pipeline.h
         
     </div>
     <a class="headerlink" href="#StepResult.__init__"></a>
-    
-    
-
-                            </div>
-                            <div id="StepResult.go_next" class="classattr">
-                                <div class="attr variable">
-            <span class="name">go_next</span><span class="annotation">: bool</span><span class="default_value"> = True</span>
-
-        
-    </div>
-    <a class="headerlink" href="#StepResult.go_next"></a>
     
     
 
@@ -488,13 +474,13 @@ value</p>
 <p>Note: the handler returned value is a <code><a href="#StepResult">StepResult</a></code>. The function result value must be put in <code>value</code> field. To
 stop the current pipeline at this step <code>go_next</code> field must be set to False.</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>handler:</strong>  the first step handler</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>StepPipeline[IN, OUT]: The new pipeline StepPipeline which consumes an IN value and last step consumes an
@@ -539,13 +525,13 @@ stop the current pipeline at this step <code>go_next</code> field must be set to
 <p>Note: the handler returned value is a <code><a href="#StepResult">StepResult</a></code>. The function result value must be put in <code>value</code> field. To
 stop the current pipeline at this step <code>go_next</code> field must be set to False.</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>next_handler:</strong>  the new step handler</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>StepPipeline[IN, N]: The new pipeline StepPipeline which consumes an IN value and last step consumes an N
@@ -589,13 +575,13 @@ stop the current pipeline at this step <code>go_next</code> field must be set to
 <p>Note: The last executed step can be an intermediate one if <code>go_next</code> is false. If <code>go_next</code> is True it means
 that the pipeline was totally executed for the given value.</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>value:</strong>  The value of IN type</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>StepResult[Union[OUT, Any]]: The last executed StepResult. Can be an intermediate step if <code>go_next</code> is False</p>

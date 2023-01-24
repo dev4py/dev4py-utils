@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="pdoc 12.0.2"/>
+    <meta name="generator" content="pdoc 12.3.0"/>
     <title>dev4py.utils.dicts API documentation</title>
             <link rel="icon" href="https://www.python.org/static/favicon.ico"/>
 
@@ -70,9 +70,9 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.dicts    </h1>
                         <div class="docstring"><p>The <code>dicts</code> module provides a set of utility functions to simplify dict operations</p>
 </div>
 
-                        <input id="dicts-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                        <input id="mod-dicts-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 
-                        <label class="view-source-button" for="dicts-view-source"><span>View Source</span></label>
+                        <label class="view-source-button" for="mod-dicts-view-source"><span>View Source</span></label>
 
                         <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos">  1</span></a><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a><span class="sd">The `dicts` module provides a set of utility functions to simplify dict operations</span>
@@ -272,7 +272,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.dicts    </h1>
 
             <div class="docstring"><p>If the given value is a dict, returns true, otherwise false</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>bool: true if the given value is a dict, otherwise false</p>
@@ -315,14 +315,14 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.dicts    </h1>
 
             <div class="docstring"><p>Tries to get a value from a dict with the given key and returns a JOptional describing the result</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>dictionary:</strong>  The dict</li>
 <li><strong>key:</strong>  The key</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>JOptional[V]: An empty JOptional if dictionary is None or the searched key result is None, otherwise a JOptional
@@ -367,7 +367,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.dicts    </h1>
             <div class="docstring"><p>Returns the value from a dict with the given key if presents, otherwise returns the result produced by the supplying
 function</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>dictionary:</strong>  The dict</li>
@@ -375,7 +375,7 @@ function</p>
 <li><strong>default_supplier:</strong>  The supplying function that produces a value to be returned</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Optional[V]: The value, if present, otherwise the result produced by the supplying function (even if dictionary
@@ -436,7 +436,7 @@ function</p>
             <div class="docstring"><p>Returns the value from a deep dict (dict of dicts) with the given key path if present, otherwise returns the result
 produced by the supplying function</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>dictionary:</strong>  The dict</li>
@@ -444,14 +444,14 @@ produced by the supplying function</p>
 <li><strong>default_supplier:</strong>  The supplying function that produces a value to be returned</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Optional[V]: The value, if present, otherwise the result produced by the supplying function (even if dictionary
   is None)</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if dictionary is not None and not a dict</li>
@@ -499,7 +499,7 @@ produced by the supplying function</p>
             <div class="docstring"><p>Associates the specified value with the specified key in the given map. If the map previously contained a mapping
 for the key, the old value is returned and replaced by the specified value</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>dictionary:</strong>  The dict</li>
@@ -507,13 +507,13 @@ for the key, the old value is returned and replaced by the specified value</p>
 <li><strong>value:</strong>  The value to be associated with the specified key</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Optional[V]: The previous value associated with key, or None if there was no mapping for key.</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if dictionary is not a dict</li>
@@ -545,7 +545,7 @@ for the key, the old value is returned and replaced by the specified value</p>
 
             <div class="docstring"><p>Returns an empty dict</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>dict[Any, Any]: an empty dict</p>
@@ -586,20 +586,20 @@ for the key, the old value is returned and replaced by the specified value</p>
 
             <div class="docstring"><p>Adds all elements of the second dict to the first one and returns it</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>dict_1:</strong>  The dict where add elements</li>
 <li><strong>dict_2:</strong>  The dict with elements to add</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>dict_1 (dict[K, V]): The first dict with added elements from dict_2</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if dict_1 or dict_2 is None</li>

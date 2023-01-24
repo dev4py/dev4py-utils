@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="pdoc 12.0.2"/>
+    <meta name="generator" content="pdoc 12.3.0"/>
     <title>dev4py.utils.retry API documentation</title>
             <link rel="icon" href="https://www.python.org/static/favicon.ico"/>
 
@@ -35,15 +35,6 @@
                             <ul class="memberlist">
                         <li>
                                 <a class="function" href="#RetryConfiguration.__init__">RetryConfiguration</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#RetryConfiguration.exponent">exponent</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#RetryConfiguration.delay">delay</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#RetryConfiguration.max_tries">max_tries</a>
                         </li>
                         <li>
                                 <a class="function" href="#RetryConfiguration.get_waiting_interval">get_waiting_interval</a>
@@ -82,9 +73,9 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.retry    </h1>
                         <div class="docstring"><p>The <code>retry</code> module provides tools to create retryable callable using exponential backoff</p>
 </div>
 
-                        <input id="retry-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                        <input id="mod-retry-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 
-                        <label class="view-source-button" for="retry-view-source"><span>View Source</span></label>
+                        <label class="view-source-button" for="mod-retry-view-source"><span>View Source</span></label>
 
                         <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos">  1</span></a><span class="sd">&quot;&quot;&quot;The `retry` module provides tools to create retryable callable using exponential backoff&quot;&quot;&quot;</span>
 </span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a>
@@ -105,7 +96,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.retry    </h1>
 </span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 </span><span id="L-18"><a href="#L-18"><span class="linenos"> 18</span></a><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span><span class="p">,</span> <span class="n">wraps</span>
 </span><span id="L-19"><a href="#L-19"><span class="linenos"> 19</span></a><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos"> 20</span></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">cast</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos"> 20</span></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">cast</span><span class="p">,</span> <span class="n">Any</span>
 </span><span id="L-21"><a href="#L-21"><span class="linenos"> 21</span></a>
 </span><span id="L-22"><a href="#L-22"><span class="linenos"> 22</span></a><span class="kn">from</span> <span class="nn">dev4py.utils.objects</span> <span class="kn">import</span> <span class="n">require_non_none</span><span class="p">,</span> <span class="n">is_none</span>
 </span><span id="L-23"><a href="#L-23"><span class="linenos"> 23</span></a><span class="kn">from</span> <span class="nn">dev4py.utils.types</span> <span class="kn">import</span> <span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">Function</span>
@@ -171,7 +162,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.retry    </h1>
 </span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a><span class="c1">##############################</span>
 </span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a><span class="c1">#  PRIVATE MODULE FUNCTIONS  #</span>
 </span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a><span class="c1">##############################</span>
-</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a><span class="k">def</span> <span class="nf">_default_retry_on_failure</span><span class="p">(</span><span class="n">exception</span><span class="p">:</span> <span class="ne">BaseException</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a><span class="k">def</span> <span class="nf">_default_retry_on_failure</span><span class="p">(</span><span class="n">exception</span><span class="p">:</span> <span class="ne">BaseException</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 </span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a>    <span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a><span class="sd">    Default value for on_failure parameter</span>
 </span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a><span class="sd">    Note: lambda are not used in order to be compatible with multiprocessing (lambda are not serializable)</span>
@@ -291,109 +282,111 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.retry    </h1>
 </span><span id="L-203"><a href="#L-203"><span class="linenos">203</span></a>
 </span><span id="L-204"><a href="#L-204"><span class="linenos">204</span></a>
 </span><span id="L-205"><a href="#L-205"><span class="linenos">205</span></a><span class="k">def</span> <span class="nf">to_retryable</span><span class="p">(</span>
-</span><span id="L-206"><a href="#L-206"><span class="linenos">206</span></a>        <span class="n">sync_callable</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">T</span><span class="p">],</span>
-</span><span id="L-207"><a href="#L-207"><span class="linenos">207</span></a>        <span class="n">retry_config</span><span class="p">:</span> <span class="n">RetryConfiguration</span> <span class="o">=</span> <span class="n">RetryConfiguration</span><span class="p">(),</span>
-</span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a>        <span class="n">on_failure</span><span class="p">:</span> <span class="n">Function</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="n">_default_retry_on_failure</span>
-</span><span id="L-209"><a href="#L-209"><span class="linenos">209</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">T</span><span class="p">]:</span>
-</span><span id="L-210"><a href="#L-210"><span class="linenos">210</span></a>    <span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-211"><a href="#L-211"><span class="linenos">211</span></a><span class="sd">    Transforms a callable to a retryable one by using the given RetryConfiguration</span>
-</span><span id="L-212"><a href="#L-212"><span class="linenos">212</span></a>
-</span><span id="L-213"><a href="#L-213"><span class="linenos">213</span></a><span class="sd">    If an error occurs when executing the returned callable the call is retried by using the given RetryConfiguration.</span>
-</span><span id="L-214"><a href="#L-214"><span class="linenos">214</span></a><span class="sd">    An exponential backoff is used in order to determinate the waiting time between each call. If max_tries is reached</span>
-</span><span id="L-215"><a href="#L-215"><span class="linenos">215</span></a><span class="sd">    then the on_failure function is called in order to return a default value or raise an exception. By default, it</span>
-</span><span id="L-216"><a href="#L-216"><span class="linenos">216</span></a><span class="sd">    raises the last raised exception</span>
-</span><span id="L-217"><a href="#L-217"><span class="linenos">217</span></a>
-</span><span id="L-218"><a href="#L-218"><span class="linenos">218</span></a><span class="sd">    Args:</span>
-</span><span id="L-219"><a href="#L-219"><span class="linenos">219</span></a><span class="sd">        sync_callable: The callable to transform</span>
-</span><span id="L-220"><a href="#L-220"><span class="linenos">220</span></a><span class="sd">        retry_config: The given RetryConfiguration</span>
-</span><span id="L-221"><a href="#L-221"><span class="linenos">221</span></a><span class="sd">        on_failure: The action to perform if max_tries is reached (Note: can return a default value)</span>
-</span><span id="L-222"><a href="#L-222"><span class="linenos">222</span></a>
-</span><span id="L-223"><a href="#L-223"><span class="linenos">223</span></a><span class="sd">    Returns:</span>
-</span><span id="L-224"><a href="#L-224"><span class="linenos">224</span></a><span class="sd">        Callable[P, T]: The retryable callable</span>
-</span><span id="L-225"><a href="#L-225"><span class="linenos">225</span></a>
-</span><span id="L-226"><a href="#L-226"><span class="linenos">226</span></a><span class="sd">    Raises:</span>
-</span><span id="L-227"><a href="#L-227"><span class="linenos">227</span></a><span class="sd">        TypeError: if sync_callable or retry_config or on_failure is None</span>
-</span><span id="L-228"><a href="#L-228"><span class="linenos">228</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-229"><a href="#L-229"><span class="linenos">229</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">sync_callable</span><span class="p">)</span>
-</span><span id="L-230"><a href="#L-230"><span class="linenos">230</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">retry_config</span><span class="p">)</span>
-</span><span id="L-231"><a href="#L-231"><span class="linenos">231</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">on_failure</span><span class="p">)</span>
-</span><span id="L-232"><a href="#L-232"><span class="linenos">232</span></a>    <span class="k">return</span> <span class="n">partial</span><span class="p">(</span><span class="n">_with_retry</span><span class="p">,</span> <span class="o">*</span><span class="p">[</span><span class="n">sync_callable</span><span class="p">,</span> <span class="n">retry_config</span><span class="p">,</span> <span class="n">on_failure</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-</span><span id="L-233"><a href="#L-233"><span class="linenos">233</span></a>
+</span><span id="L-206"><a href="#L-206"><span class="linenos">206</span></a>        <span class="n">sync_callable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">T</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="L-207"><a href="#L-207"><span class="linenos">207</span></a>        <span class="o">*</span><span class="p">,</span>
+</span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a>        <span class="n">retry_config</span><span class="p">:</span> <span class="n">RetryConfiguration</span> <span class="o">=</span> <span class="n">RetryConfiguration</span><span class="p">(),</span>
+</span><span id="L-209"><a href="#L-209"><span class="linenos">209</span></a>        <span class="n">on_failure</span><span class="p">:</span> <span class="n">Function</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="n">_default_retry_on_failure</span>
+</span><span id="L-210"><a href="#L-210"><span class="linenos">210</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">T</span><span class="p">]:</span>
+</span><span id="L-211"><a href="#L-211"><span class="linenos">211</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-212"><a href="#L-212"><span class="linenos">212</span></a><span class="sd">    Transforms a callable to a retryable one by using the given RetryConfiguration</span>
+</span><span id="L-213"><a href="#L-213"><span class="linenos">213</span></a>
+</span><span id="L-214"><a href="#L-214"><span class="linenos">214</span></a><span class="sd">    If an error occurs when executing the returned callable the call is retried by using the given RetryConfiguration.</span>
+</span><span id="L-215"><a href="#L-215"><span class="linenos">215</span></a><span class="sd">    An exponential backoff is used in order to determinate the waiting time between each call. If max_tries is reached</span>
+</span><span id="L-216"><a href="#L-216"><span class="linenos">216</span></a><span class="sd">    then the on_failure function is called in order to return a default value or raise an exception. By default, it</span>
+</span><span id="L-217"><a href="#L-217"><span class="linenos">217</span></a><span class="sd">    raises the last raised exception</span>
+</span><span id="L-218"><a href="#L-218"><span class="linenos">218</span></a>
+</span><span id="L-219"><a href="#L-219"><span class="linenos">219</span></a><span class="sd">    Args:</span>
+</span><span id="L-220"><a href="#L-220"><span class="linenos">220</span></a><span class="sd">        sync_callable: The callable to transform</span>
+</span><span id="L-221"><a href="#L-221"><span class="linenos">221</span></a><span class="sd">        retry_config: The given RetryConfiguration</span>
+</span><span id="L-222"><a href="#L-222"><span class="linenos">222</span></a><span class="sd">        on_failure: The action to perform if max_tries is reached (Note: can return a default value)</span>
+</span><span id="L-223"><a href="#L-223"><span class="linenos">223</span></a>
+</span><span id="L-224"><a href="#L-224"><span class="linenos">224</span></a><span class="sd">    Returns:</span>
+</span><span id="L-225"><a href="#L-225"><span class="linenos">225</span></a><span class="sd">        Callable[P, T]: The retryable callable</span>
+</span><span id="L-226"><a href="#L-226"><span class="linenos">226</span></a>
+</span><span id="L-227"><a href="#L-227"><span class="linenos">227</span></a><span class="sd">    Raises:</span>
+</span><span id="L-228"><a href="#L-228"><span class="linenos">228</span></a><span class="sd">        TypeError: if sync_callable or retry_config or on_failure is None</span>
+</span><span id="L-229"><a href="#L-229"><span class="linenos">229</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-230"><a href="#L-230"><span class="linenos">230</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">sync_callable</span><span class="p">)</span>
+</span><span id="L-231"><a href="#L-231"><span class="linenos">231</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">retry_config</span><span class="p">)</span>
+</span><span id="L-232"><a href="#L-232"><span class="linenos">232</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">on_failure</span><span class="p">)</span>
+</span><span id="L-233"><a href="#L-233"><span class="linenos">233</span></a>    <span class="k">return</span> <span class="n">partial</span><span class="p">(</span><span class="n">_with_retry</span><span class="p">,</span> <span class="o">*</span><span class="p">[</span><span class="n">sync_callable</span><span class="p">,</span> <span class="n">retry_config</span><span class="p">,</span> <span class="n">on_failure</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 </span><span id="L-234"><a href="#L-234"><span class="linenos">234</span></a>
-</span><span id="L-235"><a href="#L-235"><span class="linenos">235</span></a><span class="k">def</span> <span class="nf">async_retryable</span><span class="p">(</span>
-</span><span id="L-236"><a href="#L-236"><span class="linenos">236</span></a>        <span class="n">async_callable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="L-237"><a href="#L-237"><span class="linenos">237</span></a>        <span class="n">retry_config</span><span class="p">:</span> <span class="n">RetryConfiguration</span> <span class="o">=</span> <span class="n">RetryConfiguration</span><span class="p">(),</span>
-</span><span id="L-238"><a href="#L-238"><span class="linenos">238</span></a>        <span class="n">on_failure</span><span class="p">:</span> <span class="n">Function</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="n">_default_retry_on_failure</span>
-</span><span id="L-239"><a href="#L-239"><span class="linenos">239</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Function</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]],</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]]],</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]]]:</span>
-</span><span id="L-240"><a href="#L-240"><span class="linenos">240</span></a>    <span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-241"><a href="#L-241"><span class="linenos">241</span></a><span class="sd">    SINCE: 3.5.0: a `to_async_retryable` equivalent that can also be used as decorator</span>
-</span><span id="L-242"><a href="#L-242"><span class="linenos">242</span></a>
-</span><span id="L-243"><a href="#L-243"><span class="linenos">243</span></a><span class="sd">    Transforms an async callable to an async retryable one by using the given RetryConfiguration</span>
+</span><span id="L-235"><a href="#L-235"><span class="linenos">235</span></a>
+</span><span id="L-236"><a href="#L-236"><span class="linenos">236</span></a><span class="k">def</span> <span class="nf">async_retryable</span><span class="p">(</span>
+</span><span id="L-237"><a href="#L-237"><span class="linenos">237</span></a>        <span class="n">async_callable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="L-238"><a href="#L-238"><span class="linenos">238</span></a>        <span class="o">*</span><span class="p">,</span>
+</span><span id="L-239"><a href="#L-239"><span class="linenos">239</span></a>        <span class="n">retry_config</span><span class="p">:</span> <span class="n">RetryConfiguration</span> <span class="o">=</span> <span class="n">RetryConfiguration</span><span class="p">(),</span>
+</span><span id="L-240"><a href="#L-240"><span class="linenos">240</span></a>        <span class="n">on_failure</span><span class="p">:</span> <span class="n">Function</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="n">_default_retry_on_failure</span>
+</span><span id="L-241"><a href="#L-241"><span class="linenos">241</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Function</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]],</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]]],</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]]]:</span>
+</span><span id="L-242"><a href="#L-242"><span class="linenos">242</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-243"><a href="#L-243"><span class="linenos">243</span></a><span class="sd">    SINCE: 3.5.0: a `to_async_retryable` equivalent that can also be used as decorator</span>
 </span><span id="L-244"><a href="#L-244"><span class="linenos">244</span></a>
-</span><span id="L-245"><a href="#L-245"><span class="linenos">245</span></a><span class="sd">    If an error occurs when executing the returned callable the call is retried by using the given RetryConfiguration.</span>
-</span><span id="L-246"><a href="#L-246"><span class="linenos">246</span></a><span class="sd">    An exponential backoff is used in order to determinate the waiting time between each call. If max_tries is reached</span>
-</span><span id="L-247"><a href="#L-247"><span class="linenos">247</span></a><span class="sd">    then the on_failure function is called in order to return a default value or raise an exception. By default, it</span>
-</span><span id="L-248"><a href="#L-248"><span class="linenos">248</span></a><span class="sd">    raises the last raised exception</span>
-</span><span id="L-249"><a href="#L-249"><span class="linenos">249</span></a>
-</span><span id="L-250"><a href="#L-250"><span class="linenos">250</span></a><span class="sd">    Args:</span>
-</span><span id="L-251"><a href="#L-251"><span class="linenos">251</span></a><span class="sd">        async_callable: The async callable to transform</span>
-</span><span id="L-252"><a href="#L-252"><span class="linenos">252</span></a><span class="sd">        retry_config: The given RetryConfiguration</span>
-</span><span id="L-253"><a href="#L-253"><span class="linenos">253</span></a><span class="sd">        on_failure: The action to perform if max_tries is reached (Note: can return a default value)</span>
-</span><span id="L-254"><a href="#L-254"><span class="linenos">254</span></a>
-</span><span id="L-255"><a href="#L-255"><span class="linenos">255</span></a><span class="sd">    Returns:</span>
-</span><span id="L-256"><a href="#L-256"><span class="linenos">256</span></a><span class="sd">        Function[Callable[P, Awaitable[T]], Callable[P, Awaitable[T]]]: Corresponding to a partial `to_async_retryable`</span>
-</span><span id="L-257"><a href="#L-257"><span class="linenos">257</span></a><span class="sd">            function filled with `retry_config` and `on_failure` parameters if async_callable is None</span>
-</span><span id="L-258"><a href="#L-258"><span class="linenos">258</span></a>
-</span><span id="L-259"><a href="#L-259"><span class="linenos">259</span></a><span class="sd">        Callable[P, Awaitable[T]]: The async retryable callable (is equivalent to `to_async_retryable` call) if</span>
-</span><span id="L-260"><a href="#L-260"><span class="linenos">260</span></a><span class="sd">            async_callable is not None</span>
-</span><span id="L-261"><a href="#L-261"><span class="linenos">261</span></a>
-</span><span id="L-262"><a href="#L-262"><span class="linenos">262</span></a><span class="sd">    Raises:</span>
-</span><span id="L-263"><a href="#L-263"><span class="linenos">263</span></a><span class="sd">        TypeError: if retry_config or on_failure is None</span>
-</span><span id="L-264"><a href="#L-264"><span class="linenos">264</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-265"><a href="#L-265"><span class="linenos">265</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">retry_config</span><span class="p">)</span>
-</span><span id="L-266"><a href="#L-266"><span class="linenos">266</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">on_failure</span><span class="p">)</span>
-</span><span id="L-267"><a href="#L-267"><span class="linenos">267</span></a>
-</span><span id="L-268"><a href="#L-268"><span class="linenos">268</span></a>    <span class="k">def</span> <span class="nf">_async_retryable_decorator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]]:</span>
-</span><span id="L-269"><a href="#L-269"><span class="linenos">269</span></a>        <span class="n">require_non_none</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-</span><span id="L-270"><a href="#L-270"><span class="linenos">270</span></a>
-</span><span id="L-271"><a href="#L-271"><span class="linenos">271</span></a>        <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-</span><span id="L-272"><a href="#L-272"><span class="linenos">272</span></a>        <span class="k">def</span> <span class="nf">_async_retryable_wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">P</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">P</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
-</span><span id="L-273"><a href="#L-273"><span class="linenos">273</span></a>            <span class="k">return</span> <span class="n">_with_async_retry</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">retry_config</span><span class="p">,</span> <span class="n">on_failure</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-</span><span id="L-274"><a href="#L-274"><span class="linenos">274</span></a>
-</span><span id="L-275"><a href="#L-275"><span class="linenos">275</span></a>        <span class="k">return</span> <span class="n">_async_retryable_wrapper</span>
+</span><span id="L-245"><a href="#L-245"><span class="linenos">245</span></a><span class="sd">    Transforms an async callable to an async retryable one by using the given RetryConfiguration</span>
+</span><span id="L-246"><a href="#L-246"><span class="linenos">246</span></a>
+</span><span id="L-247"><a href="#L-247"><span class="linenos">247</span></a><span class="sd">    If an error occurs when executing the returned callable the call is retried by using the given RetryConfiguration.</span>
+</span><span id="L-248"><a href="#L-248"><span class="linenos">248</span></a><span class="sd">    An exponential backoff is used in order to determinate the waiting time between each call. If max_tries is reached</span>
+</span><span id="L-249"><a href="#L-249"><span class="linenos">249</span></a><span class="sd">    then the on_failure function is called in order to return a default value or raise an exception. By default, it</span>
+</span><span id="L-250"><a href="#L-250"><span class="linenos">250</span></a><span class="sd">    raises the last raised exception</span>
+</span><span id="L-251"><a href="#L-251"><span class="linenos">251</span></a>
+</span><span id="L-252"><a href="#L-252"><span class="linenos">252</span></a><span class="sd">    Args:</span>
+</span><span id="L-253"><a href="#L-253"><span class="linenos">253</span></a><span class="sd">        async_callable: The async callable to transform</span>
+</span><span id="L-254"><a href="#L-254"><span class="linenos">254</span></a><span class="sd">        retry_config: The given RetryConfiguration</span>
+</span><span id="L-255"><a href="#L-255"><span class="linenos">255</span></a><span class="sd">        on_failure: The action to perform if max_tries is reached (Note: can return a default value)</span>
+</span><span id="L-256"><a href="#L-256"><span class="linenos">256</span></a>
+</span><span id="L-257"><a href="#L-257"><span class="linenos">257</span></a><span class="sd">    Returns:</span>
+</span><span id="L-258"><a href="#L-258"><span class="linenos">258</span></a><span class="sd">        Function[Callable[P, Awaitable[T]], Callable[P, Awaitable[T]]]: Corresponding to a partial `to_async_retryable`</span>
+</span><span id="L-259"><a href="#L-259"><span class="linenos">259</span></a><span class="sd">            function filled with `retry_config` and `on_failure` parameters if async_callable is None</span>
+</span><span id="L-260"><a href="#L-260"><span class="linenos">260</span></a>
+</span><span id="L-261"><a href="#L-261"><span class="linenos">261</span></a><span class="sd">        Callable[P, Awaitable[T]]: The async retryable callable (is equivalent to `to_async_retryable` call) if</span>
+</span><span id="L-262"><a href="#L-262"><span class="linenos">262</span></a><span class="sd">            async_callable is not None</span>
+</span><span id="L-263"><a href="#L-263"><span class="linenos">263</span></a>
+</span><span id="L-264"><a href="#L-264"><span class="linenos">264</span></a><span class="sd">    Raises:</span>
+</span><span id="L-265"><a href="#L-265"><span class="linenos">265</span></a><span class="sd">        TypeError: if retry_config or on_failure is None</span>
+</span><span id="L-266"><a href="#L-266"><span class="linenos">266</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-267"><a href="#L-267"><span class="linenos">267</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">retry_config</span><span class="p">)</span>
+</span><span id="L-268"><a href="#L-268"><span class="linenos">268</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">on_failure</span><span class="p">)</span>
+</span><span id="L-269"><a href="#L-269"><span class="linenos">269</span></a>
+</span><span id="L-270"><a href="#L-270"><span class="linenos">270</span></a>    <span class="k">def</span> <span class="nf">_async_retryable_decorator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]]:</span>
+</span><span id="L-271"><a href="#L-271"><span class="linenos">271</span></a>        <span class="n">require_non_none</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+</span><span id="L-272"><a href="#L-272"><span class="linenos">272</span></a>
+</span><span id="L-273"><a href="#L-273"><span class="linenos">273</span></a>        <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+</span><span id="L-274"><a href="#L-274"><span class="linenos">274</span></a>        <span class="k">def</span> <span class="nf">_async_retryable_wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">P</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">P</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+</span><span id="L-275"><a href="#L-275"><span class="linenos">275</span></a>            <span class="k">return</span> <span class="n">_with_async_retry</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">retry_config</span><span class="p">,</span> <span class="n">on_failure</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </span><span id="L-276"><a href="#L-276"><span class="linenos">276</span></a>
-</span><span id="L-277"><a href="#L-277"><span class="linenos">277</span></a>    <span class="k">return</span> <span class="n">_async_retryable_decorator</span> <span class="k">if</span> <span class="n">is_none</span><span class="p">(</span><span class="n">async_callable</span><span class="p">)</span> <span class="k">else</span> \
-</span><span id="L-278"><a href="#L-278"><span class="linenos">278</span></a>        <span class="n">_async_retryable_decorator</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]],</span> <span class="n">async_callable</span><span class="p">))</span>
-</span><span id="L-279"><a href="#L-279"><span class="linenos">279</span></a>
-</span><span id="L-280"><a href="#L-280"><span class="linenos">280</span></a>
-</span><span id="L-281"><a href="#L-281"><span class="linenos">281</span></a><span class="k">def</span> <span class="nf">to_async_retryable</span><span class="p">(</span>
-</span><span id="L-282"><a href="#L-282"><span class="linenos">282</span></a>        <span class="n">async_callable</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]],</span>
-</span><span id="L-283"><a href="#L-283"><span class="linenos">283</span></a>        <span class="n">retry_config</span><span class="p">:</span> <span class="n">RetryConfiguration</span> <span class="o">=</span> <span class="n">RetryConfiguration</span><span class="p">(),</span>
-</span><span id="L-284"><a href="#L-284"><span class="linenos">284</span></a>        <span class="n">on_failure</span><span class="p">:</span> <span class="n">Function</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="n">_default_retry_on_failure</span>
-</span><span id="L-285"><a href="#L-285"><span class="linenos">285</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]]:</span>
-</span><span id="L-286"><a href="#L-286"><span class="linenos">286</span></a>    <span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-287"><a href="#L-287"><span class="linenos">287</span></a><span class="sd">    Transforms an async callable to an async retryable one by using the given RetryConfiguration</span>
-</span><span id="L-288"><a href="#L-288"><span class="linenos">288</span></a>
-</span><span id="L-289"><a href="#L-289"><span class="linenos">289</span></a><span class="sd">    If an error occurs when executing the returned callable the call is retried by using the given RetryConfiguration.</span>
-</span><span id="L-290"><a href="#L-290"><span class="linenos">290</span></a><span class="sd">    An exponential backoff is used in order to determinate the waiting time between each call. If max_tries is reached</span>
-</span><span id="L-291"><a href="#L-291"><span class="linenos">291</span></a><span class="sd">    then the on_failure function is called in order to return a default value or raise an exception. By default, it</span>
-</span><span id="L-292"><a href="#L-292"><span class="linenos">292</span></a><span class="sd">    raises the last raised exception</span>
-</span><span id="L-293"><a href="#L-293"><span class="linenos">293</span></a>
-</span><span id="L-294"><a href="#L-294"><span class="linenos">294</span></a><span class="sd">    Args:</span>
-</span><span id="L-295"><a href="#L-295"><span class="linenos">295</span></a><span class="sd">        async_callable: The async callable to transform</span>
-</span><span id="L-296"><a href="#L-296"><span class="linenos">296</span></a><span class="sd">        retry_config: The given RetryConfiguration</span>
-</span><span id="L-297"><a href="#L-297"><span class="linenos">297</span></a><span class="sd">        on_failure: The action to perform if max_tries is reached (Note: can return a default value)</span>
-</span><span id="L-298"><a href="#L-298"><span class="linenos">298</span></a>
-</span><span id="L-299"><a href="#L-299"><span class="linenos">299</span></a><span class="sd">    Returns:</span>
-</span><span id="L-300"><a href="#L-300"><span class="linenos">300</span></a><span class="sd">        Callable[P, Awaitable[T]]: The async retryable callable</span>
-</span><span id="L-301"><a href="#L-301"><span class="linenos">301</span></a>
-</span><span id="L-302"><a href="#L-302"><span class="linenos">302</span></a><span class="sd">    Raises:</span>
-</span><span id="L-303"><a href="#L-303"><span class="linenos">303</span></a><span class="sd">        TypeError: if async_callable or retry_config or on_failure is None</span>
-</span><span id="L-304"><a href="#L-304"><span class="linenos">304</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-305"><a href="#L-305"><span class="linenos">305</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">async_callable</span><span class="p">)</span>
-</span><span id="L-306"><a href="#L-306"><span class="linenos">306</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">retry_config</span><span class="p">)</span>
-</span><span id="L-307"><a href="#L-307"><span class="linenos">307</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">on_failure</span><span class="p">)</span>
-</span><span id="L-308"><a href="#L-308"><span class="linenos">308</span></a>    <span class="k">return</span> <span class="n">partial</span><span class="p">(</span><span class="n">_with_async_retry</span><span class="p">,</span> <span class="o">*</span><span class="p">[</span><span class="n">async_callable</span><span class="p">,</span> <span class="n">retry_config</span><span class="p">,</span> <span class="n">on_failure</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+</span><span id="L-277"><a href="#L-277"><span class="linenos">277</span></a>        <span class="k">return</span> <span class="n">_async_retryable_wrapper</span>
+</span><span id="L-278"><a href="#L-278"><span class="linenos">278</span></a>
+</span><span id="L-279"><a href="#L-279"><span class="linenos">279</span></a>    <span class="k">return</span> <span class="n">_async_retryable_decorator</span> <span class="k">if</span> <span class="n">is_none</span><span class="p">(</span><span class="n">async_callable</span><span class="p">)</span> <span class="k">else</span> \
+</span><span id="L-280"><a href="#L-280"><span class="linenos">280</span></a>        <span class="n">_async_retryable_decorator</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]],</span> <span class="n">async_callable</span><span class="p">))</span>
+</span><span id="L-281"><a href="#L-281"><span class="linenos">281</span></a>
+</span><span id="L-282"><a href="#L-282"><span class="linenos">282</span></a>
+</span><span id="L-283"><a href="#L-283"><span class="linenos">283</span></a><span class="k">def</span> <span class="nf">to_async_retryable</span><span class="p">(</span>
+</span><span id="L-284"><a href="#L-284"><span class="linenos">284</span></a>        <span class="n">async_callable</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]],</span>
+</span><span id="L-285"><a href="#L-285"><span class="linenos">285</span></a>        <span class="n">retry_config</span><span class="p">:</span> <span class="n">RetryConfiguration</span> <span class="o">=</span> <span class="n">RetryConfiguration</span><span class="p">(),</span>
+</span><span id="L-286"><a href="#L-286"><span class="linenos">286</span></a>        <span class="n">on_failure</span><span class="p">:</span> <span class="n">Function</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="n">_default_retry_on_failure</span>
+</span><span id="L-287"><a href="#L-287"><span class="linenos">287</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]]:</span>
+</span><span id="L-288"><a href="#L-288"><span class="linenos">288</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-289"><a href="#L-289"><span class="linenos">289</span></a><span class="sd">    Transforms an async callable to an async retryable one by using the given RetryConfiguration</span>
+</span><span id="L-290"><a href="#L-290"><span class="linenos">290</span></a>
+</span><span id="L-291"><a href="#L-291"><span class="linenos">291</span></a><span class="sd">    If an error occurs when executing the returned callable the call is retried by using the given RetryConfiguration.</span>
+</span><span id="L-292"><a href="#L-292"><span class="linenos">292</span></a><span class="sd">    An exponential backoff is used in order to determinate the waiting time between each call. If max_tries is reached</span>
+</span><span id="L-293"><a href="#L-293"><span class="linenos">293</span></a><span class="sd">    then the on_failure function is called in order to return a default value or raise an exception. By default, it</span>
+</span><span id="L-294"><a href="#L-294"><span class="linenos">294</span></a><span class="sd">    raises the last raised exception</span>
+</span><span id="L-295"><a href="#L-295"><span class="linenos">295</span></a>
+</span><span id="L-296"><a href="#L-296"><span class="linenos">296</span></a><span class="sd">    Args:</span>
+</span><span id="L-297"><a href="#L-297"><span class="linenos">297</span></a><span class="sd">        async_callable: The async callable to transform</span>
+</span><span id="L-298"><a href="#L-298"><span class="linenos">298</span></a><span class="sd">        retry_config: The given RetryConfiguration</span>
+</span><span id="L-299"><a href="#L-299"><span class="linenos">299</span></a><span class="sd">        on_failure: The action to perform if max_tries is reached (Note: can return a default value)</span>
+</span><span id="L-300"><a href="#L-300"><span class="linenos">300</span></a>
+</span><span id="L-301"><a href="#L-301"><span class="linenos">301</span></a><span class="sd">    Returns:</span>
+</span><span id="L-302"><a href="#L-302"><span class="linenos">302</span></a><span class="sd">        Callable[P, Awaitable[T]]: The async retryable callable</span>
+</span><span id="L-303"><a href="#L-303"><span class="linenos">303</span></a>
+</span><span id="L-304"><a href="#L-304"><span class="linenos">304</span></a><span class="sd">    Raises:</span>
+</span><span id="L-305"><a href="#L-305"><span class="linenos">305</span></a><span class="sd">        TypeError: if async_callable or retry_config or on_failure is None</span>
+</span><span id="L-306"><a href="#L-306"><span class="linenos">306</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-307"><a href="#L-307"><span class="linenos">307</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">async_callable</span><span class="p">)</span>
+</span><span id="L-308"><a href="#L-308"><span class="linenos">308</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">retry_config</span><span class="p">)</span>
+</span><span id="L-309"><a href="#L-309"><span class="linenos">309</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">on_failure</span><span class="p">)</span>
+</span><span id="L-310"><a href="#L-310"><span class="linenos">310</span></a>    <span class="k">return</span> <span class="n">partial</span><span class="p">(</span><span class="n">_with_async_retry</span><span class="p">,</span> <span class="o">*</span><span class="p">[</span><span class="n">async_callable</span><span class="p">,</span> <span class="n">retry_config</span><span class="p">,</span> <span class="n">on_failure</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 </span></pre></div>
 
 
@@ -467,7 +460,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.retry    </h1>
 
             <div class="docstring"><p>RetryConfiguration class that represents a retry configuration</p>
 
-<h6 id="a-retry-configuration-describes">A retry configuration describes</h6>
+<h6 id="a-retry-configuration-describes">A retry configuration describes:</h6>
 
 <blockquote>
   <ul>
@@ -477,7 +470,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.retry    </h1>
   </ul>
 </blockquote>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>exponent (int):</strong>  the exponential backoff exponent / an arbitrary multiplier to determine delay between each try
@@ -486,7 +479,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.retry    </h1>
 <li><strong>max_tries (int):</strong>  max try number (first try included) (default = 3, i.e.: first try and 2 retry)</li>
 </ul>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if exponent or delay or max_tries is None</li>
@@ -503,39 +496,6 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.retry    </h1>
         
     </div>
     <a class="headerlink" href="#RetryConfiguration.__init__"></a>
-    
-    
-
-                            </div>
-                            <div id="RetryConfiguration.exponent" class="classattr">
-                                <div class="attr variable">
-            <span class="name">exponent</span><span class="annotation">: int</span><span class="default_value"> = 2</span>
-
-        
-    </div>
-    <a class="headerlink" href="#RetryConfiguration.exponent"></a>
-    
-    
-
-                            </div>
-                            <div id="RetryConfiguration.delay" class="classattr">
-                                <div class="attr variable">
-            <span class="name">delay</span><span class="annotation">: float</span><span class="default_value"> = 0.1</span>
-
-        
-    </div>
-    <a class="headerlink" href="#RetryConfiguration.delay"></a>
-    
-    
-
-                            </div>
-                            <div id="RetryConfiguration.max_tries" class="classattr">
-                                <div class="attr variable">
-            <span class="name">max_tries</span><span class="annotation">: int</span><span class="default_value"> = 3</span>
-
-        
-    </div>
-    <a class="headerlink" href="#RetryConfiguration.max_tries"></a>
     
     
 
@@ -576,19 +536,19 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.retry    </h1>
 
             <div class="docstring"><p>Returns the waiting interval in second in case of a retry occurs</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>retry_number:</strong>  the current retry number</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>float: the waiting interval in second for the given <code>retry_numbers</code></p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if retry_number is None</li>
@@ -665,7 +625,7 @@ An exponential backoff is used in order to determinate the waiting time between 
 then the on_failure function is called in order to return a default value or raise an exception. By default, it
 raises the last raised exception</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>sync_callable:</strong>  The callable to transform</li>
@@ -673,7 +633,7 @@ raises the last raised exception</p>
 <li><strong>on_failure:</strong>  The action to perform if max_tries is reached (Note: can return a default value)</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Function[Callable[P, T], Callable[P, T]]: Corresponding to a partial <code><a href="#to_retryable">to_retryable</a></code> function filled with
@@ -683,7 +643,7 @@ raises the last raised exception</p>
       None</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if retry_config or on_failure is None</li>
@@ -697,40 +657,41 @@ raises the last raised exception</p>
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">to_retryable</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">sync_callable</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">~</span><span class="n">P</span><span class="p">,</span> <span class="o">~</span><span class="n">T</span><span class="p">]</span>,</span><span class="param">	<span class="n">retry_config</span><span class="p">:</span> <span class="n"><a href="#RetryConfiguration">dev4py.utils.retry.RetryConfiguration</a></span> <span class="o">=</span> <span class="n">RetryConfiguration</span><span class="p">(</span><span class="n">exponent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">max_tries</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>,</span><span class="param">	<span class="n">on_failure</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="ne">BaseException</span><span class="p">],</span> <span class="o">~</span><span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">function</span> <span class="n">_default_retry_on_failure</span><span class="o">&gt;</span></span><span class="return-annotation">) -> <span class="n">Callable</span><span class="p">[</span><span class="o">~</span><span class="n">P</span><span class="p">,</span> <span class="o">~</span><span class="n">T</span><span class="p">]</span>:</span></span>
+        <span class="name">to_retryable</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">sync_callable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="o">~</span><span class="n">P</span><span class="p">,</span> <span class="o">~</span><span class="n">T</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="o">*</span>,</span><span class="param">	<span class="n">retry_config</span><span class="p">:</span> <span class="n"><a href="#RetryConfiguration">dev4py.utils.retry.RetryConfiguration</a></span> <span class="o">=</span> <span class="n">RetryConfiguration</span><span class="p">(</span><span class="n">exponent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">max_tries</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>,</span><span class="param">	<span class="n">on_failure</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="ne">BaseException</span><span class="p">],</span> <span class="o">~</span><span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">function</span> <span class="n">_default_retry_on_failure</span><span class="o">&gt;</span></span><span class="return-annotation">) -> <span class="n">Callable</span><span class="p">[</span><span class="o">~</span><span class="n">P</span><span class="p">,</span> <span class="o">~</span><span class="n">T</span><span class="p">]</span>:</span></span>
 
                 <label class="view-source-button" for="to_retryable-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#to_retryable"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="to_retryable-206"><a href="#to_retryable-206"><span class="linenos">206</span></a><span class="k">def</span> <span class="nf">to_retryable</span><span class="p">(</span>
-</span><span id="to_retryable-207"><a href="#to_retryable-207"><span class="linenos">207</span></a>        <span class="n">sync_callable</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">T</span><span class="p">],</span>
-</span><span id="to_retryable-208"><a href="#to_retryable-208"><span class="linenos">208</span></a>        <span class="n">retry_config</span><span class="p">:</span> <span class="n">RetryConfiguration</span> <span class="o">=</span> <span class="n">RetryConfiguration</span><span class="p">(),</span>
-</span><span id="to_retryable-209"><a href="#to_retryable-209"><span class="linenos">209</span></a>        <span class="n">on_failure</span><span class="p">:</span> <span class="n">Function</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="n">_default_retry_on_failure</span>
-</span><span id="to_retryable-210"><a href="#to_retryable-210"><span class="linenos">210</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">T</span><span class="p">]:</span>
-</span><span id="to_retryable-211"><a href="#to_retryable-211"><span class="linenos">211</span></a>    <span class="sd">&quot;&quot;&quot;</span>
-</span><span id="to_retryable-212"><a href="#to_retryable-212"><span class="linenos">212</span></a><span class="sd">    Transforms a callable to a retryable one by using the given RetryConfiguration</span>
-</span><span id="to_retryable-213"><a href="#to_retryable-213"><span class="linenos">213</span></a>
-</span><span id="to_retryable-214"><a href="#to_retryable-214"><span class="linenos">214</span></a><span class="sd">    If an error occurs when executing the returned callable the call is retried by using the given RetryConfiguration.</span>
-</span><span id="to_retryable-215"><a href="#to_retryable-215"><span class="linenos">215</span></a><span class="sd">    An exponential backoff is used in order to determinate the waiting time between each call. If max_tries is reached</span>
-</span><span id="to_retryable-216"><a href="#to_retryable-216"><span class="linenos">216</span></a><span class="sd">    then the on_failure function is called in order to return a default value or raise an exception. By default, it</span>
-</span><span id="to_retryable-217"><a href="#to_retryable-217"><span class="linenos">217</span></a><span class="sd">    raises the last raised exception</span>
-</span><span id="to_retryable-218"><a href="#to_retryable-218"><span class="linenos">218</span></a>
-</span><span id="to_retryable-219"><a href="#to_retryable-219"><span class="linenos">219</span></a><span class="sd">    Args:</span>
-</span><span id="to_retryable-220"><a href="#to_retryable-220"><span class="linenos">220</span></a><span class="sd">        sync_callable: The callable to transform</span>
-</span><span id="to_retryable-221"><a href="#to_retryable-221"><span class="linenos">221</span></a><span class="sd">        retry_config: The given RetryConfiguration</span>
-</span><span id="to_retryable-222"><a href="#to_retryable-222"><span class="linenos">222</span></a><span class="sd">        on_failure: The action to perform if max_tries is reached (Note: can return a default value)</span>
-</span><span id="to_retryable-223"><a href="#to_retryable-223"><span class="linenos">223</span></a>
-</span><span id="to_retryable-224"><a href="#to_retryable-224"><span class="linenos">224</span></a><span class="sd">    Returns:</span>
-</span><span id="to_retryable-225"><a href="#to_retryable-225"><span class="linenos">225</span></a><span class="sd">        Callable[P, T]: The retryable callable</span>
-</span><span id="to_retryable-226"><a href="#to_retryable-226"><span class="linenos">226</span></a>
-</span><span id="to_retryable-227"><a href="#to_retryable-227"><span class="linenos">227</span></a><span class="sd">    Raises:</span>
-</span><span id="to_retryable-228"><a href="#to_retryable-228"><span class="linenos">228</span></a><span class="sd">        TypeError: if sync_callable or retry_config or on_failure is None</span>
-</span><span id="to_retryable-229"><a href="#to_retryable-229"><span class="linenos">229</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="to_retryable-230"><a href="#to_retryable-230"><span class="linenos">230</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">sync_callable</span><span class="p">)</span>
-</span><span id="to_retryable-231"><a href="#to_retryable-231"><span class="linenos">231</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">retry_config</span><span class="p">)</span>
-</span><span id="to_retryable-232"><a href="#to_retryable-232"><span class="linenos">232</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">on_failure</span><span class="p">)</span>
-</span><span id="to_retryable-233"><a href="#to_retryable-233"><span class="linenos">233</span></a>    <span class="k">return</span> <span class="n">partial</span><span class="p">(</span><span class="n">_with_retry</span><span class="p">,</span> <span class="o">*</span><span class="p">[</span><span class="n">sync_callable</span><span class="p">,</span> <span class="n">retry_config</span><span class="p">,</span> <span class="n">on_failure</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+</span><span id="to_retryable-207"><a href="#to_retryable-207"><span class="linenos">207</span></a>        <span class="n">sync_callable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">T</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="to_retryable-208"><a href="#to_retryable-208"><span class="linenos">208</span></a>        <span class="o">*</span><span class="p">,</span>
+</span><span id="to_retryable-209"><a href="#to_retryable-209"><span class="linenos">209</span></a>        <span class="n">retry_config</span><span class="p">:</span> <span class="n">RetryConfiguration</span> <span class="o">=</span> <span class="n">RetryConfiguration</span><span class="p">(),</span>
+</span><span id="to_retryable-210"><a href="#to_retryable-210"><span class="linenos">210</span></a>        <span class="n">on_failure</span><span class="p">:</span> <span class="n">Function</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="n">_default_retry_on_failure</span>
+</span><span id="to_retryable-211"><a href="#to_retryable-211"><span class="linenos">211</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">T</span><span class="p">]:</span>
+</span><span id="to_retryable-212"><a href="#to_retryable-212"><span class="linenos">212</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="to_retryable-213"><a href="#to_retryable-213"><span class="linenos">213</span></a><span class="sd">    Transforms a callable to a retryable one by using the given RetryConfiguration</span>
+</span><span id="to_retryable-214"><a href="#to_retryable-214"><span class="linenos">214</span></a>
+</span><span id="to_retryable-215"><a href="#to_retryable-215"><span class="linenos">215</span></a><span class="sd">    If an error occurs when executing the returned callable the call is retried by using the given RetryConfiguration.</span>
+</span><span id="to_retryable-216"><a href="#to_retryable-216"><span class="linenos">216</span></a><span class="sd">    An exponential backoff is used in order to determinate the waiting time between each call. If max_tries is reached</span>
+</span><span id="to_retryable-217"><a href="#to_retryable-217"><span class="linenos">217</span></a><span class="sd">    then the on_failure function is called in order to return a default value or raise an exception. By default, it</span>
+</span><span id="to_retryable-218"><a href="#to_retryable-218"><span class="linenos">218</span></a><span class="sd">    raises the last raised exception</span>
+</span><span id="to_retryable-219"><a href="#to_retryable-219"><span class="linenos">219</span></a>
+</span><span id="to_retryable-220"><a href="#to_retryable-220"><span class="linenos">220</span></a><span class="sd">    Args:</span>
+</span><span id="to_retryable-221"><a href="#to_retryable-221"><span class="linenos">221</span></a><span class="sd">        sync_callable: The callable to transform</span>
+</span><span id="to_retryable-222"><a href="#to_retryable-222"><span class="linenos">222</span></a><span class="sd">        retry_config: The given RetryConfiguration</span>
+</span><span id="to_retryable-223"><a href="#to_retryable-223"><span class="linenos">223</span></a><span class="sd">        on_failure: The action to perform if max_tries is reached (Note: can return a default value)</span>
+</span><span id="to_retryable-224"><a href="#to_retryable-224"><span class="linenos">224</span></a>
+</span><span id="to_retryable-225"><a href="#to_retryable-225"><span class="linenos">225</span></a><span class="sd">    Returns:</span>
+</span><span id="to_retryable-226"><a href="#to_retryable-226"><span class="linenos">226</span></a><span class="sd">        Callable[P, T]: The retryable callable</span>
+</span><span id="to_retryable-227"><a href="#to_retryable-227"><span class="linenos">227</span></a>
+</span><span id="to_retryable-228"><a href="#to_retryable-228"><span class="linenos">228</span></a><span class="sd">    Raises:</span>
+</span><span id="to_retryable-229"><a href="#to_retryable-229"><span class="linenos">229</span></a><span class="sd">        TypeError: if sync_callable or retry_config or on_failure is None</span>
+</span><span id="to_retryable-230"><a href="#to_retryable-230"><span class="linenos">230</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="to_retryable-231"><a href="#to_retryable-231"><span class="linenos">231</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">sync_callable</span><span class="p">)</span>
+</span><span id="to_retryable-232"><a href="#to_retryable-232"><span class="linenos">232</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">retry_config</span><span class="p">)</span>
+</span><span id="to_retryable-233"><a href="#to_retryable-233"><span class="linenos">233</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">on_failure</span><span class="p">)</span>
+</span><span id="to_retryable-234"><a href="#to_retryable-234"><span class="linenos">234</span></a>    <span class="k">return</span> <span class="n">partial</span><span class="p">(</span><span class="n">_with_retry</span><span class="p">,</span> <span class="o">*</span><span class="p">[</span><span class="n">sync_callable</span><span class="p">,</span> <span class="n">retry_config</span><span class="p">,</span> <span class="n">on_failure</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 </span></pre></div>
 
 
@@ -741,7 +702,7 @@ An exponential backoff is used in order to determinate the waiting time between 
 then the on_failure function is called in order to return a default value or raise an exception. By default, it
 raises the last raised exception</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>sync_callable:</strong>  The callable to transform</li>
@@ -749,13 +710,13 @@ raises the last raised exception</p>
 <li><strong>on_failure:</strong>  The action to perform if max_tries is reached (Note: can return a default value)</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Callable[P, T]: The retryable callable</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if sync_callable or retry_config or on_failure is None</li>
@@ -769,56 +730,57 @@ raises the last raised exception</p>
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">async_retryable</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">async_callable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="o">~</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="o">~</span><span class="n">T</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">retry_config</span><span class="p">:</span> <span class="n"><a href="#RetryConfiguration">dev4py.utils.retry.RetryConfiguration</a></span> <span class="o">=</span> <span class="n">RetryConfiguration</span><span class="p">(</span><span class="n">exponent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">max_tries</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>,</span><span class="param">	<span class="n">on_failure</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="ne">BaseException</span><span class="p">],</span> <span class="o">~</span><span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">function</span> <span class="n">_default_retry_on_failure</span><span class="o">&gt;</span></span><span class="return-annotation">) -> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Callable</span><span class="p">[</span><span class="o">~</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="o">~</span><span class="n">T</span><span class="p">]]],</span> <span class="n">Callable</span><span class="p">[</span><span class="o">~</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="o">~</span><span class="n">T</span><span class="p">]]],</span> <span class="n">Callable</span><span class="p">[</span><span class="o">~</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="o">~</span><span class="n">T</span><span class="p">]]]</span>:</span></span>
+        <span class="name">async_retryable</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">async_callable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="o">~</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="o">~</span><span class="n">T</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="o">*</span>,</span><span class="param">	<span class="n">retry_config</span><span class="p">:</span> <span class="n"><a href="#RetryConfiguration">dev4py.utils.retry.RetryConfiguration</a></span> <span class="o">=</span> <span class="n">RetryConfiguration</span><span class="p">(</span><span class="n">exponent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">max_tries</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>,</span><span class="param">	<span class="n">on_failure</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="ne">BaseException</span><span class="p">],</span> <span class="o">~</span><span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">function</span> <span class="n">_default_retry_on_failure</span><span class="o">&gt;</span></span><span class="return-annotation">) -> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Callable</span><span class="p">[</span><span class="o">~</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="o">~</span><span class="n">T</span><span class="p">]]],</span> <span class="n">Callable</span><span class="p">[</span><span class="o">~</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="o">~</span><span class="n">T</span><span class="p">]]],</span> <span class="n">Callable</span><span class="p">[</span><span class="o">~</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="o">~</span><span class="n">T</span><span class="p">]]]</span>:</span></span>
 
                 <label class="view-source-button" for="async_retryable-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#async_retryable"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="async_retryable-236"><a href="#async_retryable-236"><span class="linenos">236</span></a><span class="k">def</span> <span class="nf">async_retryable</span><span class="p">(</span>
-</span><span id="async_retryable-237"><a href="#async_retryable-237"><span class="linenos">237</span></a>        <span class="n">async_callable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="async_retryable-238"><a href="#async_retryable-238"><span class="linenos">238</span></a>        <span class="n">retry_config</span><span class="p">:</span> <span class="n">RetryConfiguration</span> <span class="o">=</span> <span class="n">RetryConfiguration</span><span class="p">(),</span>
-</span><span id="async_retryable-239"><a href="#async_retryable-239"><span class="linenos">239</span></a>        <span class="n">on_failure</span><span class="p">:</span> <span class="n">Function</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="n">_default_retry_on_failure</span>
-</span><span id="async_retryable-240"><a href="#async_retryable-240"><span class="linenos">240</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Function</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]],</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]]],</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]]]:</span>
-</span><span id="async_retryable-241"><a href="#async_retryable-241"><span class="linenos">241</span></a>    <span class="sd">&quot;&quot;&quot;</span>
-</span><span id="async_retryable-242"><a href="#async_retryable-242"><span class="linenos">242</span></a><span class="sd">    SINCE: 3.5.0: a `to_async_retryable` equivalent that can also be used as decorator</span>
-</span><span id="async_retryable-243"><a href="#async_retryable-243"><span class="linenos">243</span></a>
-</span><span id="async_retryable-244"><a href="#async_retryable-244"><span class="linenos">244</span></a><span class="sd">    Transforms an async callable to an async retryable one by using the given RetryConfiguration</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="async_retryable-237"><a href="#async_retryable-237"><span class="linenos">237</span></a><span class="k">def</span> <span class="nf">async_retryable</span><span class="p">(</span>
+</span><span id="async_retryable-238"><a href="#async_retryable-238"><span class="linenos">238</span></a>        <span class="n">async_callable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="async_retryable-239"><a href="#async_retryable-239"><span class="linenos">239</span></a>        <span class="o">*</span><span class="p">,</span>
+</span><span id="async_retryable-240"><a href="#async_retryable-240"><span class="linenos">240</span></a>        <span class="n">retry_config</span><span class="p">:</span> <span class="n">RetryConfiguration</span> <span class="o">=</span> <span class="n">RetryConfiguration</span><span class="p">(),</span>
+</span><span id="async_retryable-241"><a href="#async_retryable-241"><span class="linenos">241</span></a>        <span class="n">on_failure</span><span class="p">:</span> <span class="n">Function</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="n">_default_retry_on_failure</span>
+</span><span id="async_retryable-242"><a href="#async_retryable-242"><span class="linenos">242</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Function</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]],</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]]],</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]]]:</span>
+</span><span id="async_retryable-243"><a href="#async_retryable-243"><span class="linenos">243</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="async_retryable-244"><a href="#async_retryable-244"><span class="linenos">244</span></a><span class="sd">    SINCE: 3.5.0: a `to_async_retryable` equivalent that can also be used as decorator</span>
 </span><span id="async_retryable-245"><a href="#async_retryable-245"><span class="linenos">245</span></a>
-</span><span id="async_retryable-246"><a href="#async_retryable-246"><span class="linenos">246</span></a><span class="sd">    If an error occurs when executing the returned callable the call is retried by using the given RetryConfiguration.</span>
-</span><span id="async_retryable-247"><a href="#async_retryable-247"><span class="linenos">247</span></a><span class="sd">    An exponential backoff is used in order to determinate the waiting time between each call. If max_tries is reached</span>
-</span><span id="async_retryable-248"><a href="#async_retryable-248"><span class="linenos">248</span></a><span class="sd">    then the on_failure function is called in order to return a default value or raise an exception. By default, it</span>
-</span><span id="async_retryable-249"><a href="#async_retryable-249"><span class="linenos">249</span></a><span class="sd">    raises the last raised exception</span>
-</span><span id="async_retryable-250"><a href="#async_retryable-250"><span class="linenos">250</span></a>
-</span><span id="async_retryable-251"><a href="#async_retryable-251"><span class="linenos">251</span></a><span class="sd">    Args:</span>
-</span><span id="async_retryable-252"><a href="#async_retryable-252"><span class="linenos">252</span></a><span class="sd">        async_callable: The async callable to transform</span>
-</span><span id="async_retryable-253"><a href="#async_retryable-253"><span class="linenos">253</span></a><span class="sd">        retry_config: The given RetryConfiguration</span>
-</span><span id="async_retryable-254"><a href="#async_retryable-254"><span class="linenos">254</span></a><span class="sd">        on_failure: The action to perform if max_tries is reached (Note: can return a default value)</span>
-</span><span id="async_retryable-255"><a href="#async_retryable-255"><span class="linenos">255</span></a>
-</span><span id="async_retryable-256"><a href="#async_retryable-256"><span class="linenos">256</span></a><span class="sd">    Returns:</span>
-</span><span id="async_retryable-257"><a href="#async_retryable-257"><span class="linenos">257</span></a><span class="sd">        Function[Callable[P, Awaitable[T]], Callable[P, Awaitable[T]]]: Corresponding to a partial `to_async_retryable`</span>
-</span><span id="async_retryable-258"><a href="#async_retryable-258"><span class="linenos">258</span></a><span class="sd">            function filled with `retry_config` and `on_failure` parameters if async_callable is None</span>
-</span><span id="async_retryable-259"><a href="#async_retryable-259"><span class="linenos">259</span></a>
-</span><span id="async_retryable-260"><a href="#async_retryable-260"><span class="linenos">260</span></a><span class="sd">        Callable[P, Awaitable[T]]: The async retryable callable (is equivalent to `to_async_retryable` call) if</span>
-</span><span id="async_retryable-261"><a href="#async_retryable-261"><span class="linenos">261</span></a><span class="sd">            async_callable is not None</span>
-</span><span id="async_retryable-262"><a href="#async_retryable-262"><span class="linenos">262</span></a>
-</span><span id="async_retryable-263"><a href="#async_retryable-263"><span class="linenos">263</span></a><span class="sd">    Raises:</span>
-</span><span id="async_retryable-264"><a href="#async_retryable-264"><span class="linenos">264</span></a><span class="sd">        TypeError: if retry_config or on_failure is None</span>
-</span><span id="async_retryable-265"><a href="#async_retryable-265"><span class="linenos">265</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="async_retryable-266"><a href="#async_retryable-266"><span class="linenos">266</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">retry_config</span><span class="p">)</span>
-</span><span id="async_retryable-267"><a href="#async_retryable-267"><span class="linenos">267</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">on_failure</span><span class="p">)</span>
-</span><span id="async_retryable-268"><a href="#async_retryable-268"><span class="linenos">268</span></a>
-</span><span id="async_retryable-269"><a href="#async_retryable-269"><span class="linenos">269</span></a>    <span class="k">def</span> <span class="nf">_async_retryable_decorator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]]:</span>
-</span><span id="async_retryable-270"><a href="#async_retryable-270"><span class="linenos">270</span></a>        <span class="n">require_non_none</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-</span><span id="async_retryable-271"><a href="#async_retryable-271"><span class="linenos">271</span></a>
-</span><span id="async_retryable-272"><a href="#async_retryable-272"><span class="linenos">272</span></a>        <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-</span><span id="async_retryable-273"><a href="#async_retryable-273"><span class="linenos">273</span></a>        <span class="k">def</span> <span class="nf">_async_retryable_wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">P</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">P</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
-</span><span id="async_retryable-274"><a href="#async_retryable-274"><span class="linenos">274</span></a>            <span class="k">return</span> <span class="n">_with_async_retry</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">retry_config</span><span class="p">,</span> <span class="n">on_failure</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-</span><span id="async_retryable-275"><a href="#async_retryable-275"><span class="linenos">275</span></a>
-</span><span id="async_retryable-276"><a href="#async_retryable-276"><span class="linenos">276</span></a>        <span class="k">return</span> <span class="n">_async_retryable_wrapper</span>
+</span><span id="async_retryable-246"><a href="#async_retryable-246"><span class="linenos">246</span></a><span class="sd">    Transforms an async callable to an async retryable one by using the given RetryConfiguration</span>
+</span><span id="async_retryable-247"><a href="#async_retryable-247"><span class="linenos">247</span></a>
+</span><span id="async_retryable-248"><a href="#async_retryable-248"><span class="linenos">248</span></a><span class="sd">    If an error occurs when executing the returned callable the call is retried by using the given RetryConfiguration.</span>
+</span><span id="async_retryable-249"><a href="#async_retryable-249"><span class="linenos">249</span></a><span class="sd">    An exponential backoff is used in order to determinate the waiting time between each call. If max_tries is reached</span>
+</span><span id="async_retryable-250"><a href="#async_retryable-250"><span class="linenos">250</span></a><span class="sd">    then the on_failure function is called in order to return a default value or raise an exception. By default, it</span>
+</span><span id="async_retryable-251"><a href="#async_retryable-251"><span class="linenos">251</span></a><span class="sd">    raises the last raised exception</span>
+</span><span id="async_retryable-252"><a href="#async_retryable-252"><span class="linenos">252</span></a>
+</span><span id="async_retryable-253"><a href="#async_retryable-253"><span class="linenos">253</span></a><span class="sd">    Args:</span>
+</span><span id="async_retryable-254"><a href="#async_retryable-254"><span class="linenos">254</span></a><span class="sd">        async_callable: The async callable to transform</span>
+</span><span id="async_retryable-255"><a href="#async_retryable-255"><span class="linenos">255</span></a><span class="sd">        retry_config: The given RetryConfiguration</span>
+</span><span id="async_retryable-256"><a href="#async_retryable-256"><span class="linenos">256</span></a><span class="sd">        on_failure: The action to perform if max_tries is reached (Note: can return a default value)</span>
+</span><span id="async_retryable-257"><a href="#async_retryable-257"><span class="linenos">257</span></a>
+</span><span id="async_retryable-258"><a href="#async_retryable-258"><span class="linenos">258</span></a><span class="sd">    Returns:</span>
+</span><span id="async_retryable-259"><a href="#async_retryable-259"><span class="linenos">259</span></a><span class="sd">        Function[Callable[P, Awaitable[T]], Callable[P, Awaitable[T]]]: Corresponding to a partial `to_async_retryable`</span>
+</span><span id="async_retryable-260"><a href="#async_retryable-260"><span class="linenos">260</span></a><span class="sd">            function filled with `retry_config` and `on_failure` parameters if async_callable is None</span>
+</span><span id="async_retryable-261"><a href="#async_retryable-261"><span class="linenos">261</span></a>
+</span><span id="async_retryable-262"><a href="#async_retryable-262"><span class="linenos">262</span></a><span class="sd">        Callable[P, Awaitable[T]]: The async retryable callable (is equivalent to `to_async_retryable` call) if</span>
+</span><span id="async_retryable-263"><a href="#async_retryable-263"><span class="linenos">263</span></a><span class="sd">            async_callable is not None</span>
+</span><span id="async_retryable-264"><a href="#async_retryable-264"><span class="linenos">264</span></a>
+</span><span id="async_retryable-265"><a href="#async_retryable-265"><span class="linenos">265</span></a><span class="sd">    Raises:</span>
+</span><span id="async_retryable-266"><a href="#async_retryable-266"><span class="linenos">266</span></a><span class="sd">        TypeError: if retry_config or on_failure is None</span>
+</span><span id="async_retryable-267"><a href="#async_retryable-267"><span class="linenos">267</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="async_retryable-268"><a href="#async_retryable-268"><span class="linenos">268</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">retry_config</span><span class="p">)</span>
+</span><span id="async_retryable-269"><a href="#async_retryable-269"><span class="linenos">269</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">on_failure</span><span class="p">)</span>
+</span><span id="async_retryable-270"><a href="#async_retryable-270"><span class="linenos">270</span></a>
+</span><span id="async_retryable-271"><a href="#async_retryable-271"><span class="linenos">271</span></a>    <span class="k">def</span> <span class="nf">_async_retryable_decorator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]]:</span>
+</span><span id="async_retryable-272"><a href="#async_retryable-272"><span class="linenos">272</span></a>        <span class="n">require_non_none</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+</span><span id="async_retryable-273"><a href="#async_retryable-273"><span class="linenos">273</span></a>
+</span><span id="async_retryable-274"><a href="#async_retryable-274"><span class="linenos">274</span></a>        <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+</span><span id="async_retryable-275"><a href="#async_retryable-275"><span class="linenos">275</span></a>        <span class="k">def</span> <span class="nf">_async_retryable_wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">P</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">P</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+</span><span id="async_retryable-276"><a href="#async_retryable-276"><span class="linenos">276</span></a>            <span class="k">return</span> <span class="n">_with_async_retry</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">retry_config</span><span class="p">,</span> <span class="n">on_failure</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </span><span id="async_retryable-277"><a href="#async_retryable-277"><span class="linenos">277</span></a>
-</span><span id="async_retryable-278"><a href="#async_retryable-278"><span class="linenos">278</span></a>    <span class="k">return</span> <span class="n">_async_retryable_decorator</span> <span class="k">if</span> <span class="n">is_none</span><span class="p">(</span><span class="n">async_callable</span><span class="p">)</span> <span class="k">else</span> \
-</span><span id="async_retryable-279"><a href="#async_retryable-279"><span class="linenos">279</span></a>        <span class="n">_async_retryable_decorator</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]],</span> <span class="n">async_callable</span><span class="p">))</span>
+</span><span id="async_retryable-278"><a href="#async_retryable-278"><span class="linenos">278</span></a>        <span class="k">return</span> <span class="n">_async_retryable_wrapper</span>
+</span><span id="async_retryable-279"><a href="#async_retryable-279"><span class="linenos">279</span></a>
+</span><span id="async_retryable-280"><a href="#async_retryable-280"><span class="linenos">280</span></a>    <span class="k">return</span> <span class="n">_async_retryable_decorator</span> <span class="k">if</span> <span class="n">is_none</span><span class="p">(</span><span class="n">async_callable</span><span class="p">)</span> <span class="k">else</span> \
+</span><span id="async_retryable-281"><a href="#async_retryable-281"><span class="linenos">281</span></a>        <span class="n">_async_retryable_decorator</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]],</span> <span class="n">async_callable</span><span class="p">))</span>
 </span></pre></div>
 
 
@@ -831,7 +793,7 @@ An exponential backoff is used in order to determinate the waiting time between 
 then the on_failure function is called in order to return a default value or raise an exception. By default, it
 raises the last raised exception</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>async_callable:</strong>  The async callable to transform</li>
@@ -839,7 +801,7 @@ raises the last raised exception</p>
 <li><strong>on_failure:</strong>  The action to perform if max_tries is reached (Note: can return a default value)</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Function[Callable[P, Awaitable[T]], Callable[P, Awaitable[T]]]: Corresponding to a partial <code><a href="#to_async_retryable">to_async_retryable</a></code>
@@ -849,7 +811,7 @@ raises the last raised exception</p>
       async_callable is not None</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if retry_config or on_failure is None</li>
@@ -869,34 +831,34 @@ raises the last raised exception</p>
 
     </div>
     <a class="headerlink" href="#to_async_retryable"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="to_async_retryable-282"><a href="#to_async_retryable-282"><span class="linenos">282</span></a><span class="k">def</span> <span class="nf">to_async_retryable</span><span class="p">(</span>
-</span><span id="to_async_retryable-283"><a href="#to_async_retryable-283"><span class="linenos">283</span></a>        <span class="n">async_callable</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]],</span>
-</span><span id="to_async_retryable-284"><a href="#to_async_retryable-284"><span class="linenos">284</span></a>        <span class="n">retry_config</span><span class="p">:</span> <span class="n">RetryConfiguration</span> <span class="o">=</span> <span class="n">RetryConfiguration</span><span class="p">(),</span>
-</span><span id="to_async_retryable-285"><a href="#to_async_retryable-285"><span class="linenos">285</span></a>        <span class="n">on_failure</span><span class="p">:</span> <span class="n">Function</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="n">_default_retry_on_failure</span>
-</span><span id="to_async_retryable-286"><a href="#to_async_retryable-286"><span class="linenos">286</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]]:</span>
-</span><span id="to_async_retryable-287"><a href="#to_async_retryable-287"><span class="linenos">287</span></a>    <span class="sd">&quot;&quot;&quot;</span>
-</span><span id="to_async_retryable-288"><a href="#to_async_retryable-288"><span class="linenos">288</span></a><span class="sd">    Transforms an async callable to an async retryable one by using the given RetryConfiguration</span>
-</span><span id="to_async_retryable-289"><a href="#to_async_retryable-289"><span class="linenos">289</span></a>
-</span><span id="to_async_retryable-290"><a href="#to_async_retryable-290"><span class="linenos">290</span></a><span class="sd">    If an error occurs when executing the returned callable the call is retried by using the given RetryConfiguration.</span>
-</span><span id="to_async_retryable-291"><a href="#to_async_retryable-291"><span class="linenos">291</span></a><span class="sd">    An exponential backoff is used in order to determinate the waiting time between each call. If max_tries is reached</span>
-</span><span id="to_async_retryable-292"><a href="#to_async_retryable-292"><span class="linenos">292</span></a><span class="sd">    then the on_failure function is called in order to return a default value or raise an exception. By default, it</span>
-</span><span id="to_async_retryable-293"><a href="#to_async_retryable-293"><span class="linenos">293</span></a><span class="sd">    raises the last raised exception</span>
-</span><span id="to_async_retryable-294"><a href="#to_async_retryable-294"><span class="linenos">294</span></a>
-</span><span id="to_async_retryable-295"><a href="#to_async_retryable-295"><span class="linenos">295</span></a><span class="sd">    Args:</span>
-</span><span id="to_async_retryable-296"><a href="#to_async_retryable-296"><span class="linenos">296</span></a><span class="sd">        async_callable: The async callable to transform</span>
-</span><span id="to_async_retryable-297"><a href="#to_async_retryable-297"><span class="linenos">297</span></a><span class="sd">        retry_config: The given RetryConfiguration</span>
-</span><span id="to_async_retryable-298"><a href="#to_async_retryable-298"><span class="linenos">298</span></a><span class="sd">        on_failure: The action to perform if max_tries is reached (Note: can return a default value)</span>
-</span><span id="to_async_retryable-299"><a href="#to_async_retryable-299"><span class="linenos">299</span></a>
-</span><span id="to_async_retryable-300"><a href="#to_async_retryable-300"><span class="linenos">300</span></a><span class="sd">    Returns:</span>
-</span><span id="to_async_retryable-301"><a href="#to_async_retryable-301"><span class="linenos">301</span></a><span class="sd">        Callable[P, Awaitable[T]]: The async retryable callable</span>
-</span><span id="to_async_retryable-302"><a href="#to_async_retryable-302"><span class="linenos">302</span></a>
-</span><span id="to_async_retryable-303"><a href="#to_async_retryable-303"><span class="linenos">303</span></a><span class="sd">    Raises:</span>
-</span><span id="to_async_retryable-304"><a href="#to_async_retryable-304"><span class="linenos">304</span></a><span class="sd">        TypeError: if async_callable or retry_config or on_failure is None</span>
-</span><span id="to_async_retryable-305"><a href="#to_async_retryable-305"><span class="linenos">305</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="to_async_retryable-306"><a href="#to_async_retryable-306"><span class="linenos">306</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">async_callable</span><span class="p">)</span>
-</span><span id="to_async_retryable-307"><a href="#to_async_retryable-307"><span class="linenos">307</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">retry_config</span><span class="p">)</span>
-</span><span id="to_async_retryable-308"><a href="#to_async_retryable-308"><span class="linenos">308</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">on_failure</span><span class="p">)</span>
-</span><span id="to_async_retryable-309"><a href="#to_async_retryable-309"><span class="linenos">309</span></a>    <span class="k">return</span> <span class="n">partial</span><span class="p">(</span><span class="n">_with_async_retry</span><span class="p">,</span> <span class="o">*</span><span class="p">[</span><span class="n">async_callable</span><span class="p">,</span> <span class="n">retry_config</span><span class="p">,</span> <span class="n">on_failure</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="to_async_retryable-284"><a href="#to_async_retryable-284"><span class="linenos">284</span></a><span class="k">def</span> <span class="nf">to_async_retryable</span><span class="p">(</span>
+</span><span id="to_async_retryable-285"><a href="#to_async_retryable-285"><span class="linenos">285</span></a>        <span class="n">async_callable</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]],</span>
+</span><span id="to_async_retryable-286"><a href="#to_async_retryable-286"><span class="linenos">286</span></a>        <span class="n">retry_config</span><span class="p">:</span> <span class="n">RetryConfiguration</span> <span class="o">=</span> <span class="n">RetryConfiguration</span><span class="p">(),</span>
+</span><span id="to_async_retryable-287"><a href="#to_async_retryable-287"><span class="linenos">287</span></a>        <span class="n">on_failure</span><span class="p">:</span> <span class="n">Function</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="n">_default_retry_on_failure</span>
+</span><span id="to_async_retryable-288"><a href="#to_async_retryable-288"><span class="linenos">288</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">T</span><span class="p">]]:</span>
+</span><span id="to_async_retryable-289"><a href="#to_async_retryable-289"><span class="linenos">289</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="to_async_retryable-290"><a href="#to_async_retryable-290"><span class="linenos">290</span></a><span class="sd">    Transforms an async callable to an async retryable one by using the given RetryConfiguration</span>
+</span><span id="to_async_retryable-291"><a href="#to_async_retryable-291"><span class="linenos">291</span></a>
+</span><span id="to_async_retryable-292"><a href="#to_async_retryable-292"><span class="linenos">292</span></a><span class="sd">    If an error occurs when executing the returned callable the call is retried by using the given RetryConfiguration.</span>
+</span><span id="to_async_retryable-293"><a href="#to_async_retryable-293"><span class="linenos">293</span></a><span class="sd">    An exponential backoff is used in order to determinate the waiting time between each call. If max_tries is reached</span>
+</span><span id="to_async_retryable-294"><a href="#to_async_retryable-294"><span class="linenos">294</span></a><span class="sd">    then the on_failure function is called in order to return a default value or raise an exception. By default, it</span>
+</span><span id="to_async_retryable-295"><a href="#to_async_retryable-295"><span class="linenos">295</span></a><span class="sd">    raises the last raised exception</span>
+</span><span id="to_async_retryable-296"><a href="#to_async_retryable-296"><span class="linenos">296</span></a>
+</span><span id="to_async_retryable-297"><a href="#to_async_retryable-297"><span class="linenos">297</span></a><span class="sd">    Args:</span>
+</span><span id="to_async_retryable-298"><a href="#to_async_retryable-298"><span class="linenos">298</span></a><span class="sd">        async_callable: The async callable to transform</span>
+</span><span id="to_async_retryable-299"><a href="#to_async_retryable-299"><span class="linenos">299</span></a><span class="sd">        retry_config: The given RetryConfiguration</span>
+</span><span id="to_async_retryable-300"><a href="#to_async_retryable-300"><span class="linenos">300</span></a><span class="sd">        on_failure: The action to perform if max_tries is reached (Note: can return a default value)</span>
+</span><span id="to_async_retryable-301"><a href="#to_async_retryable-301"><span class="linenos">301</span></a>
+</span><span id="to_async_retryable-302"><a href="#to_async_retryable-302"><span class="linenos">302</span></a><span class="sd">    Returns:</span>
+</span><span id="to_async_retryable-303"><a href="#to_async_retryable-303"><span class="linenos">303</span></a><span class="sd">        Callable[P, Awaitable[T]]: The async retryable callable</span>
+</span><span id="to_async_retryable-304"><a href="#to_async_retryable-304"><span class="linenos">304</span></a>
+</span><span id="to_async_retryable-305"><a href="#to_async_retryable-305"><span class="linenos">305</span></a><span class="sd">    Raises:</span>
+</span><span id="to_async_retryable-306"><a href="#to_async_retryable-306"><span class="linenos">306</span></a><span class="sd">        TypeError: if async_callable or retry_config or on_failure is None</span>
+</span><span id="to_async_retryable-307"><a href="#to_async_retryable-307"><span class="linenos">307</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="to_async_retryable-308"><a href="#to_async_retryable-308"><span class="linenos">308</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">async_callable</span><span class="p">)</span>
+</span><span id="to_async_retryable-309"><a href="#to_async_retryable-309"><span class="linenos">309</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">retry_config</span><span class="p">)</span>
+</span><span id="to_async_retryable-310"><a href="#to_async_retryable-310"><span class="linenos">310</span></a>    <span class="n">require_non_none</span><span class="p">(</span><span class="n">on_failure</span><span class="p">)</span>
+</span><span id="to_async_retryable-311"><a href="#to_async_retryable-311"><span class="linenos">311</span></a>    <span class="k">return</span> <span class="n">partial</span><span class="p">(</span><span class="n">_with_async_retry</span><span class="p">,</span> <span class="o">*</span><span class="p">[</span><span class="n">async_callable</span><span class="p">,</span> <span class="n">retry_config</span><span class="p">,</span> <span class="n">on_failure</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 </span></pre></div>
 
 
@@ -907,7 +869,7 @@ An exponential backoff is used in order to determinate the waiting time between 
 then the on_failure function is called in order to return a default value or raise an exception. By default, it
 raises the last raised exception</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>async_callable:</strong>  The async callable to transform</li>
@@ -915,13 +877,13 @@ raises the last raised exception</p>
 <li><strong>on_failure:</strong>  The action to perform if max_tries is reached (Note: can return a default value)</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Callable[P, Awaitable[T]]: The async retryable callable</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if async_callable or retry_config or on_failure is None</li>

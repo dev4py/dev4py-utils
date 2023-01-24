@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="pdoc 12.0.2"/>
+    <meta name="generator" content="pdoc 12.3.0"/>
     <title>dev4py.utils.async_joptional API documentation</title>
             <link rel="icon" href="https://www.python.org/static/favicon.ico"/>
 
@@ -112,9 +112,9 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.async_joptional    </h1>
                         <div class="docstring"><p>The <code><a href="#AsyncJOptional">AsyncJOptional</a></code> class is like the <code>JOptional</code> one but simplify the use of Awaitable values</p>
 </div>
 
-                        <input id="async_joptional-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                        <input id="mod-async_joptional-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 
-                        <label class="view-source-button" for="async_joptional-view-source"><span>View Source</span></label>
+                        <label class="view-source-button" for="mod-async_joptional-view-source"><span>View Source</span></label>
 
                         <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos">  1</span></a><span class="sd">&quot;&quot;&quot;The `AsyncJOptional` class is like the `JOptional` one but simplify the use of Awaitable values&quot;&quot;&quot;</span>
 </span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a>
@@ -921,19 +921,19 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.async_joptional    </h1>
 
             <div class="docstring"><p>Returns a JOptional describing the given non-None value or Awaitable value</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>value:</strong>  The value (or Awaitable value) to describe, which must be non-None and not an Awaitable of None</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>JOptional[T]: A JOptional of value T or Awaitable[T] type with the value present</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  Raises a TypeError on terminal operation if value is None or is an Awaitable of None</li>
@@ -974,13 +974,13 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.async_joptional    </h1>
             <div class="docstring"><p>Returns a JOptional describing the given value or Awaitable value, if non-None, otherwise returns an empty
 AsyncJOptional</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>value:</strong>  The possibly-None or Awaitable of None value to describe</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>JOptional[T]: A JOptional of value T  or Awaitable[T] type with the value present if the specified value is
@@ -1042,7 +1042,7 @@ AsyncJOptional</p>
 
 <p>Note: A value is present when not None and not an Awaitable of None</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>bool: true if a value is not None and not an Awaitable of None, otherwise false</p>
@@ -1079,7 +1079,7 @@ AsyncJOptional</p>
 
 <p>Note: A value is empty when None or an Awaitable of None</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>bool: true if a value is None or an Awaitable of None, otherwise false</p>
@@ -1115,13 +1115,13 @@ AsyncJOptional</p>
 
             <div class="docstring"><p>If a value is present, returns the value, otherwise raises a ValueError</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>value: The non-None value described by this AsyncJOptional</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>ValueError:</strong>  Raises a ValueError if the value is empty</li>
@@ -1157,13 +1157,13 @@ AsyncJOptional</p>
 
             <div class="docstring"><p>If a value is present, returns the value, otherwise returns other</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>other:</strong>  The value to be returned, if no value is present. May be None.</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>value: The value, if present, otherwise other</p>
@@ -1203,19 +1203,19 @@ AsyncJOptional</p>
 
             <div class="docstring"><p>If a value is present, returns the value, otherwise returns the result produced by the supplying function</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>supplier:</strong>  The supplying function that produces a value to be returned</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>value: The value, if present, otherwise the result produced by the supplying function</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if the supplying function is None</li>
@@ -1229,7 +1229,7 @@ AsyncJOptional</p>
 <div class="attr function">
             
         <span class="def">async def</span>
-        <span class="name">or_else_raise</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">supplier</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="ne">Exception</span><span class="p">]</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nb">staticmethod</span><span class="p">(</span><span class="o">&lt;</span><span class="n">function</span> <span class="n">AsyncJOptional</span><span class="o">.</span><span class="n">__or_else_raise_supplier_lambda</span> <span class="n">at</span> <span class="mh">0x10b5c5e10</span><span class="o">&gt;</span><span class="p">)</span><span class="o">&gt;</span></span><span class="return-annotation">) -> <span class="o">~</span><span class="n">T</span>:</span></span>
+        <span class="name">or_else_raise</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">supplier</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="ne">Exception</span><span class="p">]</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nb">staticmethod</span><span class="p">(</span><span class="o">&lt;</span><span class="n">function</span> <span class="n">AsyncJOptional</span><span class="o">.</span><span class="n">__or_else_raise_supplier_lambda</span> <span class="n">at</span> <span class="mh">0x10d89a950</span><span class="o">&gt;</span><span class="p">)</span><span class="o">&gt;</span></span><span class="return-annotation">) -> <span class="o">~</span><span class="n">T</span>:</span></span>
 
                 <label class="view-source-button" for="AsyncJOptional.or_else_raise-view-source"><span>View Source</span></label>
 
@@ -1263,19 +1263,19 @@ AsyncJOptional</p>
             <div class="docstring"><p>If a value is present, returns the value, otherwise raises an exception produced by the exception supplying
 function</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>supplier:</strong>  The supplying function that produces an exception to be raised (default: ValueError)</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>value: The value, if present</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>Exception:</strong>  If value is empty</li>
@@ -1327,20 +1327,20 @@ function</p>
 <p>If a value is present, returns an AsyncJOptional describing the value, otherwise returns an AsyncJOptional
 produced by the supplying function</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>supplier:</strong>  The supplying function that produces an AsyncJOptional to be returned</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>AsyncJOptional[T]: Returns an AsyncJOptional describing the value of this AsyncJOptional, if a value is
   present, otherwise an AsyncJOptional produced by the supplying function</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if the supplying function is None</li>
@@ -1391,20 +1391,20 @@ given mapping function to the value, otherwise returns an empty AsyncJOptional</
 
 <p>Note: mapping function can be sync or Awaitable (like async coroutine)</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>mapper:</strong>  The mapping function to apply to a value, if present</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>AsyncJOptional[R]: An AsyncJOptional describing the result of applying a mapping function to the value of
   this AsyncJOptional, if a value is present, otherwise an empty AsyncJOptional</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  If the mapping function is None</li>
@@ -1462,20 +1462,20 @@ value, otherwise returns an empty AsyncJOptional</p>
 <p>This method is similar to map(Function), but the mapping function is one whose result is already an
 AsyncJOptional, and if invoked, flatMap does not wrap it within an additional AsyncJOptional</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>mapper:</strong>  The mapping function to apply to a value, if present</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>AsyncJOptional[R]: The result of applying a AsyncJOptional-bearing mapping function to the value of this
   AsyncJOptional, if a value is present, otherwise an empty AsyncJOptional</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if the mapping function is None</li>
@@ -1516,19 +1516,19 @@ AsyncJOptional, and if invoked, flatMap does not wrap it within an additional As
 
             <div class="docstring"><p>If a value is present, performs the given consumer with the value, otherwise does nothing</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>consumer:</strong>  The consumer to be performed, if a value is present</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Nothing</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if the consumer is None</li>
@@ -1569,19 +1569,19 @@ AsyncJOptional, and if invoked, flatMap does not wrap it within an additional As
 
             <div class="docstring"><p>If a value is not present, performs the given runnable, otherwise does nothing</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>empty_action:</strong>  The runnable to be performed, if a value is not present</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Nothing</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if the runnable is None</li>
@@ -1624,20 +1624,20 @@ AsyncJOptional, and if invoked, flatMap does not wrap it within an additional As
 
             <div class="docstring"><p>If a value is present, performs the given consumer with the value, otherwise performs the given empty_action</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>consumer:</strong>  The consumer to be performed, if a value is present</li>
 <li><strong>empty_action:</strong>  The runnable to be performed, if a value is not</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Nothing</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if the consumer is None or if the runnable is None</li>
@@ -1684,20 +1684,20 @@ AsyncJOptional, and if invoked, flatMap does not wrap it within an additional As
             <div class="docstring"><p>If a value is present, and the value matches the given predicate, returns an AsyncJOptional describing the
 value, otherwise returns an empty AsyncJOptional</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>predicate:</strong>  The predicate to apply to a value, if present</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>AsyncJOptional[T]: An AsyncJOptional describing the value of this AsyncJOptional, if a value is present and
   the value matches the given predicate, otherwise an empty AsyncJOptional</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if the predicate is None</li>
@@ -1744,19 +1744,19 @@ value, otherwise returns an empty AsyncJOptional</p>
             <div class="docstring"><p>If a value is present, performs the given consumer with the value, otherwise does nothing and returns the
 current equivalent of AsyncJOptional</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>consumer:</strong>  The consumer to be performed, if a value is present</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>AsyncJOptional[T]: The current equivalent of AsyncJOptional</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if the consumer is None</li>
@@ -1793,7 +1793,7 @@ current equivalent of AsyncJOptional</p>
 
 <p>Note: the returned JOptional will contain an Awaitable[Optional[T]] value</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>JOptional[Awaitable[Optional[T]]]: The corresponding JOptional</p>
