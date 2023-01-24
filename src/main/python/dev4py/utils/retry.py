@@ -17,7 +17,7 @@ from asyncio import sleep as async_sleep
 from dataclasses import dataclass
 from functools import partial, wraps
 from time import sleep
-from typing import Callable, Awaitable, Union, Optional, cast
+from typing import Callable, Awaitable, Union, Optional, cast, Any
 
 from dev4py.utils.objects import require_non_none, is_none
 from dev4py.utils.types import T, P, Function
@@ -83,7 +83,7 @@ class RetryConfiguration:
 ##############################
 #  PRIVATE MODULE FUNCTIONS  #
 ##############################
-def _default_retry_on_failure(exception: BaseException) -> T:
+def _default_retry_on_failure(exception: BaseException) -> Any:
     """
     Default value for on_failure parameter
     Note: lambda are not used in order to be compatible with multiprocessing (lambda are not serializable)
@@ -203,7 +203,7 @@ def retryable(
 
 
 def to_retryable(
-        sync_callable: Callable[P, T] = None,
+        sync_callable: Optional[Callable[P, T]] = None,
         *,
         retry_config: RetryConfiguration = RetryConfiguration(),
         on_failure: Function[BaseException, T] = _default_retry_on_failure
