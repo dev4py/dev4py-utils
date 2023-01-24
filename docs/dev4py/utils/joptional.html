@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="pdoc 12.0.2"/>
+    <meta name="generator" content="pdoc 12.3.0"/>
     <title>dev4py.utils.joptional API documentation</title>
             <link rel="icon" href="https://www.python.org/static/favicon.ico"/>
 
@@ -118,9 +118,9 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.joptional    </h1>
                         <div class="docstring"><p>The <code><a href="#JOptional">JOptional</a></code> class provides a java like Optional class</p>
 </div>
 
-                        <input id="joptional-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                        <input id="mod-joptional-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 
-                        <label class="view-source-button" for="joptional-view-source"><span>View Source</span></label>
+                        <label class="view-source-button" for="mod-joptional-view-source"><span>View Source</span></label>
 
                         <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos">  1</span></a><span class="sd">&quot;&quot;&quot;The `JOptional` class provides a java like Optional class&quot;&quot;&quot;</span>
 </span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a>
@@ -888,19 +888,19 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.joptional    </h1>
 
             <div class="docstring"><p>Returns a JOptional describing the given non-None value</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>value:</strong>  The value to describe, which must be non-None</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>JOptional[T]: A JOptional of value T type with the value present</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  Raises a TypeError if value is None</li>
@@ -939,13 +939,13 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.joptional    </h1>
 
             <div class="docstring"><p>Returns a JOptional describing the given value, if non-None, otherwise returns an empty JOptional</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>value:</strong>  The possibly-None value to describe</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>JOptional[T]: A JOptional of value T type with the value present if the specified value is non-None,
@@ -1003,7 +1003,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.joptional    </h1>
 
             <div class="docstring"><p>If a value is present, returns true, otherwise false</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>bool: true if a value is present, otherwise false</p>
@@ -1036,7 +1036,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.joptional    </h1>
 
             <div class="docstring"><p>If a value is not present, returns true, otherwise false.</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>bool: true if a value is not present, otherwise false</p>
@@ -1072,13 +1072,13 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.joptional    </h1>
 
             <div class="docstring"><p>If a value is present, returns the value, otherwise raises a ValueError</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>value: The non-None value described by this JOptional</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>ValueError:</strong>  Raises a ValueError if no value is present</li>
@@ -1113,13 +1113,13 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.joptional    </h1>
 
             <div class="docstring"><p>If a value is present, returns the value, otherwise returns other</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>other:</strong>  The value to be returned, if no value is present. May be None.</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>value: The value, if present, otherwise other</p>
@@ -1159,19 +1159,19 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.joptional    </h1>
 
             <div class="docstring"><p>If a value is present, returns the value, otherwise returns the result produced by the supplying function</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>supplier:</strong>  The supplying function that produces a value to be returned</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>value: The value, if present, otherwise the result produced by the supplying function</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if the supplying function is None</li>
@@ -1185,7 +1185,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.joptional    </h1>
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">or_else_raise</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">supplier</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="ne">Exception</span><span class="p">]</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nb">staticmethod</span><span class="p">(</span><span class="o">&lt;</span><span class="n">function</span> <span class="n">JOptional</span><span class="o">.</span><span class="n">__or_else_raise_supplier_lambda</span> <span class="n">at</span> <span class="mh">0x10b5c5120</span><span class="o">&gt;</span><span class="p">)</span><span class="o">&gt;</span></span><span class="return-annotation">) -> <span class="o">~</span><span class="n">T</span>:</span></span>
+        <span class="name">or_else_raise</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">supplier</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="ne">Exception</span><span class="p">]</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nb">staticmethod</span><span class="p">(</span><span class="o">&lt;</span><span class="n">function</span> <span class="n">JOptional</span><span class="o">.</span><span class="n">__or_else_raise_supplier_lambda</span> <span class="n">at</span> <span class="mh">0x10d899c60</span><span class="o">&gt;</span><span class="p">)</span><span class="o">&gt;</span></span><span class="return-annotation">) -> <span class="o">~</span><span class="n">T</span>:</span></span>
 
                 <label class="view-source-button" for="JOptional.or_else_raise-view-source"><span>View Source</span></label>
 
@@ -1218,19 +1218,19 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.joptional    </h1>
             <div class="docstring"><p>If a value is present, returns the value, otherwise raises an exception produced by the exception supplying
 function</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>supplier:</strong>  The supplying function that produces an exception to be raised (default: ValueError)</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>value: The value, if present</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>Exception:</strong>  if the supplying function is None</li>
@@ -1278,20 +1278,20 @@ function</p>
 <p>If a value is present, returns a JOptional describing the value, otherwise returns a JOptional produced by the
 supplying function</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>supplier:</strong>  The supplying function that produces a JOptional to be returned</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>JOptional[T]: Returns a JOptional describing the value of this JOptional, if a value is present, otherwise
   a JOptional produced by the supplying function</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if the supplying function is None</li>
@@ -1338,20 +1338,20 @@ mapping function to the value, otherwise returns an empty JOptional</p>
 
 <p>If the mapping function returns a None result then this method returns an empty JOptional.</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>mapper:</strong>  The mapping function to apply to a value, if present</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>JOptional[R]: A JOptional describing the result of applying a mapping function to the value of this
   JOptional, if a value is present, otherwise an empty JOptional</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  If the mapping function is None</li>
@@ -1400,20 +1400,20 @@ otherwise returns an empty JOptional</p>
 <p>This method is similar to map(Function), but the mapping function is one whose result is already a JOptional,
 and if invoked, flatMap does not wrap it within an additional JOptional</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>mapper:</strong>  The mapping function to apply to a value, if present</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>JOptional[R]: The result of applying a JOptional-bearing mapping function to the value of this JOptional,
   if a value is present, otherwise an empty JOptional</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if the mapping function is None</li>
@@ -1454,19 +1454,19 @@ and if invoked, flatMap does not wrap it within an additional JOptional</p>
 
             <div class="docstring"><p>If a value is present, performs the given consumer with the value, otherwise does nothing</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>consumer:</strong>  The consumer to be performed, if a value is present</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Nothing</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if the consumer is None</li>
@@ -1507,19 +1507,19 @@ and if invoked, flatMap does not wrap it within an additional JOptional</p>
 
             <div class="docstring"><p>If a value is not present, performs the given runnable, otherwise does nothing</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>empty_action:</strong>  The runnable to be performed, if a value is not present</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Nothing</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if the runnable is None</li>
@@ -1562,20 +1562,20 @@ and if invoked, flatMap does not wrap it within an additional JOptional</p>
 
             <div class="docstring"><p>If a value is present, performs the given consumer with the value, otherwise performs the given empty_action</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>consumer:</strong>  The consumer to be performed, if a value is present</li>
 <li><strong>empty_action:</strong>  The runnable to be performed, if a value is not</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Nothing</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if the consumer is None or if the runnable is None</li>
@@ -1618,20 +1618,20 @@ and if invoked, flatMap does not wrap it within an additional JOptional</p>
             <div class="docstring"><p>If a value is present, and the value matches the given predicate, returns a JOptional describing the value,
 otherwise returns an empty JOptional</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>predicate:</strong>  The predicate to apply to a value, if present</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>JOptional[T]: A JOptional describing the value of this JOptional, if a value is present and the value
   matches the given predicate, otherwise an empty JOptional</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if the predicate is None</li>
@@ -1674,19 +1674,19 @@ otherwise returns an empty JOptional</p>
             <div class="docstring"><p>If a value is present, performs the given consumer with the value, otherwise does nothing and returns the
 current JOptional</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>consumer:</strong>  The consumer to be performed, if a value is present</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>JOptional[T]: The current JOptional (self)</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if the consumer is None</li>
@@ -1719,7 +1719,7 @@ current JOptional</p>
 
             <div class="docstring"><p>If the value is an Awaitable (Coroutine, Task or Future), returns true, otherwise false</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>bool: true if the value is an Awaitable, otherwise false</p>
@@ -1760,7 +1760,7 @@ value, otherwise if the value is not an Awaitable returns self</p>
 <p>Note: can be useful in order to call is_present, is_empty, if_present, if_empty, ect. depending on the awaited
 value result (otherwise, for example, is_present is always True with an 'Awaitable' value)</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>JOptional: A JOptional with synchronized value (i.e. not an Awaitable value)</p>
@@ -1797,7 +1797,7 @@ value result (otherwise, for example, is_present is always True with an 'Awaitab
 
 <p>Note: It can be useful in order to use async mapper</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>AsyncJOptional[T]: The corresponding AsyncJOptional</p>

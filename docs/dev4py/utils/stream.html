@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="pdoc 12.0.2"/>
+    <meta name="generator" content="pdoc 12.3.0"/>
     <title>dev4py.utils.stream API documentation</title>
             <link rel="icon" href="https://www.python.org/static/favicon.ico"/>
 
@@ -35,9 +35,6 @@
                             <ul class="memberlist">
                         <li>
                                 <a class="function" href="#ParallelConfiguration.__init__">ParallelConfiguration</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#ParallelConfiguration.chunksize">chunksize</a>
                         </li>
                 </ul>
 
@@ -169,9 +166,9 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.stream    </h1>
                         <div class="docstring"><p>Stream module inspired by <code>java.util.stream</code></p>
 </div>
 
-                        <input id="stream-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                        <input id="mod-stream-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 
-                        <label class="view-source-button" for="stream-view-source"><span>View Source</span></label>
+                        <label class="view-source-button" for="mod-stream-view-source"><span>View Source</span></label>
 
                         <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos">   1</span></a><span class="sd">&quot;&quot;&quot;Stream module inspired by `java.util.stream`&quot;&quot;&quot;</span>  <span class="c1"># pylint: disable=C0302</span>
 </span><span id="L-2"><a href="#L-2"><span class="linenos">   2</span></a>
@@ -1244,7 +1241,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.stream    </h1>
 
             <div class="docstring"><p>ParallelConfiguration class that describes Stream parallel configuration when using parallel execution</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>executor (Executor):</strong>  The executor to use for parallel (/concurrent) execution</li>
@@ -1252,7 +1249,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.stream    </h1>
 submitted to the process pool. If set to one, the items in the stream will be sent one at a time.</li>
 </ul>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if executor is None</li>
@@ -1269,17 +1266,6 @@ submitted to the process pool. If set to one, the items in the stream will be se
         
     </div>
     <a class="headerlink" href="#ParallelConfiguration.__init__"></a>
-    
-    
-
-                            </div>
-                            <div id="ParallelConfiguration.chunksize" class="classattr">
-                                <div class="attr variable">
-            <span class="name">chunksize</span><span class="annotation">: int</span><span class="default_value"> = 1</span>
-
-        
-    </div>
-    <a class="headerlink" href="#ParallelConfiguration.chunksize"></a>
     
     
 
@@ -2107,7 +2093,7 @@ For example, a generic mapping type might be defined as::</p>
 
             <div class="docstring"><p>Returns an empty sequential Stream</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Stream[T]: An empty sequential Stream</p>
@@ -2145,13 +2131,13 @@ For example, a generic mapping type might be defined as::</p>
 
             <div class="docstring"><p>Returns a sequential ordered stream whose elements are the specified values</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>*values:</strong>  ordered stream elements</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Stream[T]: A sequential ordered stream whose elements are the specified values</p>
@@ -2193,19 +2179,19 @@ For example, a generic mapping type might be defined as::</p>
 
             <div class="docstring"><p>Returns a sequential ordered stream whose elements are values from the given Iterable</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>iterable:</strong>  iterable of stream source values</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Stream[T]: A sequential ordered stream whose elements are values from the given Iterable</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if iterable is None</li>
@@ -2251,19 +2237,19 @@ For example, a generic mapping type might be defined as::</p>
 
             <div class="docstring"><p>Returns a stream consisting of the results of applying the given function to the elements of this stream</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>mapper (Function[T, R]):</strong>  The function to apply to each element</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Stream[R]: A stream consisting of the results of applying the given function to the elements of this stream</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if mapper is None</li>
@@ -2304,13 +2290,13 @@ For example, a generic mapping type might be defined as::</p>
 
 <p>Note: None parallel configuration is like calling <code><a href="#Stream.sequential">sequential()</a></code> method</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>parallel_config:</strong>  The parallel configuration to use</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Stream[T]: The current Stream after set parallel configuration</p>
@@ -2343,7 +2329,7 @@ For example, a generic mapping type might be defined as::</p>
 
             <div class="docstring"><p>Returns whether this stream, if a terminal operation were to be executed, would execute in parallel</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>bool: True if the Stream uses parallel configuration, otherwise False</p>
@@ -2380,7 +2366,7 @@ For example, a generic mapping type might be defined as::</p>
             <div class="docstring"><p>Configures the Stream to use sequential configuration and return the current stream
 (i.e.: Remove the parallel configuration if exists)</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Stream[T]: The current Stream after set sequential configuration</p>
@@ -2427,19 +2413,19 @@ For example, a generic mapping type might be defined as::</p>
 
             <div class="docstring"><p>Returns a stream consisting of the elements of this stream that match the given predicate</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>predicate:</strong>  The predicate to apply to each element to determine if it should be included</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Stream[T]: A stream consisting of the elements of this stream that match the given predicate</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if predicate is None</li>
@@ -2478,19 +2464,19 @@ For example, a generic mapping type might be defined as::</p>
 
             <div class="docstring"><p>Performs a reduction operation on the elements of this stream using a Collector</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>collector:</strong>  The Collector describing the reduction</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>R: The result of the reduction</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if collector is None</li>
@@ -2534,7 +2520,7 @@ For example, a generic mapping type might be defined as::</p>
 
             <div class="docstring"><p>Performs a reduction operation on the elements of this stream</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>supplier:</strong>  A function that creates a new result container. For a parallel execution, this function may be
@@ -2545,13 +2531,13 @@ with the accumulator function. The combiner function must fold the elements from
 container into the first result container</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>R: The result of the reduction</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if at least one parameter is None</li>
@@ -2584,7 +2570,7 @@ container into the first result container</li>
 
             <div class="docstring"><p>Accumulates the elements of this stream into a list</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>list[T]: A list containing the stream elements</p>
@@ -2617,7 +2603,7 @@ container into the first result container</li>
 
             <div class="docstring"><p>Accumulates the elements of this stream into a tuple</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>tuple[T, ...]: a tuple containing the stream elements</p>
@@ -2657,14 +2643,14 @@ container into the first result container</li>
             <div class="docstring"><p>Accumulates the elements of this stream into a tuple dict whose keys and values are the result of applying the
 provided mapping functions to the input elements</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>key_mapper:</strong>  a mapping function to produce keys</li>
 <li><strong>value_mapper:</strong>  a mapping function to produce values</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>dict[K, V]: a dict containing the stream elements whose keys and values are the result of applying mapping
@@ -2705,20 +2691,20 @@ provided mapping functions to the input elements</p>
 
             <div class="docstring"><p>Returns whether all elements of this stream match the provided predicate</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>predicate:</strong>  The predicate to apply to elements of this stream</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>bool: True if either all elements of the stream match the provided predicate or the stream is empty,
       otherwise False</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if predicate is None</li>
@@ -2757,19 +2743,19 @@ provided mapping functions to the input elements</p>
 
             <div class="docstring"><p>Returns whether any elements of this stream match the provided predicate</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>predicate:</strong>  The predicate to apply to elements of this stream</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>bool: True if any elements of the stream match the provided predicate, otherwise False</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if predicate is None</li>
@@ -2802,7 +2788,7 @@ provided mapping functions to the input elements</p>
 
             <div class="docstring"><p>Returns the count of elements in this stream</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>int: The count of elements in this stream</p>
@@ -2842,19 +2828,19 @@ provided mapping functions to the input elements</p>
 
             <div class="docstring"><p>Performs an action (/consumer) for each element of this stream</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>consumer:</strong>  The Consumer to perform on the elements</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>None: nothing</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if consumer is None</li>
@@ -2900,19 +2886,19 @@ provided mapping functions to the input elements</p>
             <div class="docstring"><p>Returns a stream consisting of the results of replacing each element of this stream with the contents of a
 mapped stream produced by applying the provided mapping function to each element</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>mapper:</strong>  A function to apply to each element which produces a stream of new values</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Stream[R]: The new Stream</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if mapper is None</li>
@@ -2960,19 +2946,19 @@ mapped stream produced by applying the provided mapping function to each element
 
 <p>Note: This configuration has no impact in sequential stream</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>ordered:</strong>  True if the Stream must be ordered, False for unordered. (Default: True)</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Stream[T]: The current Stream with ordered configuration</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if ordered is None</li>
@@ -3011,7 +2997,7 @@ mapped stream produced by applying the provided mapping function to each element
 <p>Note: Is equivalent to call <code>ordered_execution(False)</code>
 Note 2: This configuration has no impact in sequential stream</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Stream[T]: The current Stream with unordered configuration</p>
@@ -3045,7 +3031,7 @@ Note 2: This configuration has no impact in sequential stream</p>
 
             <div class="docstring"><p>Returns a JOptional describing the first element of this stream, or an empty JOptional if the stream is empty</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>JOptional[T]: A JOptional describing the first element of this stream, or an empty JOptional if the stream
@@ -3088,7 +3074,7 @@ Note 2: This configuration has no impact in sequential stream</p>
 
 <p>Note: if the stream is ordered, find_any and find_first are equivalents</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>JOptional[T]: A JOptional describing some element of the stream, or an empty JOptional if the stream is
@@ -3122,7 +3108,7 @@ Note 2: This configuration has no impact in sequential stream</p>
 
             <div class="docstring"><p>Returns a stream consisting of the distinct elements of this stream</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Stream[T]: A stream consisting of the distinct elements of this stream</p>
@@ -3169,19 +3155,19 @@ the longest prefix of elements that match the given predicate. Otherwise, if thi
 stream consisting of the remaining elements of this stream after dropping a subset of elements that match the
 given predicate.</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>predicate:</strong>  The predicate to apply to elements to determine the longest prefix of elements</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Stream[T]: The new Stream</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if predicate is None</li>
@@ -3221,19 +3207,19 @@ given predicate.</p>
 
             <div class="docstring"><p>Returns a stream consisting of the elements of this stream, truncated to be no longer than maxSize in length</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>limit:</strong>  The number of elements the stream should be limited to</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Stream[T]: The truncated Stream</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if limit is None</li>
@@ -3275,7 +3261,7 @@ given predicate.</p>
 
             <div class="docstring"><p>Returns the maximum element of this stream according to the provided comparator BiFunction</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>comparator:</strong>  The comparator BiFunction to compare elements of this stream (Note: Returns a negative int,
@@ -3283,14 +3269,14 @@ zero, or a positive integer as the first argument is less than, equal to, or gre
 (default: natural comparator)</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>JOptional[T]: A JOptional describing the maximum element of this stream, or an empty JOptional if the stream
       is empty</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if comparator is None</li>
@@ -3332,7 +3318,7 @@ zero, or a positive integer as the first argument is less than, equal to, or gre
 
             <div class="docstring"><p>Returns the minimum element of this stream according to the provided comparator BiFunction</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>comparator:</strong>  The comparator BiFunction to compare elements of this stream (Note: Returns a negative int,
@@ -3340,14 +3326,14 @@ zero, or a positive integer as the first argument is less than, equal to, or gre
 (default: natural comparator)</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>JOptional[T]: A JOptional describing the minimum element of this stream, or an empty JOptional if the stream
       is empty</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if comparator is None</li>
@@ -3388,19 +3374,19 @@ zero, or a positive integer as the first argument is less than, equal to, or gre
             <div class="docstring"><p>Returns a stream consisting of the elements of this stream, additionally performing the provided action
 (/consumer) on each element as elements are consumed from the resulting stream</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>consumer:</strong>  The Consumer to perform on the elements as they are consumed from the stream</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Stream[T]: The new Stream</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if consumer is None</li>
@@ -3446,20 +3432,20 @@ zero, or a positive integer as the first argument is less than, equal to, or gre
             <div class="docstring"><p>Performs a reduction on the elements of this stream, using the provided identity value and an associative
 accumulation function, and returns the reduced value</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>identity:</strong>  The identity value for the accumulating function</li>
 <li><strong>accumulator:</strong>  The BiFunction for combining two values</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>T: The result of the reduction</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  accumulator is None</li>
@@ -3505,19 +3491,19 @@ the stream</p>
 
 <p>Note: If this stream contains fewer than n elements then an empty stream will be returned</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>n:</strong>  The number of leading elements to skip</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Stream[T]: The new stream</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if n is None</li>
@@ -3562,19 +3548,19 @@ the stream</p>
 that match the given predicate. Otherwise, if this stream is unordered, returns a stream consisting of a subset
 of elements taken from this stream that match the given predicate</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>predicate:</strong>  The predicate to apply to elements to determine the longest prefix of element</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Stream[T]: The new Stream</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if predicate is None</li>
@@ -3618,7 +3604,7 @@ of elements taken from this stream that match the given predicate</p>
 
             <div class="docstring"><p>Returns a stream consisting of the elements of this stream, sorted according to the provided comparator</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>comparator:</strong>  The comparator BiFunction to compare elements of this stream (Note: Returns a negative int,
@@ -3626,13 +3612,13 @@ zero, or a positive integer as the first argument is less than, equal to, or gre
 (default: natural comparator)</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Stream[T]: The new Stream</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  if comparator is None</li>
@@ -3693,7 +3679,7 @@ one by one depending on the 'ordered/unordered' configuration</p>
 <p>Note 2: When stream uses parallel with unordered configuration each value is returned when it is available. With
 an ordered configuration the generator wait for each necessary value in order to respect the stream value order</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Iterator[T]: The Stream processed values generator</p>

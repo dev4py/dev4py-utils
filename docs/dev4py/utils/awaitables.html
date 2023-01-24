@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="pdoc 12.0.2"/>
+    <meta name="generator" content="pdoc 12.3.0"/>
     <title>dev4py.utils.awaitables API documentation</title>
             <link rel="icon" href="https://www.python.org/static/favicon.ico"/>
 
@@ -61,9 +61,9 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.awaitables    </h1>
                         <div class="docstring"><p>The <code>awaitables</code> module provides a set of utility functions to simplify Awaitable operations</p>
 </div>
 
-                        <input id="awaitables-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                        <input id="mod-awaitables-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 
-                        <label class="view-source-button" for="awaitables-view-source"><span>View Source</span></label>
+                        <label class="view-source-button" for="mod-awaitables-view-source"><span>View Source</span></label>
 
                         <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="sd">The `awaitables` module provides a set of utility functions to simplify Awaitable operations</span>
@@ -192,7 +192,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.awaitables    </h1>
 
             <div class="docstring"><p>If the given value is an Awaitable (Coroutine, Task or Future), returns true, otherwise false</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>bool: true if the given value is an Awaitable, otherwise false</p>
@@ -251,7 +251,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.awaitables    </h1>
             <div class="docstring"><p>If the given Function uses sync parameter, create a new equivalent async function supporting sync or Awaitable
 parameter</p>
 
-<h6 id="returned-function-specificities">Returned Function specificities</h6>
+<h6 id="returned-function-specificities">Returned Function specificities:</h6>
 
 <blockquote>
   <ol>
@@ -264,19 +264,19 @@ parameter</p>
 
 <p>Note: This function can be useful associated with the map function of a <code>JOptional</code> with Awaitable value</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>function:</strong>  The function with sync parameter</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>sync_or_async_param_function: An async function with awaitable parameter</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  Raises a TypeError if function is None</li>
@@ -324,13 +324,13 @@ parameter</p>
 <p>Note: This can be useful to work with SyncOrAsync values in order to always works with <code>await</code>. Without this
 function, you always have to call is_awaitable in order to know if you have to use <code>await</code> or not.</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>value:</strong>  the value to map</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Awaitable[T]: a value to await</p>
@@ -364,7 +364,7 @@ function, you always have to call is_awaitable in order to know if you have to u
 
             <div class="docstring"><p>This function provides an Awaitable[None]</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>Awaitable[None]: An awaitable of None</p>

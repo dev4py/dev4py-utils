@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="pdoc 12.0.2"/>
+    <meta name="generator" content="pdoc 12.3.0"/>
     <title>dev4py.utils.objects API documentation</title>
             <link rel="icon" href="https://www.python.org/static/favicon.ico"/>
 
@@ -82,9 +82,9 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
                         <div class="docstring"><p>The <code>objects</code> module provides a set of utility functions to simplify objects/variables operations or checks</p>
 </div>
 
-                        <input id="objects-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                        <input id="mod-objects-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 
-                        <label class="view-source-button" for="objects-view-source"><span>View Source</span></label>
+                        <label class="view-source-button" for="mod-objects-view-source"><span>View Source</span></label>
 
                         <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos">  1</span></a><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a><span class="sd">The `objects` module provides a set of utility functions to simplify objects/variables operations or checks</span>
@@ -321,13 +321,13 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
 
             <div class="docstring"><p>Checks if the given object is None</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>obj:</strong>  The object to check</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>object: True if obj is None, False otherwise</p>
@@ -363,13 +363,13 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
 
             <div class="docstring"><p>Checks if the given object is not None</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>obj:</strong>  The object to check</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>object: True if obj is NOT None, False otherwise</p>
@@ -411,20 +411,20 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
 
             <div class="docstring"><p>Checks if the given object is not None or raises an error</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>obj:</strong>  The object to check</li>
 <li><strong>message:</strong>  The error message is case of obj is None</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>object: obj if obj is not None</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  Raises a TypeError if obj is None</li>
@@ -464,20 +464,20 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
 
             <div class="docstring"><p>Checks if the given object is not None and returns it or returns the default one</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>obj:</strong>  The object to check and return</li>
 <li><strong>default:</strong>  The default object to return if obj is None</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>object: obj if not None, default_obj otherwise</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  Raises a TypeError if obj and default_obj are None</li>
@@ -517,20 +517,20 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
 
             <div class="docstring"><p>Checks if the given object is not None and returns it or returns the object from the given supplier</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>obj:</strong>  The object to check and return</li>
 <li><strong>supplier:</strong>  The supplier to call if obj is None</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>object: obj if not None, the supplier call result otherwise</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  Raises a TypeError if obj and supplier or supplied object are None</li>
@@ -567,14 +567,14 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
 
             <div class="docstring"><p>Returns the result of calling str function for the given object if not null or default_str otherwise</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>obj:</strong>  The object to stringify</li>
 <li><strong>default_str:</strong>  The str value to return if obj is None</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>str: A str representing obj, default_str otherwise</p>
@@ -615,21 +615,21 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
 
             <div class="docstring"><p>Checks if the given object or awaitable object result is not None or raises an error</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>obj:</strong>  The object or awaitable object to check</li>
 <li><strong>message:</strong>  The error message is case of obj or awaitable obj is None</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>object: obj if obj is not None and not an Awaitable or Awaitable result if obj is an awaitable and the result is
   not None</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  Raises a TypeError if obj is None or if obj is an awaitable with None result</li>
@@ -673,21 +673,21 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
 
             <div class="docstring"><p>Checks if the given object or awaitable object result is not None and returns it or returns the default one</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>obj:</strong>  The object or awaitable object to check</li>
 <li><strong>default:</strong>  The default object to return if obj is None</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>object:obj if obj is not None and not an Awaitable or Awaitable result if obj is an awaitable and the result is
   not None, default_obj otherwise</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  Raises a TypeError if obj (or await obj) and default_obj are None</li>
@@ -733,21 +733,21 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
             <div class="docstring"><p>Checks if the given object or awaitable object result is not None and returns it or returns the object from the
 given supplier</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>obj:</strong>  The object or awaitable object to check</li>
 <li><strong>supplier:</strong>  The supplier to call if obj or awaitable obj result is None</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>object: obj if not None and not an Awaitable or Awaitable result if obj is an awaitable and the result is
   not None, the supplier call result otherwise</p>
 </blockquote>
 
-<h6 id="raises">Raises</h6>
+<h6 id="raises">Raises:</h6>
 
 <ul>
 <li><strong>TypeError:</strong>  Raises a TypeError if obj (or await obj)  and supplier or supplied object are None</li>
@@ -784,14 +784,14 @@ given supplier</p>
 
             <div class="docstring"><p>Returns None whatever the parameters</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>*args:</strong>  positional parameters</li>
 <li><strong>**kwargs:</strong>  named parameters</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>None: None whatever the parameters</p>
@@ -829,13 +829,13 @@ given supplier</p>
             <div class="docstring"><p>Returns the given parameter
 Note: can be useful with multiprocessing where lambda cannot be used (lambda are not serializable)</p>
 
-<h6 id="args">Args</h6>
+<h6 id="arguments">Arguments:</h6>
 
 <ul>
 <li><strong>obj:</strong>  The object to return</li>
 </ul>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns">Returns:</h6>
 
 <blockquote>
   <p>obj (T): The given parameter</p>
