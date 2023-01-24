@@ -29,5 +29,5 @@ jobs:
             reports/dependency-check-report.html
             reports/dependency-check-report.json
             reports/dependency-check-report.xml
-      - run: if [ $(grep -c "vulnerabilities" reports/dependency-check-report.json) -gt 0 ]; then exit 2; fi
+      - run: if [ $(grep -c \"vulnerabilities\" reports/dependency-check-report.json) -gt 0 ]; then exit 2; fi
         name: check if vulnerabilities exist
