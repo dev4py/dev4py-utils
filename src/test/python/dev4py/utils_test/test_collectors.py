@@ -15,11 +15,11 @@
 # limitations under the License.
 
 from dataclasses import FrozenInstanceError, dataclass
-from typing import Final
+from typing import Final, List
 
 from pytest import raises
 
-from dev4py.utils import Collector, collectors
+from dev4py.utils import collectors, Collector
 from dev4py.utils.objects import non_none, to_self
 from dev4py.utils.types import Supplier, BiFunction, BiConsumer, Function
 
@@ -343,3 +343,44 @@ class TestToCounter:
             assert collector.supplier() == 0
             assert collector.accumulator(1, 10) == 2
             assert collector.combiner(3, 7) == 10
+
+
+class TestGroupingBy:
+    """grouping_by function tests"""
+
+    class TestNominalCase:
+        def test_existing_mappers__should__return_grouping_by_collector(self) -> None:
+            """When key mapper is provided, should return a dict collector"""
+            # GIVEN
+            key_mapper = lambda x: x % 2
+            value_mapper = lambda x: x * 2
+
+            # WHEN
+            collector: Collector[int, dict[int, List[int]]] = collectors.grouping_by(key_mapper, value_mapper)
+
+            # THEN
+            assert collector.supplier() == {}
+            assert collector.accumulator({1: [3]}, 4) == {0: [8], 1: [3]}
+            assert collector.accumulator({0: [2], 1: [3]}, 4) == {0: [2, 8], 1: [3]}
+            assert collector.accumulator({0: [2], 1: [3]}, 5) == {0: [2], 1: [3, 10]}
+            assert collector.combiner({0: [2, 8]}, {1: [3, 10]}) == {0: [2, 8], 1: [3, 10]}
+            assert collector.combiner({0: [2, 8]}, {0: [4, 6] , 1: [3, 10]}) == {0: [2, 8, 4, 6], 1: [3, 10]}
+
+    class TestErrorCase:
+        def test_none_key_mapper__should__raise_type_error(self) -> None:
+            """When key mapper is None should raise a TypeError exception"""
+            # GIVEN
+            value_mapper = lambda x: x * 2
+
+            # WHEN / THEN
+            with raises(TypeError):
+                collectors.grouping_by(None, value_mapper)
+
+        def test_none_value_mapper__should__raise_type_error(self) -> None:
+            """When value mapper is None should raise a TypeError exception"""
+            # GIVEN
+            key_mapper = lambda x: x % 2
+
+            # WHEN / THEN
+            with raises(TypeError):
+                collectors.grouping_by(key_mapper, None)

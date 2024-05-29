@@ -16,10 +16,10 @@
 
 from dataclasses import dataclass
 from functools import partial
-from typing import Generic, Any
+from typing import Generic, Any, Final, Optional, cast
 
 from dev4py.utils import lists, dicts, objects, tuples
-from dev4py.utils.objects import require_non_none
+from dev4py.utils.objects import require_non_none, is_none, to_self
 from dev4py.utils.types import BiConsumer, BiFunction, Supplier, T, R, Function, K, V
 
 
@@ -173,6 +173,28 @@ def to_counter() -> Collector[T, int]:
     )
 
 
+def grouping_by(
+        key_mapper: Function[T, K], value_mapper: Function[T, V] = to_self  # type: ignore
+) -> Collector[T, dict[K, list[V]]]:
+    """
+    Returns a collector that groups elements into a dictionary based on the provided key mapper and value mapper functions.
+
+    Args:
+        key_mapper (Function[T, K]): A function that maps an element to its key.
+        value_mapper (Function[T, V], optional): A function that maps an element to its value. Defaults to to_self.
+
+    Returns:
+        Collector[T, dict[K, list[V]]]: A collector that groups elements into a dictionary.
+    """
+    require_non_none(key_mapper)
+    require_non_none(value_mapper)
+    return of_biconsumers(
+        supplier=dicts.empty_dict,
+        accumulator=partial(_grouping_by_accumulator, key_mapper=key_mapper, value_mapper=value_mapper),
+        combiner=_grouping_by_combiner
+    )
+
+
 ##############################
 #  PRIVATE MODULE FUNCTIONS  #
 ##############################
@@ -232,3 +254,33 @@ def _to_counter_combiner(i1: int, i2: int) -> int:
     Note: lambda are not used in order to be compatible with multiprocessing (lambda are not serializable)
     """
     return i1 + i2
+
+
+def _grouping_by_accumulator(
+        dictionary: dict[K, list[V]], value: T, key_mapper: Function[T, K], value_mapper: Function[T, V]
+) -> None:
+    """
+    private function to represent a grouping by accumulator
+    Note: lambda are not used in order to be compatible with multiprocessing (lambda are not serializable)
+    """
+    key: Final[K] = key_mapper(value)
+    val: Final[V] = value_mapper(value)
+    values: Final[Optional[list[V]]] = dictionary.get(key)
+    if is_none(values):
+        dictionary[key] = [val]
+    else:
+        cast(list[V], values).append(val)
+
+
+def _grouping_by_combiner(dictionary_1: dict[K, list[V]], dictionary_2: dict[K, list[V]]) -> None:
+    """
+    private function to represent a grouping by combiner
+    Note: lambda are not used in order to be compatible with multiprocessing (lambda are not serializable)
+    """
+    require_non_none(dictionary_1)
+    for key, dictionary_2_values in require_non_none(dictionary_2).items():
+        dictionary_1_values: Optional[list[V]] = dictionary_1.get(key)
+        if is_none(dictionary_1_values):
+            dictionary_1[key] = dictionary_2_values  # no need new list ref because internal function
+        else:
+            cast(list[V], dictionary_1_values).extend(dictionary_2_values)
