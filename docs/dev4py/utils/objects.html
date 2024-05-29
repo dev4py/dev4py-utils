@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="pdoc 12.3.0"/>
+    <meta name="generator" content="pdoc 12.3.1"/>
     <title>dev4py.utils.objects API documentation</title>
             <link rel="icon" href="https://www.python.org/static/favicon.ico"/>
 
@@ -111,7 +111,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
 </span><span id="L-23"><a href="#L-23"><span class="linenos"> 23</span></a>
 </span><span id="L-24"><a href="#L-24"><span class="linenos"> 24</span></a>
 </span><span id="L-25"><a href="#L-25"><span class="linenos"> 25</span></a><span class="k">def</span> <span class="nf">is_none</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="L-26"><a href="#L-26"><span class="linenos"> 26</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos"> 26</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-27"><a href="#L-27"><span class="linenos"> 27</span></a><span class="sd">    Checks if the given object is None</span>
 </span><span id="L-28"><a href="#L-28"><span class="linenos"> 28</span></a>
 </span><span id="L-29"><a href="#L-29"><span class="linenos"> 29</span></a><span class="sd">    Args:</span>
@@ -124,7 +124,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
 </span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a>
 </span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a>
 </span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a><span class="k">def</span> <span class="nf">non_none</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a><span class="sd">    Checks if the given object is not None</span>
 </span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a>
 </span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a><span class="sd">    Args:</span>
@@ -137,7 +137,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
 </span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>
 </span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a>
 </span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a><span class="k">def</span> <span class="nf">require_non_none</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;None object error&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a><span class="sd">    Checks if the given object is not None or raises an error</span>
 </span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a>
 </span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a><span class="sd">    Args:</span>
@@ -156,7 +156,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
 </span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a>
 </span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a>
 </span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a><span class="k">def</span> <span class="nf">require_non_none_else</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">default</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a><span class="sd">    Checks if the given object is not None and returns it or returns the default one</span>
 </span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>
 </span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a><span class="sd">    Args:</span>
@@ -173,7 +173,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
 </span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>
 </span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>
 </span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a><span class="k">def</span> <span class="nf">require_non_none_else_get</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">supplier</span><span class="p">:</span> <span class="n">Supplier</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a><span class="sd">    Checks if the given object is not None and returns it or returns the object from the given supplier</span>
 </span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>
 </span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a><span class="sd">    Args:</span>
@@ -190,7 +190,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
 </span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>
 </span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>
 </span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a><span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">default_str</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a><span class="sd">    Returns the result of calling str function for the given object if not null or default_str otherwise</span>
 </span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>
 </span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a><span class="sd">    Args:</span>
@@ -204,7 +204,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
 </span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>
 </span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>
 </span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a><span class="k">async</span> <span class="k">def</span> <span class="nf">async_require_non_none</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">SyncOrAsync</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;None async object error&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a><span class="sd">    Checks if the given object or awaitable object result is not None or raises an error</span>
 </span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>
 </span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a><span class="sd">    Args:</span>
@@ -222,7 +222,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
 </span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a>
 </span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a>
 </span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a><span class="k">async</span> <span class="k">def</span> <span class="nf">async_require_non_none_else</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">SyncOrAsync</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]],</span> <span class="n">default</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a><span class="sd">    Checks if the given object or awaitable object result is not None and returns it or returns the default one</span>
 </span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a>
 </span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a><span class="sd">    Args:</span>
@@ -243,7 +243,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
 </span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a>
 </span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a>
 </span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a><span class="k">async</span> <span class="k">def</span> <span class="nf">async_require_non_none_else_get</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">SyncOrAsync</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]],</span> <span class="n">supplier</span><span class="p">:</span> <span class="n">Supplier</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-</span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-159"><a href="#L-159"><span class="linenos">159</span></a><span class="sd">    Checks if the given object or awaitable object result is not None and returns it or returns the object from the</span>
 </span><span id="L-160"><a href="#L-160"><span class="linenos">160</span></a><span class="sd">    given supplier</span>
 </span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a>
@@ -265,7 +265,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
 </span><span id="L-177"><a href="#L-177"><span class="linenos">177</span></a>
 </span><span id="L-178"><a href="#L-178"><span class="linenos">178</span></a>
 </span><span id="L-179"><a href="#L-179"><span class="linenos">179</span></a><span class="k">def</span> <span class="nf">to_none</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pylint: disable=W0613</span>
-</span><span id="L-180"><a href="#L-180"><span class="linenos">180</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-180"><a href="#L-180"><span class="linenos">180</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-181"><a href="#L-181"><span class="linenos">181</span></a><span class="sd">    Returns None whatever the parameters</span>
 </span><span id="L-182"><a href="#L-182"><span class="linenos">182</span></a>
 </span><span id="L-183"><a href="#L-183"><span class="linenos">183</span></a><span class="sd">    Args:</span>
@@ -279,7 +279,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
 </span><span id="L-191"><a href="#L-191"><span class="linenos">191</span></a>
 </span><span id="L-192"><a href="#L-192"><span class="linenos">192</span></a>
 </span><span id="L-193"><a href="#L-193"><span class="linenos">193</span></a><span class="k">def</span> <span class="nf">to_self</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-</span><span id="L-194"><a href="#L-194"><span class="linenos">194</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-194"><a href="#L-194"><span class="linenos">194</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-195"><a href="#L-195"><span class="linenos">195</span></a><span class="sd">    Returns the given parameter</span>
 </span><span id="L-196"><a href="#L-196"><span class="linenos">196</span></a><span class="sd">    Note: can be useful with multiprocessing where lambda cannot be used (lambda are not serializable)</span>
 </span><span id="L-197"><a href="#L-197"><span class="linenos">197</span></a>
@@ -306,7 +306,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
     </div>
     <a class="headerlink" href="#is_none"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="is_none-26"><a href="#is_none-26"><span class="linenos">26</span></a><span class="k">def</span> <span class="nf">is_none</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="is_none-27"><a href="#is_none-27"><span class="linenos">27</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="is_none-27"><a href="#is_none-27"><span class="linenos">27</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="is_none-28"><a href="#is_none-28"><span class="linenos">28</span></a><span class="sd">    Checks if the given object is None</span>
 </span><span id="is_none-29"><a href="#is_none-29"><span class="linenos">29</span></a>
 </span><span id="is_none-30"><a href="#is_none-30"><span class="linenos">30</span></a><span class="sd">    Args:</span>
@@ -348,7 +348,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
     </div>
     <a class="headerlink" href="#non_none"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="non_none-39"><a href="#non_none-39"><span class="linenos">39</span></a><span class="k">def</span> <span class="nf">non_none</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="non_none-40"><a href="#non_none-40"><span class="linenos">40</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="non_none-40"><a href="#non_none-40"><span class="linenos">40</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="non_none-41"><a href="#non_none-41"><span class="linenos">41</span></a><span class="sd">    Checks if the given object is not None</span>
 </span><span id="non_none-42"><a href="#non_none-42"><span class="linenos">42</span></a>
 </span><span id="non_none-43"><a href="#non_none-43"><span class="linenos">43</span></a><span class="sd">    Args:</span>
@@ -390,7 +390,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
     </div>
     <a class="headerlink" href="#require_non_none"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="require_non_none-52"><a href="#require_non_none-52"><span class="linenos">52</span></a><span class="k">def</span> <span class="nf">require_non_none</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;None object error&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-</span><span id="require_non_none-53"><a href="#require_non_none-53"><span class="linenos">53</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="require_non_none-53"><a href="#require_non_none-53"><span class="linenos">53</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="require_non_none-54"><a href="#require_non_none-54"><span class="linenos">54</span></a><span class="sd">    Checks if the given object is not None or raises an error</span>
 </span><span id="require_non_none-55"><a href="#require_non_none-55"><span class="linenos">55</span></a>
 </span><span id="require_non_none-56"><a href="#require_non_none-56"><span class="linenos">56</span></a><span class="sd">    Args:</span>
@@ -445,7 +445,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
     </div>
     <a class="headerlink" href="#require_non_none_else"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="require_non_none_else-71"><a href="#require_non_none_else-71"><span class="linenos">71</span></a><span class="k">def</span> <span class="nf">require_non_none_else</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">default</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-</span><span id="require_non_none_else-72"><a href="#require_non_none_else-72"><span class="linenos">72</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="require_non_none_else-72"><a href="#require_non_none_else-72"><span class="linenos">72</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="require_non_none_else-73"><a href="#require_non_none_else-73"><span class="linenos">73</span></a><span class="sd">    Checks if the given object is not None and returns it or returns the default one</span>
 </span><span id="require_non_none_else-74"><a href="#require_non_none_else-74"><span class="linenos">74</span></a>
 </span><span id="require_non_none_else-75"><a href="#require_non_none_else-75"><span class="linenos">75</span></a><span class="sd">    Args:</span>
@@ -498,7 +498,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
     </div>
     <a class="headerlink" href="#require_non_none_else_get"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="require_non_none_else_get-88"><a href="#require_non_none_else_get-88"><span class="linenos"> 88</span></a><span class="k">def</span> <span class="nf">require_non_none_else_get</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">supplier</span><span class="p">:</span> <span class="n">Supplier</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-</span><span id="require_non_none_else_get-89"><a href="#require_non_none_else_get-89"><span class="linenos"> 89</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="require_non_none_else_get-89"><a href="#require_non_none_else_get-89"><span class="linenos"> 89</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="require_non_none_else_get-90"><a href="#require_non_none_else_get-90"><span class="linenos"> 90</span></a><span class="sd">    Checks if the given object is not None and returns it or returns the object from the given supplier</span>
 </span><span id="require_non_none_else_get-91"><a href="#require_non_none_else_get-91"><span class="linenos"> 91</span></a>
 </span><span id="require_non_none_else_get-92"><a href="#require_non_none_else_get-92"><span class="linenos"> 92</span></a><span class="sd">    Args:</span>
@@ -551,7 +551,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
     </div>
     <a class="headerlink" href="#to_string"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="to_string-105"><a href="#to_string-105"><span class="linenos">105</span></a><span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">default_str</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="to_string-106"><a href="#to_string-106"><span class="linenos">106</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="to_string-106"><a href="#to_string-106"><span class="linenos">106</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="to_string-107"><a href="#to_string-107"><span class="linenos">107</span></a><span class="sd">    Returns the result of calling str function for the given object if not null or default_str otherwise</span>
 </span><span id="to_string-108"><a href="#to_string-108"><span class="linenos">108</span></a>
 </span><span id="to_string-109"><a href="#to_string-109"><span class="linenos">109</span></a><span class="sd">    Args:</span>
@@ -595,7 +595,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
     </div>
     <a class="headerlink" href="#async_require_non_none"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="async_require_non_none-119"><a href="#async_require_non_none-119"><span class="linenos">119</span></a><span class="k">async</span> <span class="k">def</span> <span class="nf">async_require_non_none</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">SyncOrAsync</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;None async object error&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-</span><span id="async_require_non_none-120"><a href="#async_require_non_none-120"><span class="linenos">120</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="async_require_non_none-120"><a href="#async_require_non_none-120"><span class="linenos">120</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="async_require_non_none-121"><a href="#async_require_non_none-121"><span class="linenos">121</span></a><span class="sd">    Checks if the given object or awaitable object result is not None or raises an error</span>
 </span><span id="async_require_non_none-122"><a href="#async_require_non_none-122"><span class="linenos">122</span></a>
 </span><span id="async_require_non_none-123"><a href="#async_require_non_none-123"><span class="linenos">123</span></a><span class="sd">    Args:</span>
@@ -650,7 +650,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
     </div>
     <a class="headerlink" href="#async_require_non_none_else"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="async_require_non_none_else-137"><a href="#async_require_non_none_else-137"><span class="linenos">137</span></a><span class="k">async</span> <span class="k">def</span> <span class="nf">async_require_non_none_else</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">SyncOrAsync</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]],</span> <span class="n">default</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-</span><span id="async_require_non_none_else-138"><a href="#async_require_non_none_else-138"><span class="linenos">138</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="async_require_non_none_else-138"><a href="#async_require_non_none_else-138"><span class="linenos">138</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="async_require_non_none_else-139"><a href="#async_require_non_none_else-139"><span class="linenos">139</span></a><span class="sd">    Checks if the given object or awaitable object result is not None and returns it or returns the default one</span>
 </span><span id="async_require_non_none_else-140"><a href="#async_require_non_none_else-140"><span class="linenos">140</span></a>
 </span><span id="async_require_non_none_else-141"><a href="#async_require_non_none_else-141"><span class="linenos">141</span></a><span class="sd">    Args:</span>
@@ -708,7 +708,7 @@ dev4py<wbr>.<a href="./../utils.html">utils</a><wbr>.objects    </h1>
     </div>
     <a class="headerlink" href="#async_require_non_none_else_get"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="async_require_non_none_else_get-158"><a href="#async_require_non_none_else_get-158"><span class="linenos">158</span></a><span class="k">async</span> <span class="k">def</span> <span class="nf">async_require_non_none_else_get</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">SyncOrAsync</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]],</span> <span class="n">supplier</span><span class="p">:</span> <span class="n">Supplier</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-</span><span id="async_require_non_none_else_get-159"><a href="#async_require_non_none_else_get-159"><span class="linenos">159</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="async_require_non_none_else_get-159"><a href="#async_require_non_none_else_get-159"><span class="linenos">159</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="async_require_non_none_else_get-160"><a href="#async_require_non_none_else_get-160"><span class="linenos">160</span></a><span class="sd">    Checks if the given object or awaitable object result is not None and returns it or returns the object from the</span>
 </span><span id="async_require_non_none_else_get-161"><a href="#async_require_non_none_else_get-161"><span class="linenos">161</span></a><span class="sd">    given supplier</span>
 </span><span id="async_require_non_none_else_get-162"><a href="#async_require_non_none_else_get-162"><span class="linenos">162</span></a>
@@ -768,7 +768,7 @@ given supplier</p>
     </div>
     <a class="headerlink" href="#to_none"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="to_none-180"><a href="#to_none-180"><span class="linenos">180</span></a><span class="k">def</span> <span class="nf">to_none</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pylint: disable=W0613</span>
-</span><span id="to_none-181"><a href="#to_none-181"><span class="linenos">181</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="to_none-181"><a href="#to_none-181"><span class="linenos">181</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="to_none-182"><a href="#to_none-182"><span class="linenos">182</span></a><span class="sd">    Returns None whatever the parameters</span>
 </span><span id="to_none-183"><a href="#to_none-183"><span class="linenos">183</span></a>
 </span><span id="to_none-184"><a href="#to_none-184"><span class="linenos">184</span></a><span class="sd">    Args:</span>
@@ -812,7 +812,7 @@ given supplier</p>
     </div>
     <a class="headerlink" href="#to_self"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="to_self-194"><a href="#to_self-194"><span class="linenos">194</span></a><span class="k">def</span> <span class="nf">to_self</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-</span><span id="to_self-195"><a href="#to_self-195"><span class="linenos">195</span></a>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span id="to_self-195"><a href="#to_self-195"><span class="linenos">195</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="to_self-196"><a href="#to_self-196"><span class="linenos">196</span></a><span class="sd">    Returns the given parameter</span>
 </span><span id="to_self-197"><a href="#to_self-197"><span class="linenos">197</span></a><span class="sd">    Note: can be useful with multiprocessing where lambda cannot be used (lambda are not serializable)</span>
 </span><span id="to_self-198"><a href="#to_self-198"><span class="linenos">198</span></a>
