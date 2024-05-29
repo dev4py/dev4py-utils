@@ -178,7 +178,8 @@ disable = [
     'too-few-public-methods',
     'missing-class-docstring',
     'missing-function-docstring',
-    'missing-module-docstring'
+    'missing-module-docstring',
+    'cyclic-import'
 ]
 
 [tool.pylint.format]

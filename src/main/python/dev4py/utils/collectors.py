@@ -177,7 +177,8 @@ def grouping_by(
         key_mapper: Function[T, K], value_mapper: Function[T, V] = to_self  # type: ignore
 ) -> Collector[T, dict[K, list[V]]]:
     """
-    Returns a collector that groups elements into a dictionary based on the provided key mapper and value mapper functions.
+    Returns a collector that groups elements into a dictionary based on the provided key mapper and value mapper
+    functions.
 
     Args:
         key_mapper (Function[T, K]): A function that maps an element to its key.
