@@ -22,9 +22,9 @@ from functools import partial, cmp_to_key
 from typing import Generic, Final, Optional, cast, Any, Collection, Iterable, Iterator
 
 from dev4py.utils import collectors
-from dev4py.utils.joptional import JOptional
 from dev4py.utils.collectors import Collector
 from dev4py.utils.iterables import get_chunks
+from dev4py.utils.joptional import JOptional
 from dev4py.utils.objects import require_non_none, require_non_none_else_get, to_self
 from dev4py.utils.pipeline import StepPipeline, StepResult
 from dev4py.utils.types import T, Function, R, V, Predicate, Supplier, BiConsumer, K, Consumer, BiFunction
@@ -264,8 +264,7 @@ def _parallel_generator(
         futures_iterable: Final[Iterable[Future[tuple[list[T], bool]]]] = \
             (futures if ordered_execution else as_completed(futures))
         for future in futures_iterable:
-            for value in future.result()[0]:
-                yield value
+            yield from future.result()[0]
 
     except BaseException as e:
         for future in futures:
@@ -951,14 +950,15 @@ class Stream(Generic[T]):  # pylint: disable=R0904
         private method used by `flat_map` public method in replacement of lambda
         Note: lambda are not used in order to be compatible with multiprocessing (lambda are not serializable)
         """
-        list_generator: Final[Iterable[list[R]]] = self \
-            ._init_to_values_function(parallel_config, ordered_execution) \
-            .map(mapper) \
-            .map(_stream_to_list_lambda) \
+        list_generator: Final[Iterable[list[R]]] = (
+            self
+            ._init_to_values_function(parallel_config, ordered_execution)
+            .map(mapper)
+            .map(_stream_to_list_lambda)  # type: ignore
             .to_generator()
+        )
         for values in list_generator:
-            for value in values:
-                yield value
+            yield from values
 
     def _distinct_values_function(
             self, parallel_config: Optional[ParallelConfiguration], ordered_execution: bool

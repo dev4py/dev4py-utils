@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: satackey/action-docker-layer-caching@v0.0.11
+      - uses: jpribyl/action-docker-layer-caching@v0.1.1
       - uses: ./.github/actions/build
       - uses: actions/upload-artifact@v3
         with:
@@ -31,7 +31,7 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v3
-      - uses: satackey/action-docker-layer-caching@v0.0.11
+      - uses: jpribyl/action-docker-layer-caching@v0.1.1
       - uses: ./.github/actions/unit_test
       - uses: actions/upload-artifact@v3
         if: always()
@@ -45,7 +45,7 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v3
-      - uses: satackey/action-docker-layer-caching@v0.0.11
+      - uses: jpribyl/action-docker-layer-caching@v0.1.1
       - uses: ./.github/actions/lint
       - uses: actions/upload-artifact@v3
         if: always()
@@ -59,7 +59,7 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v3
-      - uses: satackey/action-docker-layer-caching@v0.0.11
+      - uses: jpribyl/action-docker-layer-caching@v0.1.1
       - uses: pat-s/always-upload-cache@v3
         id: mutmut-cache
         with:
@@ -109,7 +109,7 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v3
-      - uses: satackey/action-docker-layer-caching@v0.0.11
+      - uses: jpribyl/action-docker-layer-caching@v0.1.1
       - uses: ./.github/actions/typing
       - uses: actions/upload-artifact@v3
         if: always()

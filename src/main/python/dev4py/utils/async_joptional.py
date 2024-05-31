@@ -35,6 +35,7 @@ class AsyncJOptional(Generic[T]):
     __EMPTY: AsyncJOptional[Any]
 
     @classmethod
+    # pylint: disable=E1136
     def of(cls, value: _VType[T]) -> AsyncJOptional[T]:
         """
         Returns a JOptional describing the given non-None value or Awaitable value
@@ -51,6 +52,7 @@ class AsyncJOptional(Generic[T]):
         return AsyncJOptional(async_require_non_none(value, cls.__NO_VALUE_ERROR_MSG), cls.__CREATE_KEY)
 
     @classmethod
+    # pylint: disable=E1136
     def of_noneable(cls, value: _VType[T]) -> AsyncJOptional[T]:
         """
         Returns a JOptional describing the given value or Awaitable value, if non-None, otherwise returns an empty
@@ -70,6 +72,7 @@ class AsyncJOptional(Generic[T]):
         """Return an empty instance of AsyncJOptional"""
         return cls.__EMPTY
 
+    # pylint: disable=E1136
     def __init__(self, value: _VType[T], create_key: object):
         """AsyncJOptional private constructor: Constructs an instance with the described value"""
         assert create_key == self.__CREATE_KEY, \
