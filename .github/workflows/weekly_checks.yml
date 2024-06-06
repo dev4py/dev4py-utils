@@ -11,8 +11,8 @@ jobs:
   dependency-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
       - run: pip download . -d dependencies
@@ -22,7 +22,7 @@ jobs:
           project: ${{ github.event.repository.name }}
           scan_path: dependencies/
           out: /github/workspace/reports
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: dependency_reports
