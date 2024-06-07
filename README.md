@@ -5,7 +5,7 @@ A set of Python regularly used classes/functions
 [![ci](https://github.com/dev4py/dev4py-utils/actions/workflows/ci.yml/badge.svg?event=push&branch=main)](https://github.com/dev4py/dev4py-utils/actions/workflows/ci.yml) \
 [![Last release](https://github.com/dev4py/dev4py-utils/actions/workflows/on_release.yml/badge.svg)](https://github.com/dev4py/dev4py-utils/actions/workflows/on_release.yml) \
 [![Weekly checks](https://github.com/dev4py/dev4py-utils/actions/workflows/weekly_checks.yml/badge.svg?branch=main)](https://github.com/dev4py/dev4py-utils/actions/workflows/weekly_checks.yml) \
-[![Python >= 3.10.1](https://img.shields.io/badge/Python->=3.10.1-informational.svg?style=plastic&logo=python&logoColor=yellow)](https://www.python.org/) \
+[![Python >= 3.11](https://img.shields.io/badge/Python->=3.11-informational.svg?style=plastic&logo=python&logoColor=yellow)](https://www.python.org/) (See: [Older Python versions compatibility](#older-python-versions-compatibility)) \
 [![Maintainer](https://img.shields.io/badge/maintainer-St4rG00se-informational?style=plastic&logo=superuser)](https://github.com/St4rG00se) \
 ![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=plastic&logo=github) \
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-yellow.svg?style=plastic&logo=github)](https://opensource.org/licenses/Apache-2.0)
@@ -15,6 +15,7 @@ A set of Python regularly used classes/functions
 - [Quickstart](#quickstart)
 - [Project template](#project-template)
 - [Project links](#project-links)
+- [Older Python versions compatibility](#older-python-versions-compatibility)
 - [Dev4py-utils modules](#dev4py-utils-modules)
   - [dev4py.utils.AsyncJOptional](#dev4pyutilsasyncjoptional)
   - [dev4py.utils.awaitables](#dev4pyutilsawaitables)
@@ -44,6 +45,10 @@ This project is based on [pymsdl_template](https://github.com/dev4py/pymsdl_temp
 
 - [Documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils.html)
 - [PyPi project](https://pypi.org/project/dev4py-utils/)
+
+## Older Python versions compatibility
+
+- [Python >= 3.10.1](https://www.python.org/) -> [dev4py-utils 3.6.0](https://github.com/dev4py/dev4py-utils/tree/3.6.0)
 
 ## Dev4py-utils modules
 

@@ -19,7 +19,7 @@ from __future__ import annotations
 from concurrent.futures import Executor, wait, FIRST_COMPLETED, Future, as_completed
 from dataclasses import dataclass
 from functools import partial, cmp_to_key
-from typing import Generic, Final, Optional, cast, Any, Collection, Iterable, Iterator
+from typing import Generic, Final, Optional, cast, Any, Collection, Iterable, Iterator, Self
 
 from dev4py.utils import collectors
 from dev4py.utils.collectors import Collector
@@ -407,7 +407,7 @@ class Stream(Generic[T]):  # pylint: disable=R0904
             ordered_execution=self._ordered_execution
         )
 
-    def parallel(self, parallel_config: Optional[ParallelConfiguration]) -> Stream[T]:
+    def parallel(self, parallel_config: Optional[ParallelConfiguration]) -> Self:
         """
         Configures the Stream to use the given parallel configuration and return the current stream
 
@@ -431,7 +431,7 @@ class Stream(Generic[T]):  # pylint: disable=R0904
         """
         return self._parallel_config.is_present()
 
-    def sequential(self) -> Stream[T]:
+    def sequential(self) -> Self:
         """
         Configures the Stream to use sequential configuration and return the current stream
         (i.e.: Remove the parallel configuration if exists)

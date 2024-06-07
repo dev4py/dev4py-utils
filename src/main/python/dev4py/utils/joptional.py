@@ -17,7 +17,7 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Generic, Optional, Final, Any, cast, Awaitable
+from typing import Generic, Optional, Final, Any, cast, Awaitable, Self
 
 from dev4py import utils
 from dev4py.utils import objects
@@ -303,7 +303,7 @@ class JOptional(Generic[T]):
         objects.require_non_none(predicate)
         return self if self.is_empty() or predicate(cast(T, self._value)) else JOptional.empty()
 
-    def peek(self, consumer: Consumer[T]) -> JOptional[T]:
+    def peek(self, consumer: Consumer[T]) -> Self:
         """
         If a value is present, performs the given consumer with the value, otherwise does nothing and returns the
         current JOptional

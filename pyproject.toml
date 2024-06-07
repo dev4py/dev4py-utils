@@ -27,14 +27,13 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = '^3.10'
+python = '^3.11'
 
 [tool.poetry.dev-dependencies]
-tomli = '^2'  # for project.py if pytest is removed
-tox = "^3"
-pytest = "^7"
+tox = "^4"
+pytest = "^8"
 pytest-asyncio = "^0"
-pdoc = "^12"
+pdoc = "^14"
 
 
 [tool.pytest.ini_options]
@@ -45,11 +44,12 @@ asyncio_mode = "auto"
 ##################
 #####  TOX  ######
 ##################
+#TODO: Remove `--paths-to-exclude` mutmut parameter when the issue https://github.com/davidhalter/parso/issues/223 is fixed
 [tool.tox]
 legacy_tox_ini = """
 [tox]
 isolated_build = True
-envlist = pylint, covclean, py310, report, mutation, mypy
+envlist = pylint, covclean, py311, report, mutation, mypy
 
 [testenv]
 # Note: this default configuration use pytest on the installed packages (not sources) for each env
@@ -113,7 +113,7 @@ commands =
         report_path: Path = Path('{toxinidir}/build/reports/mutation');\
         cache_path: Path = report_path.joinpath('.mutmut-cache');\
         cache_path.is_file() and move(cache_path.as_posix(), Path('.mutmut-cache').absolute().as_posix());\
-        result = proc_run(['mutmut', 'run', '--tests-dir', 'src/test/python', '--paths-to-mutate', 'src/main/python']);\
+        result = proc_run(['mutmut', 'run', '--tests-dir', 'src/test/python', '--paths-to-mutate', 'src/main/python', '--paths-to-exclude', 'tuples.py']);\
         proc_run(['mutmut', 'html']);\
         report_path.is_dir() and rmtree(report_path);\
         makedirs(report_path.as_posix(), exist_ok = True);\
