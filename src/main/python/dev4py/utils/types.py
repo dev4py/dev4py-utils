@@ -15,7 +15,7 @@ The `types` module provides a set commonly used types useful for static type che
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import TypeVar, TypeAlias, Callable, Union, Awaitable, ParamSpec
+from typing import TypeVar, TypeAlias, Callable, Union, Awaitable, ParamSpec, TypeVarTuple
 
 IN = TypeVar('IN')  # pragma: no mutate
 K = TypeVar('K')  # pragma: no mutate
@@ -25,6 +25,16 @@ R = TypeVar('R')  # pragma: no mutate
 T = TypeVar('T')  # pragma: no mutate
 U = TypeVar('U')  # pragma: no mutate
 V = TypeVar('V')  # pragma: no mutate
+
+INs = TypeVarTuple('INs')  # pragma: no mutate
+Ks = TypeVarTuple('Ks')  # pragma: no mutate
+Ns = TypeVarTuple('Ns')  # pragma: no mutate
+OUTs = TypeVarTuple('OUTs')  # pragma: no mutate
+Rs = TypeVarTuple('Rs')  # pragma: no mutate
+Ts = TypeVarTuple('Ts')  # pragma: no mutate
+Us = TypeVarTuple('Us')  # pragma: no mutate
+Vs = TypeVarTuple('Vs')  # pragma: no mutate
+
 
 P = ParamSpec('P')  # pragma: no mutate
 # Fix Pycharm false positive warning
