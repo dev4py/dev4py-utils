@@ -12,20 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Any, cast
+from typing import cast
 
 from dev4py.utils.objects import require_non_none
 from dev4py.utils.types import T, Ts, U
 
 
-def empty_tuple() -> tuple[Any, ...]:
+def empty_tuple() -> tuple[()]:
     """
     Returns an empty tuple
 
     Returns:
         tuple[Any, ...]: An empty tuple
     """
-    return tuple()
+    return ()
 
 
 def append(tpl: tuple[*Ts], value: T) -> tuple[*Ts, T]:
