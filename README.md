@@ -43,7 +43,7 @@ This project is based on [pymsdl_template](https://github.com/dev4py/pymsdl_temp
 
 ## Project links
 
-- [Documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils.html)
+- [Documentation](https://dev4py.github.io/dev4py-utils/)
 - [PyPi project](https://pypi.org/project/dev4py-utils/)
 
 ## Older Python versions compatibility
@@ -54,7 +54,7 @@ This project is based on [pymsdl_template](https://github.com/dev4py/pymsdl_temp
 
 ### dev4py.utils.AsyncJOptional
 
-[AsyncJOptional documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/async_joptional.html)
+[AsyncJOptional documentation](https://dev4py.github.io/dev4py-utils/dev4py/utils/async_joptional.html)
 
 > ***Note:** [AsyncJOptional](src/main/python/dev4py/utils/async_joptional.py) class is designed in order to simplify
 > JOptional with async mapper.*
@@ -86,7 +86,7 @@ asyncio.run(async_sample())
 
 ### dev4py.utils.awaitables
 
-[Awaitables documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/awaitables.html)
+[Awaitables documentation](https://dev4py.github.io/dev4py-utils/dev4py/utils/awaitables.html)
 
 > ***Note:** [awaitables](src/main/python/dev4py/utils/awaitables.py) module provides a set of utility functions to
 > simplify Awaitable operations.*
@@ -124,7 +124,7 @@ asyncio.run(async_test())
 
 ### dev4py.utils.collectors
 
-[Collectors documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/collectors.html)
+[Collectors documentation](https://dev4py.github.io/dev4py-utils/dev4py/utils/collectors.html)
 
 > ***Note:** The [collectors](src/main/python/dev4py/utils/collectors.py) class is inspired by
 > [java.util.stream.Collectors](https://docs.oracle.com/en/java/javase/17/docs/api//java.base/java/util/stream/Collectors.html)*
@@ -139,7 +139,7 @@ Stream.of('a', 'b', 'c').collect(collectors.to_list())  # ['a', 'b', 'c']
 
 ### dev4py.utils.dicts
 
-[Dicts documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/dicts.html)
+[Dicts documentation](https://dev4py.github.io/dev4py-utils/dev4py/utils/dicts.html)
 
 > ***Note:** [dicts](src/main/python/dev4py/utils/dicts.py) module provides a set of utility functions to
 > simplify dict operations.*
@@ -179,7 +179,7 @@ dicts.get_value_from_path(deep_dictionary, ["a", 3], str_supplier)  # 'a3'
 
 ### dev4py.utils.iterables
 
-[Iterables documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/iterables.html)
+[Iterables documentation](https://dev4py.github.io/dev4py-utils/dev4py/utils/iterables.html)
 
 > ***Note:** The [iterables](src/main/python/dev4py/utils/iterables.py) module provides a set of utility functions to simplify
 > iterables operations.*
@@ -198,7 +198,7 @@ chunks: Iterator[list[int]] = iterables.get_chunks(values, 3)
 
 ### dev4py.utils.JOptional
 
-[JOptional documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/joptional.html)
+[JOptional documentation](https://dev4py.github.io/dev4py-utils/dev4py/utils/joptional.html)
 
 > ***Note:** [JOptional](src/main/python/dev4py/utils/joptional.py) class is inspired by
 > [java.util.Optional](https://docs.oracle.com/en/java/javase/17/docs/api//java.base/java/util/Optional.html)
@@ -217,7 +217,7 @@ JOptional.of_noneable(value) \
 
 ### dev4py.utils.lists
 
-[Lists documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/lists.html)
+[Lists documentation](https://dev4py.github.io/dev4py-utils/dev4py/utils/lists.html)
 
 > ***Note:** [lists](src/main/python/dev4py/utils/lists.py) module provides a set of utility functions to simplify lists
 > operations.*
@@ -244,7 +244,7 @@ ext_lst: list[int] = lists.extend(lst, lst2)  # [1, 2, 3, 4, 5, 6, 7, 8]
 
 ### dev4py.utils.objects
 
-[Objects documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/objects.html)
+[Objects documentation](https://dev4py.github.io/dev4py-utils/dev4py/utils/objects.html)
 
 > ***Note:** The [objects](src/main/python/dev4py/utils/objects.py) module is inspired by
 > [java.util.Objects](https://docs.oracle.com/en/java/javase/17/docs/api//java.base/java/util/Objects.html)
@@ -271,7 +271,7 @@ objects.to_string(value, default_value)  # 'A default value'
 
 ### dev4py.utils.pipeline
 
-[Pipeline documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/pipeline.html)
+[Pipeline documentation](https://dev4py.github.io/dev4py-utils/dev4py/utils/pipeline.html)
 
 > ***Note:** The [pipeline](src/main/python/dev4py/utils/pipeline) package provides a set of Pipeline class describing
 > different kind of pipelines.*
@@ -303,7 +303,7 @@ pipeline.execute(15)  # StepResult(value='225', go_next=False)
 
 ### dev4py.utils.retry
 
-[Retry documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/retry.html)
+[Retry documentation](https://dev4py.github.io/dev4py-utils/dev4py/utils/retry.html)
 
 > ***Note:** The [retry](src/main/python/dev4py/utils/retry.py) module provides provides function to create retryable
 > callable from simple sync or async callables using exponential backoff*
@@ -431,7 +431,7 @@ asyncio.run(async_decorated_retryable_sample())
 
 ### dev4py.utils.Stream
 
-[Stream documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/stream.html)
+[Stream documentation](https://dev4py.github.io/dev4py-utils/dev4py/utils/stream.html)
 
 > ***Note:** [Stream](src/main/python/dev4py/utils/stream.py) class is inspired by
 > [java.util.stream.Stream](https://docs.oracle.com/en/java/javase/17/docs/api//java.base/java/util/stream/Stream.html).*
@@ -493,7 +493,7 @@ if __name__ == '__main__':
 
 ### dev4py.utils.tuples
 
-[Tuples documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/tuples.html)
+[Tuples documentation](https://dev4py.github.io/dev4py-utils/dev4py/utils/tuples.html)
 
 > ***Note:** [tuples](src/main/python/dev4py/utils/tuples.py) module provides a set of utility functions to simplify
 > tuples operations.*
@@ -518,7 +518,7 @@ ext_tpl: tuple[int, ...] = tuples.extend(tpl, tpl2)  # (1, 2, 3, 4, 5, 6, 7, 8)
 
 ### dev4py.utils.types
 
-[Types documentation](https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils/types.html)
+[Types documentation](https://dev4py.github.io/dev4py-utils/dev4py/utils/types.html)
 
 > ***Note:** The [types](src/main/python/dev4py/utils/types.py) module is inspired by
 > [java.util.function](https://docs.oracle.com/en/java/javase/17/docs/api//java.base/java/util/function/package-summary.html)

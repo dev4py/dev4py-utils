@@ -10,7 +10,7 @@ license = 'Apache-2.0'
 readme = 'README.md'
 homepage = 'https://github.com/dev4py/dev4py-utils'
 repository = 'https://github.com/dev4py/dev4py-utils'
-documentation = 'https://htmlpreview.github.io/?https://github.com/dev4py/dev4py-utils/blob/main/docs/dev4py/utils.html'
+documentation = 'https://dev4py.github.io/dev4py-utils/'
 keywords = ['python', 'utils', 'function', 'classes']
 classifiers = [
     'Intended Audience :: Developers',
