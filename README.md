@@ -48,6 +48,8 @@ This project is based on [pymsdl_template](https://github.com/dev4py/pymsdl_temp
 
 ## Older Python versions compatibility
 
+> ***Note:** New features won't be backported to older versions.*
+
 - [Python >= 3.10.1](https://www.python.org/) -> [dev4py-utils 3.6.0](https://github.com/dev4py/dev4py-utils/tree/3.6.0)
 
 ## Dev4py-utils modules
